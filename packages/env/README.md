@@ -30,4 +30,9 @@ APP_ENV=development
 APP_WEB_PORT=3002
 FLAG_SHOW_BETA_FEATURE=false
 PRODUCTION_URL=
+BUCKET_PROVIDER=linode
+BUCKET_REGION=in-maa-1
+BUCKET_ACCESS_KEY_ID=replace-with-bucket-access-key
+BUCKET_SECRET_ACCESS_KEY=replace-with-bucket-secret-key
+BUCKET_NAME=replace-with-bucket-name
 ```

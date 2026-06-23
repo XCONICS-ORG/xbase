@@ -10,6 +10,7 @@
   "dependencies": {
     "@turtle/assets": "workspace:*",
     "@turtle/icons": "workspace:*",
+    "@turtle/bucket": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "next": "16.2.9",
@@ -43,6 +44,8 @@
     "./components/modules/system": "./components/modules/system/index.ts",
     "./components/modules/system/blocks": "./components/modules/system/blocks.tsx",
     "./components/modules/system/pages": "./components/modules/system/pages.tsx",
+    "./components/modules/uploader": "./components/modules/uploader/index.ts",
+    "./components/modules/uploader/advanced-uploader": "./components/modules/uploader/advanced-uploader.tsx",
     "./components/shared/*": "./components/shared/*.tsx",
     "./components/*": "./components/*.tsx",
     "./hooks/*": "./hooks/*.ts",

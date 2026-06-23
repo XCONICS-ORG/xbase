@@ -3,12 +3,12 @@ import { basename, dirname, resolve } from "node:path";
 import { cancel, intro, isCancel, outro, select, text } from "@clack/prompts";
 import pc from "picocolors";
 
-const root = resolve(import.meta.dirname, "..");
+const root = resolve(import.meta.dirname, "../..");
 const globalsPath = resolve(root, "packages/design-system/styles/globals.css");
 const backupsPath = resolve(root, "packages/design-system/styles/backups");
 const defaultBackup = "default-globals.css";
 const defaultBackupPath = resolve(backupsPath, defaultBackup);
-const bundledDefaultPath = resolve(root, "scripts/theme/default-globals.css");
+const bundledDefaultPath = resolve(import.meta.dirname, defaultBackup);
 const millisecondsPattern = /\.\d{3}Z$/;
 
 const command = process.argv[2] ?? "help";

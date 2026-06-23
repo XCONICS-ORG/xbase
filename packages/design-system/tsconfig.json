@@ -7,7 +7,11 @@
     "paths": {
       "@turtle/assets": ["../assets/index.ts"],
       "@turtle/assets/*": ["../assets/public/*"],
-      "@turtle/design-system/*": ["./*"]
+      "@turtle/design-system/*": ["./*"],
+      "@turtle/icons": ["../icons/index.ts"],
+      "@turtle/icons/*": ["../icons/*.ts"],
+      "@turtle/bucket": ["../bucket/index.ts"],
+      "@turtle/bucket/*": ["../bucket/*.ts"]
     },
     "strictNullChecks": true
   },

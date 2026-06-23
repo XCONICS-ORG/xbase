@@ -4,8 +4,10 @@
   "references": [
     { "path": "./apps/web" },
     { "path": "./packages/design-system" },
+    { "path": "./packages/env" },
     { "path": "./packages/icons" },
     { "path": "./packages/internationalization" },
-    { "path": "./packages/seo" }
+    { "path": "./packages/seo" },
+    { "path": "./packages/bucket" }
   ]
 }

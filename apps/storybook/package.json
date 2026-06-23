@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "sync-stories": "node ../../scripts/storybook-stories.mjs sync",
+    "sync-stories": "node ../../scripts/storybook/sync-stories.mjs sync",
     "dev": "bun run sync-stories && storybook dev --disable-telemetry -p ${STORYBOOK_PORT:-5002}",
     "build": "bun run sync-stories && storybook build --disable-telemetry",
     "chromatic": "chromatic --exit-zero-on-changes",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@turtle/design-system": "workspace:*",
     "@turtle/icons": "workspace:*",
+    "@turtle/bucket": "workspace:*",
     "@turtle/utility": "workspace:*",
     "next": "16.2.9",
     "next-themes": "^0.4.6",

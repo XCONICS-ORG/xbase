@@ -1,0 +1,30 @@
+{
+  "name": "@turtle/bucket",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@better-upload/client": "^3.0.19",
+    "@better-upload/server": "^3.0.19",
+    "@turtle/env": "workspace:*",
+    "next": "16.2.9",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@turtle/typescript-config": "workspace:*",
+    "@types/node": "^26",
+    "typescript": "^6"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./client": "./client.ts",
+    "./config": "./config.ts",
+    "./next": "./next.ts",
+    "./server": "./server.ts",
+    "./shared": "./shared.ts"
+  }
+}

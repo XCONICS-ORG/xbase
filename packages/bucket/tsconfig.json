@@ -1,0 +1,16 @@
+{
+  "extends": "@turtle/typescript-config/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "paths": {
+      "@turtle/env": ["../env/index.ts"],
+      "@turtle/env/*": ["../env/*.ts"],
+      "@turtle/bucket/*": ["./*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}

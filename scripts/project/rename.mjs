@@ -3,7 +3,7 @@ import { basename, extname, relative, resolve } from "node:path";
 import { cancel, confirm, intro, isCancel, outro, text } from "@clack/prompts";
 import pc from "picocolors";
 
-const root = resolve(import.meta.dirname, "..");
+const root = resolve(import.meta.dirname, "../..");
 const rootPackagePath = resolve(root, "package.json");
 
 const ignoredDirectories = new Set([

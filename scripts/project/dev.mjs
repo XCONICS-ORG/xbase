@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { cancel, intro, isCancel, multiselect, outro } from "@clack/prompts";
 import pc from "picocolors";
 
-const root = resolve(import.meta.dirname, "..");
+const root = resolve(import.meta.dirname, "../..");
 const appsDirectory = resolve(root, "apps");
 const args = process.argv.slice(2);
 

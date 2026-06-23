@@ -2,7 +2,7 @@ import { access, mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { basename, relative, resolve } from "node:path";
 import pc from "picocolors";
 
-const root = resolve(import.meta.dirname, "..");
+const root = resolve(import.meta.dirname, "../..");
 const componentsDirectory = resolve(root, "packages/design-system/components");
 const storiesDirectory = resolve(root, "apps/storybook/stories");
 const args = process.argv.slice(2);
@@ -19,7 +19,7 @@ function printHelp() {
 
 Commands:
   bun run storybook:sync
-  node scripts/storybook-stories.mjs sync
+  node scripts/storybook/sync-stories.mjs sync
 
 Options:
   --help    Show this help text.
