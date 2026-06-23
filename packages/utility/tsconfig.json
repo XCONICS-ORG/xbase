@@ -1,0 +1,15 @@
+{
+  "extends": "@turtle/typescript-config/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "paths": {
+      "@turtle/icons": ["../icons/index.ts"],
+      "@turtle/icons/*": ["../icons/*.ts"]
+    },
+    "strictNullChecks": true
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}

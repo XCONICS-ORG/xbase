@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "title": "首页",
+    "description": "Turtle Web 应用。"
+  },
+  "home": {
+    "title": "项目已准备好！",
+    "intro": "你现在可以添加组件并开始构建。",
+    "buttonNote": "我们已经为你添加了按钮组件。",
+    "button": "按钮",
+    "themeHintPrefix": "按",
+    "themeHintKey": "d",
+    "themeHintSuffix": "切换深色模式"
+  }
+}

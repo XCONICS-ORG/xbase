@@ -1,0 +1,26 @@
+{
+  "extends": "@turtle/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"],
+      "@turtle/assets": ["../../packages/assets/index.ts"],
+      "@turtle/assets/*": ["../../packages/assets/public/*"],
+      "@turtle/design-system/*": ["../../packages/design-system/*"],
+      "@turtle/icons/*": ["../../packages/icons/*"]
+    },
+    "strictNullChecks": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx",
+    "../../packages/design-system/types/**/*.d.ts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

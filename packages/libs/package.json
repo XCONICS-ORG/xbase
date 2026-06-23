@@ -1,0 +1,22 @@
+{
+  "name": "@turtle/libs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "nuqs": "^2.8.9"
+  },
+  "devDependencies": {
+    "@turtle/typescript-config": "workspace:*",
+    "typescript": "^6"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./nuqs": "./nuqs/index.ts",
+    "./nuqs/search-params": "./nuqs/search-params.ts"
+  }
+}

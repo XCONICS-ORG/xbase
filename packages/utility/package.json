@@ -1,0 +1,41 @@
+{
+  "name": "@turtle/utility",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dicebear/collection": "^9.4.2",
+    "@dicebear/core": "^9.4.2",
+    "@turtle/icons": "workspace:*",
+    "bwip-js": "^4.11.1",
+    "date-fns": "^4.4.0",
+    "date-fns-tz": "^3.2.0",
+    "next": "16.2.9",
+    "qrcode": "^1.5.4",
+    "react": "19.2.7"
+  },
+  "devDependencies": {
+    "@turtle/typescript-config": "workspace:*",
+    "@types/node": "^26",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19",
+    "typescript": "^6"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./formatters": "./formatters/index.ts",
+    "./formatters/date-time": "./formatters/date-time.ts",
+    "./formatters/string": "./formatters/string.ts",
+    "./functions": "./functions/index.ts",
+    "./functions/get-icon": "./functions/get-icon.ts",
+    "./functions/params": "./functions/params.ts",
+    "./generators": "./generators/index.ts",
+    "./generators/avatar": "./generators/avatar.ts",
+    "./generators/barcode": "./generators/barcode.ts",
+    "./generators/qrcode": "./generators/qrcode.ts"
+  }
+}

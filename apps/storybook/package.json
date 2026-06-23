@@ -1,0 +1,41 @@
+{
+  "name": "@turtle/storybook",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "sync-stories": "node ../../scripts/storybook-stories.mjs sync",
+    "dev": "bun run sync-stories && storybook dev --disable-telemetry -p ${STORYBOOK_PORT:-5002}",
+    "build": "bun run sync-stories && storybook build --disable-telemetry",
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "clean": "rm -rf .cache .next .turbo node_modules storybook-static",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@turtle/design-system": "workspace:*",
+    "@turtle/icons": "workspace:*",
+    "@turtle/utility": "workspace:*",
+    "next": "16.2.9",
+    "next-themes": "^0.4.6",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "sonner": "^2.0.7"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^5.2.1",
+    "@storybook/addon-onboarding": "^10.4.6",
+    "@storybook/addon-themes": "^10.4.6",
+    "@storybook/nextjs": "^10.4.6",
+    "@storybook/react": "^10.4.6",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^26",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@turtle/typescript-config": "workspace:*",
+    "chromatic": "^17.5.0",
+    "postcss": "^8",
+    "storybook": "^10.4.6",
+    "tailwindcss": "^4",
+    "typescript": "^6"
+  }
+}

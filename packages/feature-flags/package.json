@@ -1,0 +1,29 @@
+{
+  "name": "@turtle/feature-flags",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@turtle/env": "workspace:*",
+    "flags": "^4.2.0",
+    "react": "19.2.7"
+  },
+  "peerDependencies": {
+    "next": "16.2.9"
+  },
+  "devDependencies": {
+    "@turtle/typescript-config": "workspace:*",
+    "@types/node": "^26",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^6"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./lib/create-flag": "./lib/create-flag.ts"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "title": "Início",
+    "description": "Aplicação web Turtle."
+  },
+  "home": {
+    "title": "Projeto pronto!",
+    "intro": "Agora você pode adicionar componentes e começar a construir.",
+    "buttonNote": "Já adicionamos o componente de botão para você.",
+    "button": "Botão",
+    "themeHintPrefix": "Pressione",
+    "themeHintKey": "d",
+    "themeHintSuffix": "para alternar o modo escuro"
+  }
+}

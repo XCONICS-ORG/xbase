@@ -1,0 +1,24 @@
+{
+  "name": "@turtle/assets",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@turtle/typescript-config": "workspace:*",
+    "@types/node": "^26",
+    "typescript": "^6"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./documents/*": "./public/documents/*",
+    "./fonts/*": "./public/fonts/*",
+    "./icons/*": "./public/icons/*",
+    "./images/*": "./public/images/*",
+    "./logos/*": "./public/logos/*",
+    "./media/*": "./public/media/*"
+  }
+}

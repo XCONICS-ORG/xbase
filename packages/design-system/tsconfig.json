@@ -1,0 +1,16 @@
+{
+  "extends": "@turtle/typescript-config/react-library.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "paths": {
+      "@turtle/assets": ["../assets/index.ts"],
+      "@turtle/assets/*": ["../assets/public/*"],
+      "@turtle/design-system/*": ["./*"]
+    },
+    "strictNullChecks": true
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}
