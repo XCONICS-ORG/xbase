@@ -1,9 +1,9 @@
 {
-  "extends": "@turtle/typescript-config/nextjs.json",
+  "extends": "@xbase/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
-      "@turtle/design-system/*": ["../../packages/design-system/*"]
+      "@xbase/design-system/*": ["../../packages/design-system/*"]
     },
     "plugins": [
       {

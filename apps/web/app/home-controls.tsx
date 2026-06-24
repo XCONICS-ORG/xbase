@@ -1,7 +1,7 @@
 "use client";
 
-import { ModeToggle } from "@turtle/design-system/components/mode-toggle";
-import { Button } from "@turtle/design-system/components/ui/button";
+import { ModeToggle } from "@xbase/design-system/components/mode-toggle";
+import { Button } from "@xbase/design-system/components/ui/button";
 
 export function HomeControls() {
   return (

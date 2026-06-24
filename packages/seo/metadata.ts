@@ -1,4 +1,4 @@
-import { env } from "@turtle/env";
+import { env } from "@xbase/env";
 import merge from "lodash.merge";
 import type { Metadata } from "next";
 
@@ -8,11 +8,11 @@ type MetadataGenerator = Omit<Metadata, "description" | "title"> & {
   image?: string;
 };
 
-const applicationName = "Turtle";
+const applicationName = "Xbase";
 const author: Metadata["authors"] = {
-  name: "Turtle",
+  name: "Xbase",
 };
-const publisher = "Turtle";
+const publisher = "Xbase";
 const protocol = env.APP_ENV === "production" ? "https" : "http";
 const productionUrl = env.PRODUCTION_URL;
 

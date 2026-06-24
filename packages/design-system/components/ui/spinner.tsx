@@ -1,5 +1,5 @@
 import { SpinnerIcon } from "@phosphor-icons/react";
-import { cn } from "@turtle/design-system/lib/utils";
+import { cn } from "@xbase/design-system/lib/utils";
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
   return (

@@ -1,17 +1,19 @@
 {
-  "extends": "@turtle/typescript-config/react-library.json",
+  "extends": "@xbase/typescript-config/react-library.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
     "paths": {
-      "@turtle/assets": ["../assets/index.ts"],
-      "@turtle/assets/*": ["../assets/public/*"],
-      "@turtle/design-system/*": ["./*"],
-      "@turtle/icons": ["../icons/index.ts"],
-      "@turtle/icons/*": ["../icons/*.ts"],
-      "@turtle/bucket": ["../bucket/index.ts"],
-      "@turtle/bucket/*": ["../bucket/*.ts"]
+      "@xbase/assets": ["../assets/index.ts"],
+      "@xbase/assets/*": ["../assets/public/*"],
+      "@xbase/design-system/*": ["./*"],
+      "@xbase/icons": ["../icons/index.ts"],
+      "@xbase/icons/*": ["../icons/*.ts"],
+      "@xbase/libs": ["../libs/index.ts"],
+      "@xbase/libs/*": ["../libs/*"],
+      "@xbase/bucket": ["../bucket/index.ts"],
+      "@xbase/bucket/*": ["../bucket/*.ts"]
     },
     "strictNullChecks": true
   },

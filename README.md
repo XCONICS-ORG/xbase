@@ -1,85 +1,148 @@
-# xco-turtle
+# Xbase
 
-This is a Next.js monorepo template with shadcn/ui.
+**A Bun and Turborepo workspace for Next.js apps, shared UI, uploads, and utilities.**
 
-## Environment
+<div>
+  <img src="https://img.shields.io/github/license/XCONICS-ORG/xbase" alt="" />
+</div>
 
-Shared environment variables live in `env/.env` and are typed by
-`@turtle/env`.
+## Overview
 
-Use them from any server-side app or package:
+[Xbase](https://github.com/XCONICS-ORG/xbase) is a production-ready monorepo foundation for building Next.js products with shared packages and consistent tooling. It uses [Bun](https://bun.sh), [Turborepo](https://turborepo.com), [Next.js](https://nextjs.org), Storybook, shadcn/ui-style components, typed environment validation, and S3-compatible bucket storage.
+
+Xbase is intentionally package-first. Apps import shared behavior from `@xbase/*` workspace packages instead of duplicating app-local helpers.
+
+## Principles
+
+- **Fast**: Bun, Turbo, focused package boundaries, and fast local app selection.
+- **Typed**: Shared TypeScript config and typed environment variables through `@xbase/env`.
+- **Reusable**: UI, uploads, SEO, icons, assets, feature flags, and utilities live in packages.
+- **Deployable anywhere**: Built for Docker/VPS deployments, not tied to Vercel.
+
+## Apps
+
+Xbase currently has two runtime apps:
+
+- **Web**: `apps/web`, the main Next.js application.
+- **Storybook**: `apps/storybook`, the component and module workshop.
+
+## Packages
+
+Xbase includes these shared packages:
+
+- `@xbase/assets`: shared static assets and logos.
+- `@xbase/bucket`: Better Upload and S3-compatible storage helpers.
+- `@xbase/design-system`: UI components, modules, providers, hooks, and styles.
+- `@xbase/env`: root env loading and validation from `env/.env`.
+- `@xbase/feature-flags`: typed feature flag helpers.
+- `@xbase/icons`: shared icon entry points.
+- `@xbase/internationalization`: locale config, dictionaries, navigation, and proxy helpers.
+- `@xbase/libs`: small shared integrations such as Nuqs helpers.
+- `@xbase/seo`: metadata and JSON-LD helpers.
+- `@xbase/typescript-config`: shared TypeScript config presets.
+- `@xbase/utility`: formatters, functions, QR code, barcode, and avatar generators.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js `>=20`
+- Bun `1.3.14`
+- A root `env/.env` file for local overrides when needed
+
+### Install
+
+```bash
+bun install
+```
+
+### Environment
+
+Copy the shared env example:
+
+```bash
+cp env/.env.example env/.env
+```
+
+All shared server-side env values are loaded from the root `env/` folder and validated by `@xbase/env`.
+
+Use env from apps and packages like this:
 
 ```ts
-import { env } from "@turtle/env";
+import { env } from "@xbase/env";
 ```
 
-Add new variables in `packages/env/index.ts` and document them in
-`env/.env.example`.
+### Run Apps
 
-The web app port is controlled by:
-
-```env
-APP_WEB_PORT=3002
-```
-
-## Adding components
-
-To add components to your app, run the following command at the root of your `web` app:
+Use the interactive runner:
 
 ```bash
-bunx shadcn@latest add button -c apps/web
+bun run dev
 ```
 
-This will place the UI components in the `packages/design-system/components/ui` directory.
-
-## Theme fallback
-
-Before trying a tweakcn theme, save the current design-system CSS:
+Run selected apps:
 
 ```bash
-bun run theme:backup "before blue tweakcn"
+bun run dev -- --app web
+bun run dev -- --app storybook
 ```
 
-To try the configured tweakcn theme with backup first:
+Run everything with a dev script:
 
 ```bash
-bun run theme:tweakcn
+bun run dev -- --all
 ```
 
-If you accidentally accept the overwrite and want the original theme back:
+Default local ports:
 
-```bash
-bun run theme:restore
+| Surface | Env | Default |
+| --- | --- | --- |
+| Web | `APP_WEB_PORT` | `3002` |
+| Storybook | `STORYBOOK_PORT` | `5002` |
+
+## Structure
+
+```txt
+xbase/
+  apps/
+    web/
+    storybook/
+  env/
+    .env.example
+  packages/
+    assets/
+    bucket/
+    design-system/
+    env/
+    feature-flags/
+    icons/
+    internationalization/
+    libs/
+    seo/
+    typescript-config/
+    utility/
+  scripts/
+    bucket/
+    project/
+    storybook/
+    theme/
 ```
 
-That opens an interactive selector. To list saved backups:
+## Docker/VPS Deployment
 
-```bash
-bun run theme:list
-```
+Xbase is not tied to Vercel. Build apps with Turbo, then run them behind your own reverse proxy on a VPS.
 
-To restore the newest named backup:
+Typical deployment surfaces:
 
-```bash
-bun run theme:restore:latest
-```
+- `web`: `apps/web`
+- `storybook`: static output from `apps/storybook`
 
-To restore the built-in default:
+Set production env values in your VPS/container environment, especially `PRODUCTION_URL` and bucket credentials.
 
-```bash
-bun run theme:restore:default
-```
+## Source
 
-To restore a specific backup directly:
+Repository: [XCONICS-ORG/xbase](https://github.com/XCONICS-ORG/xbase)
 
-```bash
-bun run theme:restore 2026-06-22_16-30-00-before-blue-tweakcn.css
-```
+## License
 
-## Using components
-
-To use the components in your app, import them from the `design-system` package.
-
-```tsx
-import { Button } from "@turtle/design-system/components/ui/button";
-```
+Add a license file if this repository is intended to be open source.

@@ -1,12 +1,12 @@
 {
-  "extends": "@turtle/typescript-config/base.json",
+  "extends": "@xbase/typescript-config/base.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noEmit": true,
     "paths": {
-      "@turtle/icons": ["../icons/index.ts"],
-      "@turtle/icons/*": ["../icons/*.ts"]
+      "@xbase/icons": ["../icons/index.ts"],
+      "@xbase/icons/*": ["../icons/*.ts"]
     },
     "strictNullChecks": true
   },

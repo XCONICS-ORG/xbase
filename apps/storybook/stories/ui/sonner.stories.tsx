@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "@turtle/design-system/components/ui/button";
-import { Toaster } from "@turtle/design-system/components/ui/sonner";
+import { Button } from "@xbase/design-system/components/ui/button";
+import { Toaster } from "@xbase/design-system/components/ui/sonner";
 import { toast } from "sonner";
 
 const meta: Meta<typeof Toaster> = {

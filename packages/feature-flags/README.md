@@ -1,16 +1,16 @@
-# @turtle/feature-flags
+# @xbase/feature-flags
 
-Shared feature flags for Turtle apps, built on the `flags` SDK.
+Shared feature flags for Xbase apps, built on the `flags` SDK.
 
 This setup does not require Vercel or Vercel Toolbar. A flag is just a typed
-server function whose `decide()` logic can read from `@turtle/env`, a database,
+server function whose `decide()` logic can read from `@xbase/env`, a database,
 or any future admin panel.
 
 ## Add a flag
 
 ```ts
 // packages/feature-flags/index.ts
-import { env } from "@turtle/env";
+import { env } from "@xbase/env";
 import { createFlag } from "./lib/create-flag";
 
 export const showBetaFeature = createFlag("showBetaFeature", {
@@ -22,7 +22,7 @@ export const showBetaFeature = createFlag("showBetaFeature", {
 ## Use a flag
 
 ```tsx
-import { showBetaFeature } from "@turtle/feature-flags";
+import { showBetaFeature } from "@xbase/feature-flags";
 
 export default async function Page() {
   const enabled = await showBetaFeature();
@@ -33,7 +33,7 @@ export default async function Page() {
 
 ## Local env overrides
 
-Flags can read from `@turtle/env` or from an env var generated from the flag key.
+Flags can read from `@xbase/env` or from an env var generated from the flag key.
 
 ```env
 # env/.env

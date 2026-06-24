@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "@turtle/design-system/components/ui/button";
-import { Loader2, Mail } from "@turtle/icons/lucide";
+import { Button } from "@xbase/design-system/components/ui/button";
+import { Loader2, Mail, Plus } from "@xbase/icons/lucide";
 
 const meta: Meta<typeof Button> = {
   title: "UI/Button",
@@ -125,4 +125,59 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
+};
+
+export const VariantMatrix: Story = {
+  render: () => (
+    <div className="grid grid-cols-3 gap-2">
+      <Button>Default</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button href="#" variant="link">
+        Link
+      </Button>
+    </div>
+  ),
+};
+
+export const SizeMatrix: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center gap-2">
+      <Button size="xs">Extra small</Button>
+      <Button size="sm">Small</Button>
+      <Button size="default">Default</Button>
+      <Button size="lg">Large</Button>
+      <Button aria-label="Add" size="icon-xs" variant="outline">
+        <Plus />
+      </Button>
+      <Button aria-label="Add" size="icon-sm" variant="outline">
+        <Plus />
+      </Button>
+      <Button aria-label="Add" size="icon" variant="outline">
+        <Plus />
+      </Button>
+      <Button aria-label="Add" size="icon-lg" variant="outline">
+        <Plus />
+      </Button>
+    </div>
+  ),
+};
+
+export const LoadingStates: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center gap-2">
+      <Button loading>Saving</Button>
+      <Button loading loadingText="Publishing..." variant="secondary">
+        Publish
+      </Button>
+      <Button leftIcon={<Mail />} loading variant="outline">
+        Email
+      </Button>
+      <Button loading rightIcon={<Mail />} variant="destructive">
+        Delete
+      </Button>
+    </div>
+  ),
 };

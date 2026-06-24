@@ -1,11 +1,11 @@
 // biome-ignore lint/performance/noNamespaceImport: Dynamic lookup by icon name needs the package registry.
-import * as HugeIcons from "@turtle/icons/hugeicons";
+import * as HugeIcons from "@xbase/icons/hugeicons";
 // biome-ignore lint/performance/noNamespaceImport: Dynamic lookup by icon name needs the package registry.
-import * as LucideIcons from "@turtle/icons/lucide";
+import * as LucideIcons from "@xbase/icons/lucide";
 // biome-ignore lint/performance/noNamespaceImport: Dynamic lookup by icon name needs the package registry.
-import * as PhosphorIcons from "@turtle/icons/phosphor";
+import * as PhosphorIcons from "@xbase/icons/phosphor";
 // biome-ignore lint/performance/noNamespaceImport: Dynamic lookup by icon name needs the package registry.
-import * as TablerIcons from "@turtle/icons/tabler";
+import * as TablerIcons from "@xbase/icons/tabler";
 import type { ElementType } from "react";
 
 export type IconLibraryName = "hugeicons" | "lucide" | "phosphor" | "tabler";

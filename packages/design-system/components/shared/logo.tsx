@@ -1,7 +1,7 @@
-import logoCircleSvg from "@turtle/assets/logos/circle.svg";
-import logoTextSvg from "@turtle/assets/logos/text.svg";
+import logoCircleSvg from "@xbase/assets/logos/circle.svg";
+import logoTextSvg from "@xbase/assets/logos/text.svg";
+import { cn } from "@xbase/design-system/lib/utils";
 import Image, { type ImageProps } from "next/image";
-import { cn } from "../../lib/utils";
 
 const logoVariants = {
   text: {
@@ -31,7 +31,7 @@ export interface LogoProps
 }
 
 export function Logo({
-  alt = "Turtle logo",
+  alt = "Xbase logo",
   className,
   height,
   href = "/",

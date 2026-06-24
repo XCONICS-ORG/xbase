@@ -1,0 +1,19 @@
+{
+  "name": "@xbase/constants",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@xbase/typescript-config": "workspace:*",
+    "typescript": "^6"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./data": "./data/index.ts",
+    "./data/company": "./data/company.ts"
+  }
+}

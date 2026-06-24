@@ -1,5 +1,5 @@
 {
-  "name": "@turtle/env",
+  "name": "@xbase/env",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@turtle/typescript-config": "workspace:*",
+    "@xbase/typescript-config": "workspace:*",
     "@types/node": "^26",
     "typescript": "^6"
   },

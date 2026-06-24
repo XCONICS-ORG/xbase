@@ -1,14 +1,14 @@
 "use client";
 
-import { Moon, Sun } from "@turtle/icons/lucide";
+import { Moon, Sun } from "@xbase/icons/lucide";
 import { useTheme } from "next-themes";
-import { Button } from "./ui/button";
+import { Button } from "@xbase/design-system/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "@xbase/design-system/components/ui/dropdown-menu";
 
 const themes = [
   { label: "Light", value: "light" },

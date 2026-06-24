@@ -1,22 +1,22 @@
 "use client";
 
-import blockedIllustration from "@turtle/assets/images/modules/system/blocked.svg";
-import inactiveIllustration from "@turtle/assets/images/modules/system/inactive.svg";
-import maintenanceIllustration from "@turtle/assets/images/modules/system/maintenance.svg";
-import notFoundIllustration from "@turtle/assets/images/modules/system/not-found.svg";
-import rateLimitedIllustration from "@turtle/assets/images/modules/system/rate-limited.png";
-import unsupportedIllustration from "@turtle/assets/images/modules/system/unsupported.svg";
+import blockedIllustration from "@xbase/assets/images/modules/system/blocked.svg";
+import inactiveIllustration from "@xbase/assets/images/modules/system/inactive.svg";
+import maintenanceIllustration from "@xbase/assets/images/modules/system/maintenance.svg";
+import notFoundIllustration from "@xbase/assets/images/modules/system/not-found.svg";
+import rateLimitedIllustration from "@xbase/assets/images/modules/system/rate-limited.png";
+import unsupportedIllustration from "@xbase/assets/images/modules/system/unsupported.svg";
 import {
   IconArrowNarrowRight,
   IconLogout,
   IconRefresh,
-} from "@turtle/icons/tabler";
+} from "@xbase/icons/tabler";
+import { Logo } from "@xbase/design-system/components/shared/logo";
+import { Button } from "@xbase/design-system/components/ui/button";
+import { cn } from "@xbase/design-system/lib/utils";
 import Image, { type StaticImageData } from "next/image";
 import type { ReactNode } from "react";
 import { useEffect, useState, useTransition } from "react";
-import { cn } from "../../../lib/utils";
-import { Logo } from "../../shared/logo";
-import { Button } from "../../ui/button";
 
 export type SystemPageType =
   | "banned"

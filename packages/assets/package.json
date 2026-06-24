@@ -1,5 +1,5 @@
 {
-  "name": "@turtle/assets",
+  "name": "@xbase/assets",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@turtle/typescript-config": "workspace:*",
+    "@xbase/typescript-config": "workspace:*",
     "@types/node": "^26",
     "typescript": "^6"
   },

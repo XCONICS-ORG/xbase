@@ -1,6 +1,6 @@
-# @turtle/internationalization
+# @xbase/internationalization
 
-Shared locale setup for Turtle apps.
+Shared locale setup for Xbase apps.
 
 ## Server pages
 
@@ -11,7 +11,7 @@ import {
   generateLocaleStaticParams,
   getI18n,
   type LocaleParams,
-} from "@turtle/internationalization";
+} from "@xbase/internationalization";
 
 interface PageProperties {
   params: LocaleParams;
@@ -39,8 +39,8 @@ Use `useSwitchLocale` for language selectors. It preserves the current path and 
 ```tsx
 "use client";
 
-import { languageOptions } from "@turtle/internationalization/locales";
-import { useSwitchLocale } from "@turtle/internationalization/navigation";
+import { languageOptions } from "@xbase/internationalization/locales";
+import { useSwitchLocale } from "@xbase/internationalization/navigation";
 
 export const LanguageMenu = () => {
   const switchLocale = useSwitchLocale();

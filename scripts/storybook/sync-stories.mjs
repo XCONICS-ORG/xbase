@@ -116,7 +116,7 @@ function getImportPath(componentPath) {
     ""
   );
 
-  return `@turtle/design-system/components/${relativePath}`;
+  return `@xbase/design-system/components/${relativePath}`;
 }
 
 function createStory({ componentName, importPath, title }) {

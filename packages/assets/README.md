@@ -1,4 +1,4 @@
-# @turtle/assets
+# @xbase/assets
 
 Source-of-truth package for shared static files.
 
@@ -12,8 +12,8 @@ Put files under `public`:
 - `public/media`
 
 ```ts
-import { assets } from "@turtle/assets";
-import image from "@turtle/assets/images/example.png";
+import { assets } from "@xbase/assets";
+import image from "@xbase/assets/images/example.png";
 
 const directories = assets.directories;
 ```

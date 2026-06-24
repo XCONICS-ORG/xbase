@@ -1,4 +1,4 @@
-import { env } from "@turtle/env";
+import { env } from "@xbase/env";
 import {
   buildLinodeUploadBaseUrl,
   buildS3CompatibleUploadBaseUrl,

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import {
   SystemPage,
   type SystemPageType,
-} from "@turtle/design-system/components/modules/system/pages";
+} from "@xbase/design-system/components/modules/system/pages";
 
 const pageTypes = [
   "banned",

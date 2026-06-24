@@ -1,8 +1,8 @@
-import { DesignSystemProvider } from "@turtle/design-system";
+import { DesignSystemProvider } from "@xbase/design-system";
 import type { ReactNode } from "react";
-import "@turtle/design-system/globals.css";
-import { createFontClassName } from "@turtle/design-system/lib/fonts";
-import { cn } from "@turtle/design-system/lib/utils";
+import "@xbase/design-system/globals.css";
+import { createFontClassName } from "@xbase/design-system/lib/fonts";
+import { cn } from "@xbase/design-system/lib/utils";
 
 const appFonts = createFontClassName();
 

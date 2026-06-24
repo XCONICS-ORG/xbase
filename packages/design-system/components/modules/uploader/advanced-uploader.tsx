@@ -14,7 +14,9 @@ import {
   uploadFilesToStorage,
   VIDEO_MIME_TYPES,
   VIDEO_UPLOAD_ROUTE,
-} from "@turtle/bucket/client";
+} from "@xbase/bucket/client";
+import { Button } from "@xbase/design-system/components/ui/button";
+import { cn } from "@xbase/design-system/lib/utils";
 import {
   FileArchive,
   FileAudio,
@@ -28,11 +30,9 @@ import {
   UploadCloud,
   User,
   X,
-} from "@turtle/icons/lucide";
+} from "@xbase/icons/lucide";
 import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import { cn } from "../../../lib/utils";
-import { Button } from "../../ui/button";
 
 export type AdvancedUploaderMode =
   | "audio"

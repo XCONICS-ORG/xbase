@@ -1,10 +1,10 @@
 import { withThemeByClassName } from "@storybook/addon-themes";
 import type { Preview } from "@storybook/react";
-import { Toaster } from "@turtle/design-system/components/ui/sonner";
-import { TooltipProvider } from "@turtle/design-system/components/ui/tooltip";
-import { ThemeProvider } from "@turtle/design-system/providers/theme";
+import { Toaster } from "@xbase/design-system/components/ui/sonner";
+import { TooltipProvider } from "@xbase/design-system/components/ui/tooltip";
+import { ThemeProvider } from "@xbase/design-system/providers/theme";
 
-import "@turtle/design-system/globals.css";
+import "@xbase/design-system/globals.css";
 
 const preview: Preview = {
   parameters: {

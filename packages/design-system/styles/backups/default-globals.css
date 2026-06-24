@@ -17,7 +17,7 @@
     paste tweakcn's :root and .dark token blocks below, or import an app-specific
     override after this file:
 
-    import "@turtle/design-system/globals.css";
+    import "@xbase/design-system/globals.css";
     import "./theme.css";
 
   Restore the built-in fallback at any time:

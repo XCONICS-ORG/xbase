@@ -1,5 +1,5 @@
 {
-  "extends": "@turtle/typescript-config/react-library.json",
+  "extends": "@xbase/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
     "strictNullChecks": true

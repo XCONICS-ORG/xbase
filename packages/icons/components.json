@@ -12,9 +12,9 @@
   "iconLibrary": "lucide",
   "aliases": {
     "components": "./components",
-    "utils": "@turtle/design-system/lib/utils",
-    "hooks": "@turtle/design-system/hooks",
-    "lib": "@turtle/design-system/lib",
-    "ui": "@turtle/design-system/components/ui"
+    "utils": "@xbase/design-system/lib/utils",
+    "hooks": "@xbase/design-system/hooks",
+    "lib": "@xbase/design-system/lib",
+    "ui": "@xbase/design-system/components/ui"
   }
 }

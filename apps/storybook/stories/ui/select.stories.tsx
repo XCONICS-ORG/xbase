@@ -8,7 +8,7 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "@turtle/design-system/components/ui/select";
+} from "@xbase/design-system/components/ui/select";
 
 const fruits = [
   { label: "Apple", value: "apple" },

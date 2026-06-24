@@ -1,5 +1,5 @@
 import { Figtree, Geist_Mono, Outfit } from "next/font/google";
-import { cn } from "./utils";
+import { cn } from "@xbase/design-system/lib/utils";
 
 type FontClassValue = false | null | string | undefined;
 
@@ -60,7 +60,7 @@ export const fonts = createFontClassName();
   2. Create static next/font/local imports in that app's layout:
 
      import localFont from "next/font/local";
-     import { createFontClassName, fontVariables } from "@turtle/design-system/lib/fonts";
+     import { createFontClassName, fontVariables } from "@xbase/design-system/lib/fonts";
 
      const brandSans = localFont({
        src: "./fonts/brand-sans.woff2",

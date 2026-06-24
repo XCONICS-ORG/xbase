@@ -4,8 +4,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@turtle/design-system/components/ui/tooltip";
-import { Plus } from "@turtle/icons/lucide";
+} from "@xbase/design-system/components/ui/tooltip";
+import { Plus } from "@xbase/icons/lucide";
 
 const meta: Meta<typeof TooltipContent> = {
   title: "UI/Tooltip",

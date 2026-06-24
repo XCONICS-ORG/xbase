@@ -3,4 +3,4 @@ export {
   proxySignedUploadRequest as DELETE,
   proxySignedUploadRequest as POST,
   proxySignedUploadRequest as PUT,
-} from "@turtle/bucket/next";
+} from "@xbase/bucket/next";

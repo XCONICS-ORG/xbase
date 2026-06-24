@@ -7,8 +7,8 @@
   1. Paste tweakcn's generated CSS variable blocks below.
   2. Import after globals in the app that should use it:
 
-     import "@turtle/design-system/globals.css";
-     import "@turtle/design-system/tweakcn.css";
+     import "@xbase/design-system/globals.css";
+     import "@xbase/design-system/tweakcn.css";
 
   Keep this file empty if each app owns its own theme.css.
 */

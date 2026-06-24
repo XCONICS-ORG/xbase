@@ -1,5 +1,5 @@
 {
-  "extends": "@turtle/typescript-config/nextjs.json",
+  "extends": "@xbase/typescript-config/nextjs.json",
   "include": ["**/*.ts", "**/*.tsx", "**/*.json"],
   "exclude": ["node_modules"]
 }

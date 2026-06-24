@@ -1,11 +1,11 @@
-# @turtle/env
+# @xbase/env
 
-Single typed env source for Turtle apps and packages.
+Single typed env source for Xbase apps and packages.
 
 All shared values live in `env/.env`. Import `env` anywhere server-side:
 
 ```ts
-import { env } from "@turtle/env";
+import { env } from "@xbase/env";
 
 if (env.FLAG_SHOW_BETA_FEATURE) {
   // ...
@@ -15,7 +15,7 @@ if (env.FLAG_SHOW_BETA_FEATURE) {
 Next apps should call `loadGlobalEnv()` in `next.config.ts` before reading env:
 
 ```ts
-import { loadGlobalEnv } from "@turtle/env/load";
+import { loadGlobalEnv } from "@xbase/env/load";
 
 loadGlobalEnv();
 ```

@@ -14,8 +14,8 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@turtle/design-system/lib/utils",
-    "ui": "@turtle/design-system/components/ui"
+    "utils": "@xbase/design-system/lib/utils",
+    "ui": "@xbase/design-system/components/ui"
   },
   "rtl": false,
   "menuColor": "default",

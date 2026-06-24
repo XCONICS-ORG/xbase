@@ -2,4 +2,4 @@
 export {
   streamUploadObject as GET,
   streamUploadObject as HEAD,
-} from "@turtle/bucket/next";
+} from "@xbase/bucket/next";

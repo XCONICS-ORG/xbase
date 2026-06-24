@@ -1,3 +1,3 @@
-# `@turtle/typescript-config`
+# `@xbase/typescript-config`
 
-Shared TypeScript configuration for Turtle packages.
+Shared TypeScript configuration for Xbase packages.

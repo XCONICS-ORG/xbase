@@ -21,27 +21,27 @@ const routeFiles = [
   {
     path: "api/upload/route.ts",
     content:
-      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport { POST } from "@turtle/bucket/next";\n',
+      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport { POST } from "@xbase/bucket/next";\n',
   },
   {
     path: "api/upload/delete/route.ts",
     content:
-      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport { deleteUpload as POST } from "@turtle/bucket/next";\n',
+      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport { deleteUpload as POST } from "@xbase/bucket/next";\n',
   },
   {
     path: "api/upload/rename/route.ts",
     content:
-      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport { renameUpload as POST } from "@turtle/bucket/next";\n',
+      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport { renameUpload as POST } from "@xbase/bucket/next";\n',
   },
   {
     path: "api/upload/object/[...key]/route.ts",
     content:
-      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport {\n  streamUploadObject as GET,\n  streamUploadObject as HEAD,\n} from "@turtle/bucket/next";\n',
+      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport {\n  streamUploadObject as GET,\n  streamUploadObject as HEAD,\n} from "@xbase/bucket/next";\n',
   },
   {
     path: "api/upload/proxy/route.ts",
     content:
-      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport {\n  proxySignedUploadRequest as DELETE,\n  proxySignedUploadRequest as POST,\n  proxySignedUploadRequest as PUT,\n} from "@turtle/bucket/next";\n',
+      '// biome-ignore lint/performance/noBarrelFile: Next route wrapper for the shared bucket handler.\nexport {\n  proxySignedUploadRequest as DELETE,\n  proxySignedUploadRequest as POST,\n  proxySignedUploadRequest as PUT,\n} from "@xbase/bucket/next";\n',
   },
 ];
 
@@ -53,7 +53,7 @@ Commands:
   bun run bucket:setup web
   bun run bucket:setup web --force
 
-This adds @turtle/bucket to the selected app and creates the Next App Router
+This adds @xbase/bucket to the selected app and creates the Next App Router
 upload endpoints under app/api/upload.
 `);
 }
@@ -175,7 +175,7 @@ async function updateAppPackageJson(app) {
     ...app.packageJson,
     dependencies: {
       ...(app.packageJson.dependencies ?? {}),
-      "@turtle/bucket": "workspace:*",
+      "@xbase/bucket": "workspace:*",
     },
   };
 

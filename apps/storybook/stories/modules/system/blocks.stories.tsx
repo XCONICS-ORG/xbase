@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import {
   ComingSoonBlock,
   DataNotFoundBlock,
-} from "@turtle/design-system/components/modules/system/blocks";
+} from "@xbase/design-system/components/modules/system/blocks";
 
 const meta: Meta<typeof ComingSoonBlock> = {
   title: "Modules/System/Blocks",

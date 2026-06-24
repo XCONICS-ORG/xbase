@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "@turtle/design-system/components/ui/button";
+import { Button } from "@xbase/design-system/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@turtle/design-system/components/ui/dropdown-menu";
+} from "@xbase/design-system/components/ui/dropdown-menu";
 
 const meta: Meta<typeof DropdownMenu> = {
   title: "UI/DropdownMenu",

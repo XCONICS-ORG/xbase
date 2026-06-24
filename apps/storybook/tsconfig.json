@@ -1,12 +1,16 @@
 {
-  "extends": "@turtle/typescript-config/nextjs.json",
+  "extends": "@xbase/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
-      "@turtle/assets": ["../../packages/assets/index.ts"],
-      "@turtle/assets/*": ["../../packages/assets/public/*"],
-      "@turtle/design-system/*": ["../../packages/design-system/*"],
-      "@turtle/icons/*": ["../../packages/icons/*"]
+      "@xbase/assets": ["../../packages/assets/index.ts"],
+      "@xbase/assets/*": ["../../packages/assets/public/*"],
+      "@xbase/design-system/*": ["../../packages/design-system/*"],
+      "@xbase/env": ["../../packages/env/index.ts"],
+      "@xbase/env/*": ["../../packages/env/*"],
+      "@xbase/icons/*": ["../../packages/icons/*"],
+      "@xbase/libs": ["../../packages/libs/index.ts"],
+      "@xbase/libs/*": ["../../packages/libs/*"]
     },
     "strictNullChecks": true
   },

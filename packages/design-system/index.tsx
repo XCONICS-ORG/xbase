@@ -3,11 +3,11 @@
 import type { ThemeProviderProps } from "next-themes";
 import NextTopLoader, { type NextTopLoaderProps } from "nextjs-toploader";
 import type { ReactNode } from "react";
-import { Toaster } from "./components/ui/sonner";
-import { TooltipProvider } from "./components/ui/tooltip";
-import { cn } from "./lib/utils";
-import { ThemeProvider } from "./providers/theme";
-import { TweakcnLivePreview } from "./providers/tweakcn";
+import { Toaster } from "@xbase/design-system/components/ui/sonner";
+import { TooltipProvider } from "@xbase/design-system/components/ui/tooltip";
+import { cn } from "@xbase/design-system/lib/utils";
+import { ThemeProvider } from "@xbase/design-system/providers/theme";
+import { TweakcnLivePreview } from "@xbase/design-system/providers/tweakcn";
 
 type DesignSystemProviderProperties = ThemeProviderProps & {
   children: ReactNode;

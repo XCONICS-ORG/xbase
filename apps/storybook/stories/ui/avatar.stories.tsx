@@ -3,8 +3,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@turtle/design-system/components/ui/avatar";
-import { generateAvatarDataUri } from "@turtle/utility/generators/avatar";
+} from "@xbase/design-system/components/ui/avatar";
+import { generateAvatarDataUri } from "@xbase/utility/generators/avatar";
 
 const people = [
   "Suman Kumar",

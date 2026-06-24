@@ -1,5 +1,5 @@
 {
-  "name": "@turtle/seo",
+  "name": "@xbase/seo",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -8,13 +8,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@turtle/env": "workspace:*",
+    "@xbase/env": "workspace:*",
     "lodash.merge": "^4.6.2",
     "react": "19.2.7",
     "schema-dts": "^2.0.0"
   },
   "devDependencies": {
-    "@turtle/typescript-config": "workspace:*",
+    "@xbase/typescript-config": "workspace:*",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^26",
     "@types/react": "^19",

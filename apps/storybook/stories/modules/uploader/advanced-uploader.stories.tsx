@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import type { UploadedFileRecord } from "@turtle/bucket";
+import type { UploadedFileRecord } from "@xbase/bucket";
 import {
   AdvancedUploader,
   type AdvancedUploaderProps,
-} from "@turtle/design-system/components/modules/uploader";
+} from "@xbase/design-system/components/modules/uploader";
 import { useState } from "react";
 
 const meta: Meta<typeof AdvancedUploader> = {

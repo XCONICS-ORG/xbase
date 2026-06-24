@@ -28,6 +28,7 @@ export const env = createEnv({
     APP_ENV: z.enum(["development", "production"]).default("development"),
     APP_WEB_PORT: z.coerce.number().int().positive().default(3002),
     FLAG_SHOW_BETA_FEATURE: booleanString,
+    GOOGLE_MAPS_SERVER_API_KEY: optionalString,
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .optional()
@@ -49,12 +50,18 @@ export const env = createEnv({
       .min(1)
       .default("replace-with-bucket-secret-key"),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: optionalString,
+    NEXT_PUBLIC_GOOGLE_MAPS_ID: optionalString,
+  },
   runtimeEnv: {
     APP_ENV: appEnv,
     APP_WEB_PORT: process.env.APP_WEB_PORT,
     FLAG_SHOW_BETA_FEATURE: process.env.FLAG_SHOW_BETA_FEATURE,
+    GOOGLE_MAPS_SERVER_API_KEY: process.env.GOOGLE_MAPS_SERVER_API_KEY,
     NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    NEXT_PUBLIC_GOOGLE_MAPS_ID: process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID,
     PRODUCTION_URL: process.env.PRODUCTION_URL,
     STORYBOOK_PORT: process.env.STORYBOOK_PORT,
     BUCKET_ACCESS_KEY_ID: process.env.BUCKET_ACCESS_KEY_ID,

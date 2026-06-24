@@ -1,10 +1,15 @@
 {
-  "name": "turtle",
+  "name": "xbase",
   "version": "0.0.1",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XCONICS-ORG/xbase.git"
+  },
   "devDependencies": {
     "@clack/prompts": "^1.6.0",
     "@biomejs/biome": "2.5.1",
-    "@turtle/typescript-config": "workspace:*",
+    "@xbase/typescript-config": "workspace:*",
     "picocolors": "^1.1.1",
     "turbo": "^2.9.18",
     "typescript": "^6",
@@ -17,7 +22,7 @@
   "private": true,
   "scripts": {
     "build": "bun --env-file=env/.env turbo build",
-    "clean": "turbo run clean --filter=@turtle/web --filter=@turtle/storybook --filter=@turtle/assets --filter=@turtle/design-system --filter=@turtle/env --filter=@turtle/feature-flags --filter=@turtle/icons --filter=@turtle/internationalization --filter=@turtle/libs --filter=@turtle/seo --filter=@turtle/typescript-config --filter=@turtle/bucket --filter=@turtle/utility",
+    "clean": "turbo run clean --filter=@xbase/web --filter=@xbase/storybook --filter=@xbase/assets --filter=@xbase/design-system --filter=@xbase/env --filter=@xbase/feature-flags --filter=@xbase/icons --filter=@xbase/internationalization --filter=@xbase/libs --filter=@xbase/seo --filter=@xbase/typescript-config --filter=@xbase/bucket --filter=@xbase/utility --filter=@xbase/constants",
     "clean:all": "bun run clean && rm -rf node_modules .turbo",
     "dev": "node scripts/project/dev.mjs",
     "lint": "ultracite check",

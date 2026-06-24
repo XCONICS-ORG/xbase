@@ -1,12 +1,12 @@
 "use client";
 
-import comingSoonIllustration from "@turtle/assets/images/modules/system/coming-soon.svg";
-import emptyTableIllustration from "@turtle/assets/images/modules/system/empty-table.svg";
-import notFoundIllustration from "@turtle/assets/images/modules/system/not-found.svg";
+import comingSoonIllustration from "@xbase/assets/images/modules/system/coming-soon.svg";
+import emptyTableIllustration from "@xbase/assets/images/modules/system/empty-table.svg";
+import notFoundIllustration from "@xbase/assets/images/modules/system/not-found.svg";
+import { Button } from "@xbase/design-system/components/ui/button";
+import { cn } from "@xbase/design-system/lib/utils";
 import Image, { type StaticImageData } from "next/image";
 import type { ReactNode } from "react";
-import { cn } from "../../../lib/utils";
-import { Button } from "../../ui/button";
 
 type ModuleBlockVariant = "coming-soon" | "data-not-found";
 

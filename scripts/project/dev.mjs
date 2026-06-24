@@ -163,7 +163,7 @@ async function runDev() {
   const apps = await getApps();
 
   if (apps.length === 0) {
-    throw new Error("No apps with dev scripts were found in apps/.");
+    throw new Error("No apps with dev scripts were found.");
   }
 
   const selectedApps = await selectApps(apps);

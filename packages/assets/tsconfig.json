@@ -1,5 +1,5 @@
 {
-  "extends": "@turtle/typescript-config/base.json",
+  "extends": "@xbase/typescript-config/base.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",

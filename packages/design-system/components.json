@@ -11,11 +11,11 @@
   },
   "iconLibrary": "phosphor",
   "aliases": {
-    "components": "@turtle/design-system/components",
-    "utils": "@turtle/design-system/lib/utils",
-    "hooks": "@turtle/design-system/hooks",
-    "lib": "@turtle/design-system/lib",
-    "ui": "@turtle/design-system/components/ui"
+    "components": "@xbase/design-system/components",
+    "utils": "@xbase/design-system/lib/utils",
+    "hooks": "@xbase/design-system/hooks",
+    "lib": "@xbase/design-system/lib",
+    "ui": "@xbase/design-system/components/ui"
   },
   "rtl": false,
   "menuColor": "default",

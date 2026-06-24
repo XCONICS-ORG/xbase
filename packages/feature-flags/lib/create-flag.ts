@@ -1,4 +1,4 @@
-import { loadGlobalEnv } from "@turtle/env/load";
+import { loadGlobalEnv } from "@xbase/env/load";
 import { flag } from "flags/next";
 
 loadGlobalEnv();
@@ -40,7 +40,7 @@ export const createFlag = (key: string, options: CreateFlagOptions = {}) => {
     key,
     defaultValue,
     description: options.description,
-    origin: options.origin ?? "turtle",
+    origin: options.origin ?? "xbase",
     options: [
       { label: "Enabled", value: true },
       { label: "Disabled", value: false },

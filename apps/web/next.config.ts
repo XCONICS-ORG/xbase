@@ -1,15 +1,15 @@
-import { loadGlobalEnv } from "@turtle/env/load";
+import { loadGlobalEnv } from "@xbase/env/load";
 import type { NextConfig } from "next";
 
 loadGlobalEnv();
 
 const nextConfig: NextConfig = {
   transpilePackages: [
-    "@turtle/assets",
-    "@turtle/design-system",
-    "@turtle/env",
-    "@turtle/feature-flags",
-    "@turtle/utility",
+    "@xbase/assets",
+    "@xbase/design-system",
+    "@xbase/env",
+    "@xbase/feature-flags",
+    "@xbase/utility",
   ],
 };
 
