@@ -6,9 +6,11 @@ loadGlobalEnv();
 const nextConfig: NextConfig = {
   transpilePackages: [
     "@xbase/assets",
+    "@xbase/constants",
     "@xbase/design-system",
     "@xbase/env",
     "@xbase/feature-flags",
+    "@xbase/libs",
     "@xbase/utility",
   ],
 };

@@ -1,3 +1,4 @@
+import { WebMetadata } from "@xbase/constants/metadata/web";
 import { showBetaFeature } from "@xbase/feature-flags";
 import { createMetadata } from "@xbase/seo/metadata";
 import {
@@ -11,8 +12,8 @@ import Image from "next/image";
 import { HomeControls } from "./home-controls";
 
 export const metadata = createMetadata({
-  title: "Home",
-  description: "Xbase web application.",
+  title: WebMetadata.root.title,
+  description: WebMetadata.root.description,
 });
 
 const demoDate = "2026-06-23T10:30:00Z";

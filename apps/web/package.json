@@ -17,6 +17,7 @@
     "@xbase/env": "workspace:*",
     "@xbase/feature-flags": "workspace:*",
     "@xbase/icons": "workspace:*",
+    "@xbase/libs": "workspace:*",
     "@xbase/seo": "workspace:*",
     "@xbase/bucket": "workspace:*",
     "@xbase/utility": "workspace:*",

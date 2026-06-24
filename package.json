@@ -28,6 +28,7 @@
     "lint": "ultracite check",
     "format": "ultracite fix",
     "rename-project": "node scripts/project/rename.mjs",
+    "pwa:setup": "node scripts/pwa/setup.mjs",
     "storybook:sync": "node scripts/storybook/sync-stories.mjs sync",
     "typecheck": "bun --env-file=env/.env turbo typecheck",
     "bucket:config": "node scripts/bucket/config.mjs",
