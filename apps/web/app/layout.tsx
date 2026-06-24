@@ -7,15 +7,15 @@ import "@xbase/design-system/globals.css";
 import { createFontClassName } from "@xbase/design-system/lib/fonts";
 import { cn } from "@xbase/design-system/lib/utils";
 import { PwaProvider } from "@xbase/libs/pwa/provider";
-import favIconSvg from "@xbase/assets/logos/circle.svg";
+
 const appFonts = createFontClassName();
 
 export const metadata: Metadata = createMetadata({
   title: WebMetadata.title,
   description: WebMetadata.description,
   icons: {
-    icon: [{ type: "image/svg+xml", url: favIconSvg }],
-    shortcut: ["/favicon.svg"],
+    icon: [{ type: "image/svg+xml", url: "/assets/logos/circle.svg" }],
+    shortcut: ["/assets/logos/circle.svg"],
   },
 });
 

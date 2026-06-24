@@ -23,6 +23,8 @@
   },
   "exports": {
     ".": "./index.ts",
+    "./assets": "./assets/index.ts",
+    "./assets/route": "./assets/route.ts",
     "./featured": "./featured/index.ts",
     "./featured/map": "./featured/map.ts",
     "./nuqs": "./nuqs/index.ts",

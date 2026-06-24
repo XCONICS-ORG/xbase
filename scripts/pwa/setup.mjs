@@ -336,18 +336,26 @@ import { createPwaManifest } from "@xbase/libs/pwa/manifest";
 import { getPwaThemeColors } from "@xbase/libs/pwa/theme";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-const pwaThemeColors = getPwaThemeColors({
-  cssPath: resolve(process.cwd(), "../../packages/design-system/styles/globals.css"),
-});
+const getPwaManifest = () =>
+  createPwaManifest({
+    appId: ${exportName}.appId,
+    name: ${exportName}.title,
+    shortName: ${exportName}.shortName,
+    description: ${exportName}.description,
+    iconBasePath: \`/assets/icons/${"${"}${exportName}.appId}\`,
+    ...getPwaThemeColors({
+      cssPath: resolve(
+        process.cwd(),
+        "../../packages/design-system/styles/globals.css"
+      ),
+    }),
+  });
 
-export default createPwaManifest({
-  appId: ${exportName}.appId,
-  name: ${exportName}.title,
-  shortName: ${exportName}.shortName,
-  description: ${exportName}.description,
-  ...pwaThemeColors,
-});
+export default async function manifest() {
+  return await getPwaManifest()();
+}
 `;
 
 const createServiceWorkerRouteSource = ({ appId, exportName }) => `import { ${exportName} } from "@xbase/constants/metadata/${appId}";
@@ -357,19 +365,20 @@ export const dynamic = "force-static";
 
 export const GET = createPwaServiceWorkerRoute({
   appId: ${exportName}.appId,
+  defaultNotificationIcon: \`/assets/icons/${"${"}${exportName}.appId}/pwa-192.png\`,
   defaultNotificationTitle: ${exportName}.title,
   version: \`${"${"}${exportName}.appId}-pwa-v1\`,
 });
 `;
 
-const createIconRouteSource = () => `import { resolve } from "node:path";
-import { createPwaIconRoute } from "@xbase/libs/pwa/assets";
+const createAssetRouteSource = () => `import { createPublicAssetRoute } from "@xbase/libs/assets/route";
+import { resolve } from "node:path";
 
 export const dynamic = "force-static";
 export const runtime = "nodejs";
 
-export const GET = createPwaIconRoute({
-  assetsRoot: resolve(process.cwd(), "../../packages/assets/public/icons"),
+export const GET = createPublicAssetRoute({
+  assetsRoot: resolve(process.cwd(), "../../packages/assets/public"),
 });
 `;
 
@@ -441,10 +450,10 @@ async function main() {
     ),
   ]);
   results.push([
-    "app/icons/[app]/[file]/route.ts",
+    "app/assets/[...path]/route.ts",
     await writeGeneratedFile(
-      resolve(app.appDirectory, "app/icons/[app]/[file]/route.ts"),
-      createIconRouteSource()
+      resolve(app.appDirectory, "app/assets/[...path]/route.ts"),
+      createAssetRouteSource()
     ),
   ]);
 

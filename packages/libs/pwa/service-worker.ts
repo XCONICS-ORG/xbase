@@ -9,7 +9,8 @@ export function createPwaServiceWorkerSource(config: PwaServiceWorkerConfig) {
     cachePrefix,
     defaultActionUrl: config.defaultActionUrl ?? "/",
     defaultNotificationIcon:
-      config.defaultNotificationIcon ?? `/icons/${config.appId}/pwa-192.png`,
+      config.defaultNotificationIcon ??
+      `/assets/icons/${config.appId}/pwa-192.png`,
     defaultNotificationTitle: config.defaultNotificationTitle ?? config.appId,
     messageType: config.messageType ?? `${config.appId}-push-notification`,
     notificationTag: config.notificationTag ?? `${config.appId}-notification`,
