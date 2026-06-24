@@ -39,6 +39,8 @@
     "./generators/avatar": "./generators/avatar.ts",
     "./generators/barcode": "./generators/barcode.ts",
     "./generators/password": "./generators/password.ts",
-    "./generators/qrcode": "./generators/qrcode.ts"
+    "./generators/qrcode": "./generators/qrcode.ts",
+    "./scanners": "./scanners/index.ts",
+    "./scanners/code": "./scanners/code.ts"
   }
 }

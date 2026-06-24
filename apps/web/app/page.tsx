@@ -9,6 +9,7 @@ import { formatString } from "@xbase/utility/formatters/string";
 import { generateBarcode } from "@xbase/utility/generators/barcode";
 import { generateQrCodeDataUrl } from "@xbase/utility/generators/qrcode";
 import Image from "next/image";
+import { CodeScanner } from "./code-scanner";
 import { HomeControls } from "./home-controls";
 
 export const metadata = createMetadata({
@@ -108,6 +109,8 @@ export default async function Page() {
               XBASE-2026-0001
             </p>
           </div>
+
+          <CodeScanner />
         </section>
 
         <div className="font-mono text-muted-foreground text-xs">
