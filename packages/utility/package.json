@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dicebear/core": "10.2.0",
+    "@dicebear/core": "10.3.0",
     "@dicebear/styles": "10.2.0",
     "@xbase/icons": "workspace:*",
     "bwip-js": "^4.11.1",
