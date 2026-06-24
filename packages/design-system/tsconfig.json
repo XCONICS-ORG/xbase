@@ -12,6 +12,8 @@
       "@xbase/icons/*": ["../icons/*.ts"],
       "@xbase/libs": ["../libs/index.ts"],
       "@xbase/libs/*": ["../libs/*"],
+      "@xbase/types": ["../types/index.ts"],
+      "@xbase/types/*": ["../types/*"],
       "@xbase/bucket": ["../bucket/index.ts"],
       "@xbase/bucket/*": ["../bucket/*.ts"]
     },

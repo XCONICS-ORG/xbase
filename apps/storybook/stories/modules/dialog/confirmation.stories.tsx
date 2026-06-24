@@ -84,7 +84,7 @@ export const LoadingState: Story = {
     <ConfirmationPreview
       actionIcon={<IconArchive />}
       actionLabel="Archive"
-      actionLabelLoading="Archiving..."
+      actionLabelLoading="Archiving"
       description="The primary action can show a pending state while a request is running."
       loading
       title="Archive project?"

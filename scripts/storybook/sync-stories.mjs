@@ -13,6 +13,7 @@ const exportedDeclarationPattern =
 const extensionPattern = /\.tsx$/;
 const pascalSeparatorPattern = /[-_.\s]+/;
 const manualStoryDirectories = new Set(["modules", "shared"]);
+const manualStoryComponents = new Set(["mode-toggle.tsx"]);
 
 function printHelp() {
   console.log(`Storybook story sync
@@ -85,11 +86,13 @@ function getStoryGroup(componentPath) {
 }
 
 function shouldCreateStory(componentPath) {
-  const [topDirectory] = relative(componentsDirectory, componentPath).split(
-    "/"
-  );
+  const relativePath = relative(componentsDirectory, componentPath);
+  const [topDirectory] = relativePath.split("/");
 
-  return !manualStoryDirectories.has(topDirectory);
+  return (
+    !manualStoryDirectories.has(topDirectory) &&
+    !manualStoryComponents.has(relativePath)
+  );
 }
 
 function getExportName(componentPath, content) {

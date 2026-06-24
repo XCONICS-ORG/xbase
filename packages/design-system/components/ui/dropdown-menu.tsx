@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckIcon } from "@phosphor-icons/react";
 import { cn } from "@xbase/design-system/lib/utils";
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui";
 import type { ComponentProps } from "react";
@@ -46,15 +47,75 @@ function DropdownMenuContent({
 
 function DropdownMenuItem({
   className,
+  variant = "default",
   ...properties
-}: ComponentProps<typeof DropdownMenuPrimitive.Item>) {
+}: ComponentProps<typeof DropdownMenuPrimitive.Item> & {
+  variant?: "default" | "destructive";
+}) {
   return (
     <DropdownMenuPrimitive.Item
       className={cn(
-        "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50",
+        "relative flex min-h-7 cursor-default select-none items-center gap-2 rounded-sm px-2 py-1 text-xs/relaxed outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive",
         className
       )}
       data-slot="dropdown-menu-item"
+      data-variant={variant}
+      {...properties}
+    />
+  );
+}
+
+function DropdownMenuCheckboxItem({
+  checked,
+  children,
+  className,
+  ...properties
+}: ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem>) {
+  return (
+    <DropdownMenuPrimitive.CheckboxItem
+      checked={checked}
+      className={cn(
+        "relative flex min-h-7 cursor-default select-none items-center gap-2 rounded-sm py-1 pr-2 pl-8 text-xs/relaxed outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        className
+      )}
+      data-slot="dropdown-menu-checkbox-item"
+      {...properties}
+    >
+      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+        <DropdownMenuPrimitive.ItemIndicator>
+          <CheckIcon className="size-3.5" />
+        </DropdownMenuPrimitive.ItemIndicator>
+      </span>
+      {children}
+    </DropdownMenuPrimitive.CheckboxItem>
+  );
+}
+
+function DropdownMenuLabel({
+  className,
+  ...properties
+}: ComponentProps<typeof DropdownMenuPrimitive.Label>) {
+  return (
+    <DropdownMenuPrimitive.Label
+      className={cn(
+        "px-2 py-1.5 font-medium text-muted-foreground text-xs",
+        className
+      )}
+      data-slot="dropdown-menu-label"
+      {...properties}
+    />
+  );
+}
+
+function DropdownMenuSeparator({
+  className,
+  ...properties
+}: ComponentProps<typeof DropdownMenuPrimitive.Separator>) {
+  return (
+    <DropdownMenuPrimitive.Separator
+      className={cn("-mx-1 my-1 h-px bg-border", className)}
+      data-slot="dropdown-menu-separator"
       {...properties}
     />
   );
@@ -62,7 +123,10 @@ function DropdownMenuItem({
 
 export {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 };

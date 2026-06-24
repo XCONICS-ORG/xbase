@@ -22,7 +22,7 @@
   "private": true,
   "scripts": {
     "build": "bun --env-file=env/.env turbo build",
-    "clean": "turbo run clean --filter=@xbase/web --filter=@xbase/storybook --filter=@xbase/assets --filter=@xbase/design-system --filter=@xbase/env --filter=@xbase/feature-flags --filter=@xbase/icons --filter=@xbase/internationalization --filter=@xbase/libs --filter=@xbase/seo --filter=@xbase/typescript-config --filter=@xbase/bucket --filter=@xbase/utility --filter=@xbase/constants",
+    "clean": "turbo run clean --filter=@xbase/web --filter=@xbase/storybook --filter=@xbase/assets --filter=@xbase/design-system --filter=@xbase/env --filter=@xbase/feature-flags --filter=@xbase/icons --filter=@xbase/internationalization --filter=@xbase/libs --filter=@xbase/seo --filter=@xbase/typescript-config --filter=@xbase/bucket --filter=@xbase/utility --filter=@xbase/constants --filter=@xbase/types",
     "clean:all": "bun run clean && rm -rf node_modules .turbo",
     "dev": "node scripts/project/dev.mjs",
     "lint": "ultracite check",

@@ -7,7 +7,7 @@ import {
 import { generateAvatarDataUri } from "@xbase/utility/generators/avatar";
 
 const people = [
-  "Suman Kumar",
+  "Suman Mondal",
   "Mira Shah",
   "Alex Morgan",
   "Priya Nair",
@@ -38,7 +38,7 @@ function getInitials(name: string) {
 
 export const Default: Story = {
   render: () => {
-    const name = "Suman Kumar";
+    const name = "Suman Mondal";
 
     return (
       <Avatar>
@@ -57,8 +57,8 @@ export const Default: Story = {
 
 export const DiceBearStyles: Story = {
   render: () => {
-    const name = "Suman Kumar";
-    const styles = ["initials", "lorelei", "notionists", "shapes"] as const;
+    const name = "Suman Mondal";
+    const styles = ["initials", "lorelei", "notionists", "shapegrid"] as const;
 
     return (
       <div className="flex items-center gap-3">

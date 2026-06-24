@@ -10,7 +10,9 @@
       "@xbase/env/*": ["../../packages/env/*"],
       "@xbase/icons/*": ["../../packages/icons/*"],
       "@xbase/libs": ["../../packages/libs/index.ts"],
-      "@xbase/libs/*": ["../../packages/libs/*"]
+      "@xbase/libs/*": ["../../packages/libs/*"],
+      "@xbase/types": ["../../packages/types/index.ts"],
+      "@xbase/types/*": ["../../packages/types/*"]
     },
     "strictNullChecks": true
   },

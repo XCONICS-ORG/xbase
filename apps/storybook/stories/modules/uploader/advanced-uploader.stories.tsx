@@ -7,7 +7,7 @@ import {
 import { useState } from "react";
 
 const meta: Meta<typeof AdvancedUploader> = {
-  title: "Modules/Uploader/AdvancedUploader",
+  title: "Modules/AdvancedUploader",
   component: AdvancedUploader,
   tags: ["autodocs"],
   parameters: {

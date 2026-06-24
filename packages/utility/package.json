@@ -8,10 +8,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dicebear/collection": "^9.4.2",
-    "@dicebear/core": "^9.4.2",
+    "@dicebear/core": "10.2.0",
+    "@dicebear/styles": "10.2.0",
     "@xbase/icons": "workspace:*",
     "bwip-js": "^4.11.1",
+    "country-state-city": "^3.2.1",
     "date-fns": "^4.4.0",
     "date-fns-tz": "^3.2.0",
     "next": "16.2.9",
@@ -32,10 +33,12 @@
     "./formatters/string": "./formatters/string.ts",
     "./functions": "./functions/index.ts",
     "./functions/get-icon": "./functions/get-icon.ts",
+    "./functions/location": "./functions/location.ts",
     "./functions/params": "./functions/params.ts",
     "./generators": "./generators/index.ts",
     "./generators/avatar": "./generators/avatar.ts",
     "./generators/barcode": "./generators/barcode.ts",
+    "./generators/password": "./generators/password.ts",
     "./generators/qrcode": "./generators/qrcode.ts"
   }
 }

@@ -8,7 +8,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "nuqs": "^2.8.9"
+    "nuqs": "^2.8.9",
+    "react-hook-form": "^7.77.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@xbase/typescript-config": "workspace:*",
@@ -19,6 +21,9 @@
     "./featured": "./featured/index.ts",
     "./featured/map": "./featured/map.ts",
     "./nuqs": "./nuqs/index.ts",
-    "./nuqs/search-params": "./nuqs/search-params.ts"
+    "./nuqs/search-params": "./nuqs/search-params.ts",
+    "./zod": "./zod/index.ts",
+    "./zod/resolver": "./zod/resolver.ts",
+    "./zod/schema": "./zod/schema.ts"
   }
 }
