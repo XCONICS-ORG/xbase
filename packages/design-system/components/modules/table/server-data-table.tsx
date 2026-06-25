@@ -9,13 +9,7 @@ import {
   AlertTitle,
 } from "@xbase/design-system/components/ui/alert";
 import { Button } from "@xbase/design-system/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@xbase/design-system/components/ui/card";
+import { Card, CardContent } from "@xbase/design-system/components/ui/card";
 import { Checkbox } from "@xbase/design-system/components/ui/checkbox";
 import { Separator } from "@xbase/design-system/components/ui/separator";
 import {
@@ -62,7 +56,6 @@ export interface ServerDataTableClassNames {
   bodyRow?: string;
   content?: string;
   footer?: string;
-  header?: string;
   headerCell?: string;
   headerRow?: string;
   root?: string;
@@ -77,7 +70,6 @@ export interface ServerDataTableProps<TData, TSortField extends string> {
   classNames?: ServerDataTableClassNames;
   columns: DataTableColumn<TData, TSortField>[];
   dateRangeFilter?: DataTableDateRangeFilter;
-  description?: string;
   emptyMessage?: string;
   emptyStateImageAlt?: string;
   emptyStateImageSrc?: ImageProps["src"];
@@ -109,8 +101,9 @@ export interface ServerDataTableProps<TData, TSortField extends string> {
   searchPlaceholder?: string;
   searchValue: string;
   sortOptions: DataTableSortOption<TSortField>[];
-  title?: string;
   toolbarEnd?: ReactNode;
+  toolbarFilterSummary?: ReactNode;
+  toolbarFilters?: ReactNode;
   toolbarLayout?: "default" | "stacked";
   toolbarStart?: ReactNode;
   totalItems: number;
@@ -272,7 +265,6 @@ export function ServerDataTable<TData, TSortField extends string>({
   classNames,
   columns,
   dateRangeFilter,
-  description,
   enableColumnResize = true,
   enableRowSelection = false,
   enableSettingsMenu = true,
@@ -303,8 +295,9 @@ export function ServerDataTable<TData, TSortField extends string>({
   sortOptions,
   toolbarLayout = "default",
   toolbarStart,
-  title,
   toolbarEnd,
+  toolbarFilterSummary,
+  toolbarFilters,
   totalItems,
   totalPages,
 }: ServerDataTableProps<TData, TSortField>) {
@@ -397,7 +390,6 @@ export function ServerDataTable<TData, TSortField extends string>({
     minWidth: `${tableMinWidth}px`,
     width: `max(100%, ${tableMinWidth}px)`,
   };
-  const shouldRenderHeader = Boolean(title || description);
   let pageSelectionState: boolean | "indeterminate" = false;
 
   if (allPageRowsSelected) {
@@ -530,24 +522,11 @@ export function ServerDataTable<TData, TSortField extends string>({
         classNames?.root
       )}
     >
-      {shouldRenderHeader ? (
-        <CardHeader className={cn("border-b", classNames?.header)}>
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-            <div className="space-y-1">
-              {title ? <CardTitle>{title}</CardTitle> : null}
-              {description ? (
-                <CardDescription>{description}</CardDescription>
-              ) : null}
-            </div>
-          </div>
-        </CardHeader>
-      ) : null}
-
       <CardContent
         className={cn(
           "w-full min-w-0 max-w-full space-y-4 overflow-hidden px-3!",
           "flex min-h-0 flex-1 flex-col",
-          shouldRenderHeader ? "pt-4" : "pt-0",
+          "pt-0",
           classNames?.content
         )}
       >
@@ -586,6 +565,8 @@ export function ServerDataTable<TData, TSortField extends string>({
           selectedRows={selectedRows}
           showSettingsMenu={enableSettingsMenu}
           toolbarEnd={toolbarEnd}
+          toolbarFilterSummary={toolbarFilterSummary}
+          toolbarFilters={toolbarFilters}
           toolbarStart={toolbarStart}
         />
 

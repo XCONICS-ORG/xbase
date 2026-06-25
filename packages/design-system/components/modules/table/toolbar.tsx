@@ -2,8 +2,9 @@
 
 import { Button } from "@xbase/design-system/components/ui/button";
 import { Input } from "@xbase/design-system/components/ui/input";
+import { Separator } from "@xbase/design-system/components/ui/separator";
 import { cn } from "@xbase/design-system/lib/utils";
-import { IconRefresh, IconRotate2 } from "@xbase/icons/tabler";
+import { IconFilter, IconRefresh, IconRotate2 } from "@xbase/icons/tabler";
 import type {
   DataTableColumn,
   DataTableDateRangeFilter as DataTableDateRangeFilterConfig,
@@ -37,6 +38,8 @@ interface DataTableToolbarProps<TData, TSortField extends string> {
   selectedRows: TData[];
   showSettingsMenu?: boolean;
   toolbarEnd?: ReactNode;
+  toolbarFilterSummary?: ReactNode;
+  toolbarFilters?: ReactNode;
   toolbarStart?: ReactNode;
 }
 
@@ -62,9 +65,12 @@ export function DataTableToolbar<TData, TSortField extends string>({
   showSettingsMenu = true,
   toolbarStart,
   toolbarEnd,
+  toolbarFilterSummary,
+  toolbarFilters,
 }: DataTableToolbarProps<TData, TSortField>) {
   const shouldStackToolbar =
-    layout === "stacked" && Boolean(toolbarStart || toolbarEnd);
+    layout === "stacked" &&
+    Boolean(toolbarStart || toolbarEnd || toolbarFilters);
   const searchInputClassName = "h-8 min-h-8 w-full lg:min-w-0 lg:flex-1";
   const secondaryControls = (
     <>
@@ -118,6 +124,7 @@ export function DataTableToolbar<TData, TSortField extends string>({
     <div
       className={cn(
         "grid min-w-0 flex-1 grid-cols-1 gap-2",
+        toolbarFilters ? "w-full" : "",
         dateRangeFilter
           ? "lg:grid-cols-[minmax(16rem,1fr)_minmax(14rem,24rem)]"
           : ""
@@ -135,6 +142,21 @@ export function DataTableToolbar<TData, TSortField extends string>({
       ) : null}
     </div>
   );
+  const filterPanel = toolbarFilters ? (
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 font-medium text-foreground text-sm">
+          <IconFilter className="size-4" />
+          <span>Filters</span>
+        </div>
+        <div className="shrink-0 text-muted-foreground text-xs">
+          {toolbarFilterSummary ?? "No extra filters applied"}
+        </div>
+      </div>
+      <Separator />
+      {toolbarFilters}
+    </div>
+  ) : null;
 
   return (
     <div
@@ -163,12 +185,14 @@ export function DataTableToolbar<TData, TSortField extends string>({
               {primaryControls}
             </div>
           </div>
+          {filterPanel}
         </>
       ) : (
         <>
           <div className="flex min-w-0 flex-1 flex-col gap-3">
             {toolbarStart ? <div className="w-full">{toolbarStart}</div> : null}
             {searchControls}
+            {filterPanel}
           </div>
           <div className="flex flex-wrap items-center gap-2 lg:flex-none lg:justify-end">
             {secondaryControls}

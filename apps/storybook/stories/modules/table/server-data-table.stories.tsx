@@ -4,6 +4,7 @@ import {
   CopyShell,
   DataTableCellAction,
   type DataTableColumn,
+  DataTableDateRangeFilter,
   type DataTableFilters,
   type DataTableSortOption,
   type DataTableSortOrder,
@@ -11,6 +12,14 @@ import {
 } from "@xbase/design-system/components/modules/table";
 import { Badge } from "@xbase/design-system/components/ui/badge";
 import { Button } from "@xbase/design-system/components/ui/button";
+import { Label } from "@xbase/design-system/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@xbase/design-system/components/ui/select";
 import {
   IconArchive,
   IconEdit,
@@ -175,8 +184,76 @@ const defaultFilters: DataTableFilters<UserSortField> = {
   sortOrder: "desc",
 };
 
+interface AdvancedFiltersProps {
+  dateRange: {
+    endDate: string | null;
+    startDate: string | null;
+  };
+  onDateRangeChange: (range: {
+    endDate: string | null;
+    startDate: string | null;
+  }) => void;
+  onRoleChange: (value: string) => void;
+  onStatusChange: (value: string) => void;
+  role: string;
+  status: string;
+}
+
+function AdvancedFilters({
+  dateRange,
+  onDateRangeChange,
+  onRoleChange,
+  onStatusChange,
+  role,
+  status,
+}: AdvancedFiltersProps) {
+  return (
+    <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+      <div className="space-y-1">
+        <Label>Created date</Label>
+        <DataTableDateRangeFilter
+          endDate={dateRange.endDate}
+          onChange={onDateRangeChange}
+          placeholder="Created date"
+          startDate={dateRange.startDate}
+        />
+      </div>
+      <div className="space-y-1">
+        <Label>Status</Label>
+        <Select onValueChange={onStatusChange} value={status}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All statuses" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All statuses</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="invited">Invited</SelectItem>
+            <SelectItem value="suspended">Suspended</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-1">
+        <Label>Role</Label>
+        <Select onValueChange={onRoleChange} value={role}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All roles" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All roles</SelectItem>
+            <SelectItem value="admin">Admin</SelectItem>
+            <SelectItem value="manager">Manager</SelectItem>
+            <SelectItem value="editor">Editor</SelectItem>
+            <SelectItem value="viewer">Viewer</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+}
+
 interface TablePreviewProps {
   actionShowType?: "dropdown" | "inline";
+  enableAdvancedFilters?: boolean;
   enableDateRangeFilter?: boolean;
   enableRowContextMenu?: boolean;
   enableRowSelection?: boolean;
@@ -190,6 +267,7 @@ interface TablePreviewProps {
 
 function TablePreview({
   actionShowType = "dropdown",
+  enableAdvancedFilters = false,
   enableDateRangeFilter = false,
   enableRowContextMenu = true,
   enableRowSelection = false,
@@ -206,10 +284,21 @@ function TablePreview({
     endDate: "2026-06-24" as string | null,
     startDate: "2026-06-01" as string | null,
   });
+  const [advancedDateRange, setAdvancedDateRange] = useState({
+    endDate: null as string | null,
+    startDate: null as string | null,
+  });
+  const [status, setStatus] = useState("all");
+  const [role, setRole] = useState("all");
   const columns = useMemo(
     () => createColumns(actionShowType),
     [actionShowType]
   );
+  const activeFilterCount = [
+    advancedDateRange.startDate || advancedDateRange.endDate ? "date" : "all",
+    status,
+    role,
+  ].filter((value) => value !== "all").length;
 
   const handleSortChange = (
     sortBy: UserSortField | null,
@@ -232,7 +321,6 @@ function TablePreview({
               }
             : undefined
         }
-        description="Reusable server-driven table shell for app modules."
         enableRowSelection={enableRowSelection}
         errorMessage={errorMessage}
         exportFileNamePrefix="storybook-users"
@@ -249,6 +337,9 @@ function TablePreview({
         onReset={() => {
           setFilters(defaultFilters);
           setSearchValue("");
+          setAdvancedDateRange({ endDate: null, startDate: null });
+          setStatus("all");
+          setRole("all");
         }}
         onSearchValueChange={setSearchValue}
         onSortChange={handleSortChange}
@@ -266,12 +357,28 @@ function TablePreview({
         searchPlaceholder="Search users"
         searchValue={searchValue}
         sortOptions={sortOptions}
-        title="Users"
         toolbarEnd={
           withToolbarEnd ? (
             <Button leftIcon={<IconFilter />} type="button" variant="outline">
               More filters
             </Button>
+          ) : undefined
+        }
+        toolbarFilterSummary={
+          enableAdvancedFilters && activeFilterCount > 0
+            ? `${activeFilterCount} extra filters applied`
+            : undefined
+        }
+        toolbarFilters={
+          enableAdvancedFilters ? (
+            <AdvancedFilters
+              dateRange={advancedDateRange}
+              onDateRangeChange={setAdvancedDateRange}
+              onRoleChange={setRole}
+              onStatusChange={setStatus}
+              role={role}
+              status={status}
+            />
           ) : undefined
         }
         toolbarLayout={toolbarLayout}
@@ -307,6 +414,11 @@ export const StackedToolbar: Story = {
       withToolbarEnd
     />
   ),
+};
+
+export const AdvancedFiltersStory: Story = {
+  name: "Advanced Filters",
+  render: () => <TablePreview enableAdvancedFilters toolbarLayout="stacked" />,
 };
 
 export const RowSelectionAndInlineActions: Story = {

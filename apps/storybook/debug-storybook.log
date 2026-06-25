@@ -1,0 +1,28 @@
+[15:26:56.153] [INFO] storybook v10.4.6
+[15:26:56.525] [DEBUG] Getting package.json info for /Volumes/DEV DOCK/EXP/shadcn/xbase/apps/storybook/package.json...
+[15:26:58.511] [DEBUG] Serving static files from [36mnode_modules/.bun/@chromatic-com+storybook@5.2.1+8c4bce838e9d505c/node_modules/@chromatic-com/storybook/assets[39m at [36m/addon-visual-tests-assets[39m
+[15:26:58.511] [DEBUG] Serving static files from [36mapps/storybook/public[39m at [36m/[39m
+[15:26:58.511] [INFO] Starting...
+[15:26:58.539] [WARN] No story files found for the specified pattern: [34mstories/**/*.mdx[39m
+[15:26:58.955] [DEBUG] Starting preview..
+[15:26:58.965] [INFO] Using implicit CSS loaders
+[15:26:59.066] [INFO] Using SWC as compiler
+[15:26:59.163] [INFO] Using default Webpack5 setup
+[15:26:59.361] [DEBUG] Using tsconfig paths for react-docgen
+[15:27:10.710] [WARN] Critical dependency: the request of a dependency is an expression
+[15:27:10.711] [ERROR] Failed to build the preview
+[15:27:10.713] [WARN] Force closed preview build
+[15:27:10.714] [ERROR] [38;2;241;97;97mSB_BUILDER-WEBPACK5_0003 (WebpackCompilationError): There were problems when compiling your code with Webpack.
+Run Storybook with --debug-webpack for more information.[39m
+    at starter (file:///Volumes/DEV%20DOCK/EXP/shadcn/xbase/node_modules/.bun/@storybook+builder-webpack5@10.4.6+7aa4f4abed4ba1bf/node_modules/@storybook/builder-webpack5/dist/index.js:857:11)
+    at starter.next (<anonymous>)
+    at Module.start (file:///Volumes/DEV%20DOCK/EXP/shadcn/xbase/node_modules/.bun/@storybook+builder-webpack5@10.4.6+7aa4f4abed4ba1bf/node_modules/@storybook/builder-webpack5/dist/index.js:915:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async storybookDevServer (file:///Volumes/DEV%20DOCK/EXP/shadcn/xbase/node_modules/.bun/storybook@10.4.6+7afe2b9554507f37/node_modules/storybook/dist/core-server/index.js:11496:158)
+    at async buildOrThrow (file:///Volumes/DEV%20DOCK/EXP/shadcn/xbase/node_modules/.bun/storybook@10.4.6+7afe2b9554507f37/node_modules/storybook/dist/core-server/index.js:8205:12)
+    at async buildDevStandalone (file:///Volumes/DEV%20DOCK/EXP/shadcn/xbase/node_modules/.bun/storybook@10.4.6+7afe2b9554507f37/node_modules/storybook/dist/core-server/index.js:12057:41)
+    at async withTelemetry (file:///Volumes/DEV%20DOCK/EXP/shadcn/xbase/node_modules/.bun/storybook@10.4.6+7afe2b9554507f37/node_modules/storybook/dist/_node-chunks/chunk-G7NXW2C2.js:650:12)
+    at async dev (file:///Volumes/DEV%20DOCK/EXP/shadcn/xbase/node_modules/.bun/storybook@10.4.6+7afe2b9554507f37/node_modules/storybook/dist/bin/core.js:2735:3)
+    at async _Command.<anonymous> (file:///Volumes/DEV%20DOCK/EXP/shadcn/xbase/node_modules/.bun/storybook@10.4.6+7afe2b9554507f37/node_modules/storybook/dist/bin/core.js:2805:92)
+[15:27:10.720] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
