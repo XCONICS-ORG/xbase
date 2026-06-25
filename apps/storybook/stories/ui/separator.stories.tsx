@@ -19,7 +19,9 @@ export const Default: Story = {
     <div className="w-[360px]">
       <div className="space-y-1">
         <h4 className="font-medium text-sm">xbase</h4>
-        <p className="text-muted-foreground text-xs">Workspace packages and apps.</p>
+        <p className="text-muted-foreground text-xs">
+          Workspace packages and apps.
+        </p>
       </div>
       <Separator className="my-4" />
       <div className="flex h-5 items-center gap-4 text-xs">

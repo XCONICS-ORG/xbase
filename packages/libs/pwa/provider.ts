@@ -63,7 +63,10 @@ export function PwaProvider({
     }
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, [registerServiceWorker, scope, serviceWorkerPath, updateViaCache]);

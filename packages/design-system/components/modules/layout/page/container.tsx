@@ -1,5 +1,5 @@
-import type React from "react";
 import { cn } from "@xbase/design-system/lib/utils";
+import type React from "react";
 
 export default function PageContainer({
   children,

@@ -6,14 +6,14 @@ import maintenanceIllustration from "@xbase/assets/images/modules/system/mainten
 import notFoundIllustration from "@xbase/assets/images/modules/system/not-found.svg";
 import rateLimitedIllustration from "@xbase/assets/images/modules/system/rate-limited.png";
 import unsupportedIllustration from "@xbase/assets/images/modules/system/unsupported.svg";
+import { Logo } from "@xbase/design-system/components/shared/logo";
+import { Button } from "@xbase/design-system/components/ui/button";
+import { cn } from "@xbase/design-system/lib/utils";
 import {
   IconArrowNarrowRight,
   IconLogout,
   IconRefresh,
 } from "@xbase/icons/tabler";
-import { Logo } from "@xbase/design-system/components/shared/logo";
-import { Button } from "@xbase/design-system/components/ui/button";
-import { cn } from "@xbase/design-system/lib/utils";
 import Image, { type StaticImageData } from "next/image";
 import type { ReactNode } from "react";
 import { useEffect, useState, useTransition } from "react";

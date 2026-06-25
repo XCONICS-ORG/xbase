@@ -25,7 +25,7 @@ export const States: Story = {
   render: () => (
     <div className="grid w-[360px] gap-3">
       <Textarea defaultValue="Storybook examples document every available state." />
-      <Textarea placeholder="Disabled" disabled />
+      <Textarea disabled placeholder="Disabled" />
       <Textarea aria-invalid defaultValue="This message needs review." />
     </div>
   ),

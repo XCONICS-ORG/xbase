@@ -14,7 +14,10 @@ import {
 } from "@xbase/design-system/components/ui/dropdown-menu";
 import { cn } from "@xbase/design-system/lib/utils";
 import { IconLogout } from "@xbase/icons/tabler";
-import type { AvatarOptions, AvatarStyleName } from "@xbase/utility/generators/avatar";
+import type {
+  AvatarOptions,
+  AvatarStyleName,
+} from "@xbase/utility/generators/avatar";
 import type { ReactNode } from "react";
 import { HeaderAvatar } from "./avatar";
 

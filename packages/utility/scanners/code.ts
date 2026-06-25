@@ -28,11 +28,11 @@ export interface ScanCodeFromCameraOptions {
   video: HTMLVideoElement;
 }
 
-type DetectedBarcode = {
+interface DetectedBarcode {
   boundingBox?: DOMRectReadOnly;
   format?: string;
   rawValue: string;
-};
+}
 
 type BarcodeDetectorConstructor = new (options?: {
   formats?: readonly string[];
@@ -105,7 +105,9 @@ export async function scanCodeFromCamera({
   video,
 }: ScanCodeFromCameraOptions): Promise<CodeScanResult> {
   if (!isCodeScannerSupported()) {
-    throw new Error("Camera barcode scanning is not supported in this browser.");
+    throw new Error(
+      "Camera barcode scanning is not supported in this browser."
+    );
   }
 
   if (signal?.aborted) {
@@ -169,10 +171,9 @@ export async function scanCodeFromCamera({
     };
 
     const handleAbort = () => {
-      settle(
-        () => reject(new DOMException("Scan aborted.", "AbortError")),
-        { stopStream: true }
-      );
+      settle(() => reject(new DOMException("Scan aborted.", "AbortError")), {
+        stopStream: true,
+      });
     };
 
     const scan = async () => {

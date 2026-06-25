@@ -7,9 +7,9 @@ import {
 } from "@xbase/design-system/components/ui/avatar";
 import { cn } from "@xbase/design-system/lib/utils";
 import {
-  generateAvatarDataUri,
   type AvatarOptions,
   type AvatarStyleName,
+  generateAvatarDataUri,
 } from "@xbase/utility/generators/avatar";
 
 export interface HeaderAvatarProps {

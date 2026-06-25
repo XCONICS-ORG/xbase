@@ -1,5 +1,5 @@
-import type { NextConfig } from "next";
 import { loadGlobalEnv } from "@xbase/env/load";
+import type { NextConfig } from "next";
 
 loadGlobalEnv();
 

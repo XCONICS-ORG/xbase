@@ -1,6 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { QuickActionDropdown } from "@xbase/design-system/components/modules/layout/header";
-import { IconBuilding, IconListDetails, IconShield, IconUsers } from "@xbase/icons/tabler";
+import {
+  IconBuilding,
+  IconListDetails,
+  IconShield,
+  IconUsers,
+} from "@xbase/icons/tabler";
 
 const actions = [
   {

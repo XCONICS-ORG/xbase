@@ -19,17 +19,16 @@ export const getCountryDisplayName = (countryValue?: string | null) => {
   }
 
   const countryByName = Country.getAllCountries().find(
-    (country) =>
-      country.name.toLowerCase() === normalizedCountry.toLowerCase()
+    (country) => country.name.toLowerCase() === normalizedCountry.toLowerCase()
   );
 
   return countryByName?.name ?? normalizedCountry;
 };
 
-type StateDisplayNameOptions = {
+interface StateDisplayNameOptions {
   countryValue?: string | null;
   stateValue?: string | null;
-};
+}
 
 export const getStateDisplayName = ({
   countryValue,

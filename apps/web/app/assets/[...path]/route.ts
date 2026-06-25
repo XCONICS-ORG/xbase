@@ -1,5 +1,5 @@
-import { createPublicAssetRoute } from "@xbase/libs/assets/route";
 import { resolve } from "node:path";
+import { createPublicAssetRoute } from "@xbase/libs/assets/route";
 
 export const dynamic = "force-static";
 export const runtime = "nodejs";

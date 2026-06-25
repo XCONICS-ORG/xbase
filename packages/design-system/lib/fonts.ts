@@ -1,5 +1,5 @@
-import { Figtree, Geist_Mono, Outfit } from "next/font/google";
 import { cn } from "@xbase/design-system/lib/utils";
+import { Figtree, Geist_Mono, Outfit } from "next/font/google";
 
 type FontClassValue = false | null | string | undefined;
 

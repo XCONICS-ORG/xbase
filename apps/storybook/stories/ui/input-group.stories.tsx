@@ -4,8 +4,8 @@ import {
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-  InputGroupTextarea,
   InputGroupText,
+  InputGroupTextarea,
 } from "@xbase/design-system/components/ui/input-group";
 import { IconCopy, IconSearch, IconSend } from "@xbase/icons/tabler";
 
@@ -60,7 +60,11 @@ export const BlockAddons: Story = {
       </InputGroupAddon>
       <InputGroupTextarea defaultValue="Updated the design-system stories." />
       <InputGroupAddon align="block-end" className="justify-end border-t">
-        <InputGroupButton rightIcon={<IconSend />} size="sm" variant="secondary">
+        <InputGroupButton
+          rightIcon={<IconSend />}
+          size="sm"
+          variant="secondary"
+        >
           Send
         </InputGroupButton>
       </InputGroupAddon>

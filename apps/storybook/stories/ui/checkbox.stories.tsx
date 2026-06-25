@@ -28,7 +28,7 @@ export const States: Story = {
   render: () => (
     <div className="grid gap-3">
       <div className="flex items-center gap-2">
-        <Checkbox id="checked" defaultChecked />
+        <Checkbox defaultChecked id="checked" />
         <Label htmlFor="checked">Checked</Label>
       </div>
       <div className="flex items-center gap-2">
@@ -36,7 +36,7 @@ export const States: Story = {
         <Label htmlFor="unchecked">Unchecked</Label>
       </div>
       <div className="flex items-center gap-2">
-        <Checkbox id="disabled" disabled />
+        <Checkbox disabled id="disabled" />
         <Label htmlFor="disabled">Disabled</Label>
       </div>
       <div className="flex items-center gap-2">

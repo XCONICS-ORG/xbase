@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import {
-  OrgSwitcher,
   type HeaderOrganization,
+  OrgSwitcher,
 } from "@xbase/design-system/components/modules/layout/header";
 import { useState } from "react";
 
@@ -17,14 +17,18 @@ function OrgSwitcherPreview({
 }: {
   withAddAction?: boolean;
 }) {
-  const [activeOrganizationId, setActiveOrganizationId] = useState(defaultOrganizationId);
+  const [activeOrganizationId, setActiveOrganizationId] = useState(
+    defaultOrganizationId
+  );
 
   return (
     <OrgSwitcher
       activeOrganizationId={activeOrganizationId}
       avatarStyle="shapegrid"
       onAddOrganization={withAddAction ? () => undefined : undefined}
-      onOrganizationChange={(organization) => setActiveOrganizationId(organization.id)}
+      onOrganizationChange={(organization) =>
+        setActiveOrganizationId(organization.id)
+      }
       organizations={organizations}
     />
   );
@@ -62,13 +66,17 @@ export const Loading: Story = {
 
 export const IdenticonVariant: Story = {
   render: () => {
-    const [activeOrganizationId, setActiveOrganizationId] = useState(defaultOrganizationId);
+    const [activeOrganizationId, setActiveOrganizationId] = useState(
+      defaultOrganizationId
+    );
 
     return (
       <OrgSwitcher
         activeOrganizationId={activeOrganizationId}
         avatarStyle="identicon"
-        onOrganizationChange={(organization) => setActiveOrganizationId(organization.id)}
+        onOrganizationChange={(organization) =>
+          setActiveOrganizationId(organization.id)
+        }
         organizations={organizations}
       />
     );

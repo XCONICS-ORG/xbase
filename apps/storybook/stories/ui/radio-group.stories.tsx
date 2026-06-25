@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Label } from "@xbase/design-system/components/ui/label";
-import { RadioGroup } from "@xbase/design-system/components/ui/radio-group";
-import { RadioGroupItem } from "@xbase/design-system/components/ui/radio-group";
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@xbase/design-system/components/ui/radio-group";
 
 const meta: Meta<typeof RadioGroup> = {
   title: "UI/RadioGroup",

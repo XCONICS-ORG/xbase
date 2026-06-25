@@ -2,7 +2,8 @@ export const COMPANY_CONFIG = {
   CONFIDENTIAL_LINKS: {
     PRICING: "https://proptryx.app/pricing/",
     TERMS_OF_SERVICE: "https://www.proptryx.app/terms-of-service",
-    PRIVACY_POLICY_DEVELOPER: "https://www.proptryx.app/privacy-policy-developer",
+    PRIVACY_POLICY_DEVELOPER:
+      "https://www.proptryx.app/privacy-policy-developer",
     PRIVACY_POLICY_OCCUPIER: "https://www.proptryx.app/privacy-policy-occupier",
   },
   LINKS: {

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import {
+  type ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from "@xbase/design-system/components/ui/chart";
 import { Bar, BarChart, CartesianGrid, Line, LineChart, XAxis } from "recharts";
 

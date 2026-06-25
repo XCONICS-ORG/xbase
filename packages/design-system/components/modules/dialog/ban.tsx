@@ -10,9 +10,9 @@ import {
   DialogTitle,
 } from "@xbase/design-system/components/ui/dialog";
 import { Textarea } from "@xbase/design-system/components/ui/textarea";
-import * as React from "react";
+import { useEffect, useState } from "react";
 
-type BanConfirmationDialogProps = {
+interface BanConfirmationDialogProps {
   actionLabel?: string;
   actionLabelLoading?: string;
   cancelLabel?: string;
@@ -24,7 +24,7 @@ type BanConfirmationDialogProps = {
   open: boolean;
   placeholder?: string;
   title: string;
-};
+}
 
 export function BanConfirmationDialog({
   actionLabel = "Ban",
@@ -39,10 +39,10 @@ export function BanConfirmationDialog({
   placeholder = "Enter ban reason",
   title,
 }: BanConfirmationDialogProps) {
-  const [reason, setReason] = React.useState("");
+  const [reason, setReason] = useState("");
   const trimmedReason = reason.trim();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (open) {
       setReason(initialReason ?? "");
       return;
@@ -69,7 +69,11 @@ export function BanConfirmationDialog({
           value={reason}
         />
         <DialogFooter>
-          <Button onClick={() => onOpenChange(false)} type="button" variant="outline">
+          <Button
+            onClick={() => onOpenChange(false)}
+            type="button"
+            variant="outline"
+          >
             {cancelLabel}
           </Button>
           <Button

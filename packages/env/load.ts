@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+// biome-ignore lint/performance/noNamespaceImport: Next env can be exposed on either the named export or default export depending on module resolution.
 import * as nextEnv from "@next/env";
 
 type NextEnvModule = typeof nextEnv & {

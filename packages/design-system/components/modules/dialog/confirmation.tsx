@@ -22,24 +22,25 @@ import {
 } from "@xbase/design-system/components/ui/dialog";
 import { Input } from "@xbase/design-system/components/ui/input";
 import { IconCheck, IconCopy } from "@xbase/icons/tabler";
-import * as React from "react";
+import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-type ConfirmationDialogBaseProps = {
-  actionIcon?: React.ReactNode;
+interface ConfirmationDialogBaseProps {
+  actionIcon?: ReactNode;
   actionLabel?: string;
   actionLabelLoading?: string;
   cancelLabel?: string;
-  children?: React.ReactNode;
-  confirmDisabled?: boolean;
+  children?: ReactNode;
   confirmButtonVariant?: ButtonProps["variant"];
+  confirmDisabled?: boolean;
   description: string;
   loading?: boolean;
   onConfirm: () => void;
   onOpenChange: (open: boolean) => void;
   open: boolean;
   title: string;
-};
+}
 
 type AlertConfirmationDialogProps = ConfirmationDialogBaseProps & {
   mode?: "alert";
@@ -73,10 +74,10 @@ export function ConfirmationDialog(props: ConfirmationDialogProps) {
     title,
   } = props;
 
-  const [inputValue, setInputValue] = React.useState("");
-  const [isCopied, setIsCopied] = React.useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open) {
       setInputValue("");
       setIsCopied(false);
@@ -109,9 +110,15 @@ export function ConfirmationDialog(props: ConfirmationDialogProps) {
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-3">
               <p className="text-secondary-foreground text-sm">
-                To confirm, type <span className="font-semibold">{confirmTextLabel}</span> below.
+                To confirm, type{" "}
+                <span className="font-semibold">{confirmTextLabel}</span> below.
               </p>
-              <Button onClick={handleCopy} size="icon-sm" type="button" variant="ghost">
+              <Button
+                onClick={handleCopy}
+                size="icon-sm"
+                type="button"
+                variant="ghost"
+              >
                 {isCopied ? (
                   <IconCheck className="size-4 text-success" />
                 ) : (
@@ -133,15 +140,19 @@ export function ConfirmationDialog(props: ConfirmationDialogProps) {
           {children}
 
           <AlertDialogFooter>
-            <Button onClick={() => onOpenChange(false)} type="button" variant="outline">
+            <Button
+              onClick={() => onOpenChange(false)}
+              type="button"
+              variant="outline"
+            >
               {cancelLabel}
             </Button>
             <Button
               disabled={!canConfirm || confirmDisabled || loading}
-              rightIcon={actionIcon}
               loading={loading}
               loadingText={actionLabelLoading}
               onClick={onConfirm}
+              rightIcon={actionIcon}
               type="button"
               variant={confirmButtonVariant}
             >
@@ -160,21 +171,27 @@ export function ConfirmationDialog(props: ConfirmationDialogProps) {
           <DialogTitle className="font-semibold text-md! text-secondary-foreground">
             {title}
           </DialogTitle>
-          <DialogDescription className="text-sm!">{description}</DialogDescription>
+          <DialogDescription className="text-sm!">
+            {description}
+          </DialogDescription>
         </DialogHeader>
 
         {children}
 
         <DialogFooter>
-          <Button onClick={() => onOpenChange(false)} type="button" variant="outline">
+          <Button
+            onClick={() => onOpenChange(false)}
+            type="button"
+            variant="outline"
+          >
             {cancelLabel}
           </Button>
           <Button
             disabled={confirmDisabled || loading}
-            rightIcon={actionIcon}
             loading={loading}
             loadingText={actionLabelLoading}
             onClick={onConfirm}
+            rightIcon={actionIcon}
             type="button"
             variant={confirmButtonVariant}
           >

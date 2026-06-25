@@ -120,7 +120,8 @@ export const Preview: Story = {
 
 export const ProfileLoading: Story = {
   render: (args) => {
-    const className = args.loading === false ? wrapperClassName : cardWrapperClassName;
+    const className =
+      args.loading === false ? wrapperClassName : cardWrapperClassName;
 
     return (
       <SkeletonPreview

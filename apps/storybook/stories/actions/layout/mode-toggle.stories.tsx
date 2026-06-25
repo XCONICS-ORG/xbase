@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ModeToggle } from "@xbase/design-system/components/modules/layout/mode-toggle";
+import { ModeToggle } from "@xbase/design-system/components/modules/layout/action/mode-toggle";
 
 const meta: Meta<typeof ModeToggle> = {
   title: "Actions/Layout/ModeToggle",

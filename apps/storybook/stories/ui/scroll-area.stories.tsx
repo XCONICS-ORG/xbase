@@ -47,7 +47,7 @@ export const Default: Story = {
 
 export const Horizontal: Story = {
   render: () => (
-    <ScrollArea className="w-72 rounded-md border whitespace-nowrap">
+    <ScrollArea className="w-72 whitespace-nowrap rounded-md border">
       <div className="flex w-max gap-3 p-4">
         {packages.map((item) => (
           <div className="rounded-md bg-muted px-3 py-2 text-xs" key={item}>

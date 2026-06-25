@@ -31,7 +31,7 @@ export const RequiredAndDisabled: Story = {
         <Label htmlFor="required-input">
           Workspace name <span className="text-destructive">*</span>
         </Label>
-        <Input id="required-input" defaultValue="xbase" />
+        <Input defaultValue="xbase" id="required-input" />
       </div>
       <div className="grid gap-2 opacity-50">
         <Label htmlFor="disabled-input">Disabled label</Label>

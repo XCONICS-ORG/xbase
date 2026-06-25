@@ -45,12 +45,16 @@ const quickActions = [
 ];
 
 function HeaderPreview({ compact = false }: { compact?: boolean }) {
-  const [activeOrganizationId, setActiveOrganizationId] = useState(defaultOrganizationId);
+  const [activeOrganizationId, setActiveOrganizationId] = useState(
+    defaultOrganizationId
+  );
 
   return (
     <div className="min-h-64 w-[min(1180px,calc(100vw-3rem))] overflow-hidden border bg-muted/20">
       <AppHeader
-        brand={<Logo className="w-28" href={undefined} priority variant="text" />}
+        brand={
+          <Logo className="w-28" href={undefined} priority variant="text" />
+        }
         fixed={false}
         fullscreenToggleProps={{ showLabel: !compact }}
         installWebAppProps={{
@@ -61,7 +65,8 @@ function HeaderPreview({ compact = false }: { compact?: boolean }) {
         orgSwitcherProps={{
           activeOrganizationId,
           onAddOrganization: () => undefined,
-          onOrganizationChange: (organization) => setActiveOrganizationId(organization.id),
+          onOrganizationChange: (organization) =>
+            setActiveOrganizationId(organization.id),
           organizations,
         }}
         pingIndicatorProps={{

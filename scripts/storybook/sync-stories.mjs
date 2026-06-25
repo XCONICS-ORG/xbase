@@ -89,9 +89,9 @@ function shouldCreateStory(componentPath) {
   const relativePath = relative(componentsDirectory, componentPath);
   const [topDirectory] = relativePath.split("/");
 
-  return (
-    !manualStoryDirectories.has(topDirectory) &&
-    !manualStoryComponents.has(relativePath)
+  return !(
+    manualStoryDirectories.has(topDirectory) ||
+    manualStoryComponents.has(relativePath)
   );
 }
 

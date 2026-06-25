@@ -66,7 +66,8 @@ export const WithMedia: Story = {
         <AlertDialogHeader>
           <AlertDialogTitle>Remove production bucket?</AlertDialogTitle>
           <AlertDialogDescription>
-            Connected uploads will stop working until another bucket is configured.
+            Connected uploads will stop working until another bucket is
+            configured.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

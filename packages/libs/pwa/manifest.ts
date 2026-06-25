@@ -3,9 +3,10 @@ import { headers } from "next/headers";
 import { defaultPwaIconSizes, type PwaManifestConfig } from "./types";
 
 export const APPLE_PLATFORM_RE = /\b(mac|iphone|ipad|ipod|ios)\b/i;
+const TRAILING_SLASH_RE = /\/+$/;
 
 const normalizePublicPath = (path: string) => {
-  const normalized = path.replace(/\/+$/, "");
+  const normalized = path.replace(TRAILING_SLASH_RE, "");
 
   if (!normalized) {
     return "";

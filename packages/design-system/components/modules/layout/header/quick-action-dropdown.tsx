@@ -47,13 +47,20 @@ export function QuickActionDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className={cn("gap-2", className)} type="button" variant={buttonVariant}>
+        <Button
+          className={cn("gap-2", className)}
+          type="button"
+          variant={buttonVariant}
+        >
           <IconSparkles className="size-4 shrink-0 text-primary" />
           <span>{label}</span>
           <IconChevronDown className="size-4 shrink-0 text-muted-foreground" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className={cn("w-64", contentClassName)}>
+      <DropdownMenuContent
+        align="center"
+        className={cn("w-64", contentClassName)}
+      >
         {visibleActions.map((action) => (
           <DropdownMenuItem
             className="min-h-12 cursor-pointer items-start gap-3 py-2"

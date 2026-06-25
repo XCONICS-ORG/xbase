@@ -1,7 +1,5 @@
 "use client";
 
-import { Moon, Sun } from "@xbase/icons/lucide";
-import { useTheme } from "next-themes";
 import {
   Button,
   type ButtonProps,
@@ -13,6 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@xbase/design-system/components/ui/dropdown-menu";
 import { cn } from "@xbase/design-system/lib/utils";
+import { Moon, Sun } from "@xbase/icons/lucide";
+import { useTheme } from "next-themes";
 
 const themes = [
   { label: "Light", value: "light" },

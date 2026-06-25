@@ -57,15 +57,23 @@ export const LineVariant: Story = {
 
 export const Vertical: Story = {
   render: () => (
-    <Tabs className="w-[520px] flex-row" defaultValue="apps" orientation="vertical">
+    <Tabs
+      className="w-[520px] flex-row"
+      defaultValue="apps"
+      orientation="vertical"
+    >
       <TabsList>
         <TabsTrigger value="apps">Apps</TabsTrigger>
         <TabsTrigger value="packages">Packages</TabsTrigger>
         <TabsTrigger value="config">Config</TabsTrigger>
       </TabsList>
       <TabsContent value="apps">Web and Storybook app surfaces.</TabsContent>
-      <TabsContent value="packages">Shared design-system, env, and utility packages.</TabsContent>
-      <TabsContent value="config">Workspace-level configuration files.</TabsContent>
+      <TabsContent value="packages">
+        Shared design-system, env, and utility packages.
+      </TabsContent>
+      <TabsContent value="config">
+        Workspace-level configuration files.
+      </TabsContent>
     </Tabs>
   ),
 };

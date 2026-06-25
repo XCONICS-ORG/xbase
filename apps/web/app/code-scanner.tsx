@@ -65,7 +65,10 @@ export function CodeScanner() {
       setResult(scannedCode);
       setStatus("scanned");
     } catch (scanError) {
-      if (scanError instanceof DOMException && scanError.name === "AbortError") {
+      if (
+        scanError instanceof DOMException &&
+        scanError.name === "AbortError"
+      ) {
         setStatus("idle");
         return;
       }

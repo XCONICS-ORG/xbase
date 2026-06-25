@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "@xbase/design-system/components/ui/button";
 import { ConfirmationDialog } from "@xbase/design-system/components/modules/dialog";
+import { Button } from "@xbase/design-system/components/ui/button";
 import { IconArchive, IconTrash } from "@xbase/icons/tabler";
 import { type ComponentProps, useState } from "react";
 
@@ -30,9 +30,7 @@ type ConfirmationPreviewProps = {
     >
 );
 
-function ConfirmationPreview(
-  props: ConfirmationPreviewProps
-) {
+function ConfirmationPreview(props: ConfirmationPreviewProps) {
   const [open, setOpen] = useState(false);
   const { triggerLabel, ...dialogProps } = props;
 

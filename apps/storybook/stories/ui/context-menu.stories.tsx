@@ -54,7 +54,9 @@ export const Default: Story = {
         </ContextMenuCheckboxItem>
         <ContextMenuRadioGroup value="compact">
           <ContextMenuRadioItem value="compact">Compact</ContextMenuRadioItem>
-          <ContextMenuRadioItem value="comfortable">Comfortable</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="comfortable">
+            Comfortable
+          </ContextMenuRadioItem>
         </ContextMenuRadioGroup>
         <ContextMenuSeparator />
         <ContextMenuItem variant="destructive">Delete</ContextMenuItem>

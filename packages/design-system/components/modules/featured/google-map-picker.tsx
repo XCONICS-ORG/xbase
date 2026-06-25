@@ -5,12 +5,12 @@
 import {
   AdvancedMarker,
   APIProvider,
-  Map,
   type MapCameraChangedEvent,
   type MapMouseEvent,
   useApiIsLoaded,
   useMap,
   useMapsLibrary,
+  Map as VisglMap,
 } from "@vis.gl/react-google-maps";
 import { Button } from "@xbase/design-system/components/ui/button";
 import { Field, FieldLabel } from "@xbase/design-system/components/ui/field";
@@ -29,38 +29,38 @@ import {
 } from "@xbase/icons/tabler";
 import {
   createGoogleMapsScriptUrl,
-  googleMapsPublicConfig,
   type GoogleMapsLatLngLiteral,
   type GoogleMapsProviderVariant,
+  googleMapsPublicConfig,
 } from "@xbase/libs/featured/map";
 import type { ReactNode } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
-export type GoogleMapPickerValue = {
+export interface GoogleMapPickerValue {
   address?: string | null;
   latitude: number;
   longitude: number;
-};
+}
 
-export type GoogleMapPickerProps = {
+export interface GoogleMapPickerProps {
   address?: string | null;
   className?: string;
   latitude?: number | string | null;
   longitude?: number | string | null;
   onChange: (value: GoogleMapPickerValue) => void;
   variant?: GoogleMapsProviderVariant;
-};
+}
 
-type GooglePlacePrediction = {
+interface GooglePlacePrediction {
   description: string;
   id: string;
   mainText: string;
   placePrediction: google.maps.places.PlacePrediction;
   secondaryText?: string;
-};
+}
 
-type GoogleMapPickerLayoutProps = {
+interface GoogleMapPickerLayoutProps {
   children: ReactNode;
   className?: string;
   isLoading: boolean;
@@ -79,7 +79,7 @@ type GoogleMapPickerLayoutProps = {
   setSearchValue: (value: string) => void;
   setShowPredictions: (value: boolean) => void;
   showPredictions: boolean;
-};
+}
 
 type BasicGoogleMapsWindow = Window & {
   google?: typeof google;
@@ -91,6 +91,7 @@ type VisglMapTypeId = "roadmap" | "satellite";
 
 const MAP_CONTAINER_CLASS_NAME = "relative overflow-hidden border bg-muted/20";
 const MAP_VIEW_CLASS_NAME = "h-80 w-full";
+const COORDINATE_PAIR_RE = /^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/;
 const VISGL_MIN_ZOOM = 3;
 const VISGL_MAX_ZOOM = 20;
 
@@ -483,10 +484,10 @@ function GoogleMapPickerBasic({
   const [showPredictions, setShowPredictions] = useState(false);
   const [isSearchInteracting, setIsSearchInteracting] = useState(false);
 
-  const setSearchValue = (value: string) => {
+  const setSearchValue = useCallback((value: string) => {
     setSearchValueState(value);
     searchValueRef.current = value;
-  };
+  }, []);
 
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -499,53 +500,53 @@ function GoogleMapPickerBasic({
       setShowPredictions(false);
       setIsSearchInteracting(false);
     }
-  }, [address]);
+  }, [address, setSearchValue]);
 
-  const applyPickerPosition = (
-    position: GoogleMapsLatLngLiteral,
-    nextAddress?: string | null
-  ) => {
-    if (!(mapRef.current && markerRef.current)) {
-      return;
-    }
+  const applyPickerPosition = useCallback(
+    (position: GoogleMapsLatLngLiteral, nextAddress?: string | null) => {
+      if (!(mapRef.current && markerRef.current)) {
+        return;
+      }
 
-    markerRef.current.position = position;
-    mapRef.current.panTo(position);
-    mapRef.current.setZoom(16);
-    setSelectedPosition(position);
+      markerRef.current.position = position;
+      mapRef.current.panTo(position);
+      mapRef.current.setZoom(16);
+      setSelectedPosition(position);
 
-    if (nextAddress !== undefined) {
-      setSearchValue(nextAddress ?? "");
-    }
+      if (nextAddress !== undefined) {
+        setSearchValue(nextAddress ?? "");
+      }
 
-    onChangeRef.current({
-      address: nextAddress ?? (searchValueRef.current.trim() || null),
-      latitude: position.lat,
-      longitude: position.lng,
-    });
-    setPredictions([]);
-    setShowPredictions(false);
-    setIsSearchInteracting(false);
-  };
+      onChangeRef.current({
+        address: nextAddress ?? (searchValueRef.current.trim() || null),
+        latitude: position.lat,
+        longitude: position.lng,
+      });
+      setPredictions([]);
+      setShowPredictions(false);
+      setIsSearchInteracting(false);
+    },
+    [setSearchValue]
+  );
 
-  const reverseGeocodePosition = (
-    position: GoogleMapsLatLngLiteral,
-    preferredAddress?: string | null
-  ) => {
-    const geocoder = geocoderRef.current;
+  const reverseGeocodePosition = useCallback(
+    (position: GoogleMapsLatLngLiteral, preferredAddress?: string | null) => {
+      const geocoder = geocoderRef.current;
 
-    if (!geocoder) {
-      applyPickerPosition(position, preferredAddress);
-      return;
-    }
+      if (!geocoder) {
+        applyPickerPosition(position, preferredAddress);
+        return;
+      }
 
-    geocoder.geocode({ location: position }, (results) => {
-      applyPickerPosition(
-        position,
-        preferredAddress ?? results?.[0]?.formatted_address ?? null
-      );
-    });
-  };
+      geocoder.geocode({ location: position }, (results) => {
+        applyPickerPosition(
+          position,
+          preferredAddress ?? results?.[0]?.formatted_address ?? null
+        );
+      });
+    },
+    [applyPickerPosition]
+  );
 
   useEffect(() => {
     let mounted = true;
@@ -556,10 +557,12 @@ function GoogleMapPickerBasic({
           return;
         }
 
-        const markerLibrary =
-          (await mapsApi.maps.importLibrary("marker")) as google.maps.MarkerLibrary;
-        const placesLibrary =
-          (await mapsApi.maps.importLibrary("places")) as google.maps.PlacesLibrary;
+        const markerLibrary = (await mapsApi.maps.importLibrary(
+          "marker"
+        )) as google.maps.MarkerLibrary;
+        const placesLibrary = (await mapsApi.maps.importLibrary(
+          "places"
+        )) as google.maps.PlacesLibrary;
         const map = new mapsApi.maps.Map(mapElementRef.current, {
           center: initialPosition,
           clickableIcons: true,
@@ -626,7 +629,7 @@ function GoogleMapPickerBasic({
 
       setIsReady(false);
     };
-  }, [initialPosition, initialSelectedPosition]);
+  }, [initialPosition, initialSelectedPosition, reverseGeocodePosition]);
 
   useEffect(() => {
     const trimmedSearch = searchValue.trim();
@@ -650,22 +653,25 @@ function GoogleMapPickerBasic({
     const timeout = window.setTimeout(async () => {
       try {
         const { suggestions } =
-          await placesLibrary.AutocompleteSuggestion.fetchAutocompleteSuggestions({
-            includedRegionCodes: [googleMapsPublicConfig.regionCode],
-            input: trimmedSearch,
-            locationBias: selectedPosition
-              ? {
-                  center: selectedPosition,
-                  radius: 50_000,
-                }
-              : undefined,
-            sessionToken: sessionTokenRef.current ?? undefined,
-          });
+          await placesLibrary.AutocompleteSuggestion.fetchAutocompleteSuggestions(
+            {
+              includedRegionCodes: [googleMapsPublicConfig.regionCode],
+              input: trimmedSearch,
+              locationBias: selectedPosition
+                ? {
+                    center: selectedPosition,
+                    radius: 50_000,
+                  }
+                : undefined,
+              sessionToken: sessionTokenRef.current ?? undefined,
+            }
+          );
 
         const nextPredictions = suggestions
           .map((suggestion) => suggestion.placePrediction)
-          .filter((prediction): prediction is google.maps.places.PlacePrediction =>
-            Boolean(prediction)
+          .filter(
+            (prediction): prediction is google.maps.places.PlacePrediction =>
+              Boolean(prediction)
           )
           .slice(0, 6)
           .map((prediction, index) => {
@@ -733,9 +739,7 @@ function GoogleMapPickerBasic({
 
   const handleSearch = (searchOverride?: string) => {
     const value = (searchOverride ?? searchValue).trim();
-    const coordinateMatch = value.match(
-      /^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/
-    );
+    const coordinateMatch = value.match(COORDINATE_PAIR_RE);
 
     if (coordinateMatch) {
       reverseGeocodePosition({
@@ -862,12 +866,12 @@ function GoogleMapPickerVisglContent({
   const isReady = Boolean(
     isApiLoaded && map && placesLibrary && isGeocoderReady && !loadError
   );
-  const isLoading = !loadError && !isReady;
+  const isLoading = !(loadError || isReady);
 
-  const setSearchValue = (value: string) => {
+  const setSearchValue = useCallback((value: string) => {
     setSearchValueState(value);
     searchValueRef.current = value;
-  };
+  }, []);
 
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -880,7 +884,7 @@ function GoogleMapPickerVisglContent({
       setShowPredictions(false);
       setIsSearchInteracting(false);
     }
-  }, [address]);
+  }, [address, setSearchValue]);
 
   useEffect(() => {
     if (!isApiLoaded) {
@@ -889,7 +893,13 @@ function GoogleMapPickerVisglContent({
       return;
     }
 
-    geocoderRef.current = new google.maps.Geocoder();
+    const googleMapsApi = (window as BasicGoogleMapsWindow).google;
+
+    if (!googleMapsApi) {
+      return;
+    }
+
+    geocoderRef.current = new googleMapsApi.maps.Geocoder();
     setIsGeocoderReady(true);
 
     if (placesLibrary) {
@@ -897,45 +907,45 @@ function GoogleMapPickerVisglContent({
     }
   }, [isApiLoaded, placesLibrary]);
 
-  const applyPickerPosition = (
-    position: GoogleMapsLatLngLiteral,
-    nextAddress?: string | null
-  ) => {
-    setCamera({ center: position, zoom: 16 });
-    setSelectedPosition(position);
+  const applyPickerPosition = useCallback(
+    (position: GoogleMapsLatLngLiteral, nextAddress?: string | null) => {
+      setCamera({ center: position, zoom: 16 });
+      setSelectedPosition(position);
 
-    if (nextAddress !== undefined) {
-      setSearchValue(nextAddress ?? "");
-    }
+      if (nextAddress !== undefined) {
+        setSearchValue(nextAddress ?? "");
+      }
 
-    onChangeRef.current({
-      address: nextAddress ?? (searchValueRef.current.trim() || null),
-      latitude: position.lat,
-      longitude: position.lng,
-    });
-    setPredictions([]);
-    setShowPredictions(false);
-    setIsSearchInteracting(false);
-  };
+      onChangeRef.current({
+        address: nextAddress ?? (searchValueRef.current.trim() || null),
+        latitude: position.lat,
+        longitude: position.lng,
+      });
+      setPredictions([]);
+      setShowPredictions(false);
+      setIsSearchInteracting(false);
+    },
+    [setSearchValue]
+  );
 
-  const reverseGeocodePosition = (
-    position: GoogleMapsLatLngLiteral,
-    preferredAddress?: string | null
-  ) => {
-    const geocoder = geocoderRef.current;
+  const reverseGeocodePosition = useCallback(
+    (position: GoogleMapsLatLngLiteral, preferredAddress?: string | null) => {
+      const geocoder = geocoderRef.current;
 
-    if (!geocoder) {
-      applyPickerPosition(position, preferredAddress);
-      return;
-    }
+      if (!geocoder) {
+        applyPickerPosition(position, preferredAddress);
+        return;
+      }
 
-    geocoder.geocode({ location: position }, (results) => {
-      applyPickerPosition(
-        position,
-        preferredAddress ?? results?.[0]?.formatted_address ?? null
-      );
-    });
-  };
+      geocoder.geocode({ location: position }, (results) => {
+        applyPickerPosition(
+          position,
+          preferredAddress ?? results?.[0]?.formatted_address ?? null
+        );
+      });
+    },
+    [applyPickerPosition]
+  );
 
   useEffect(() => {
     const trimmedSearch = searchValue.trim();
@@ -958,22 +968,25 @@ function GoogleMapPickerVisglContent({
     const timeout = window.setTimeout(async () => {
       try {
         const { suggestions } =
-          await placesLibrary.AutocompleteSuggestion.fetchAutocompleteSuggestions({
-            includedRegionCodes: [googleMapsPublicConfig.regionCode],
-            input: trimmedSearch,
-            locationBias: selectedPosition
-              ? {
-                  center: selectedPosition,
-                  radius: 50_000,
-                }
-              : undefined,
-            sessionToken: sessionTokenRef.current ?? undefined,
-          });
+          await placesLibrary.AutocompleteSuggestion.fetchAutocompleteSuggestions(
+            {
+              includedRegionCodes: [googleMapsPublicConfig.regionCode],
+              input: trimmedSearch,
+              locationBias: selectedPosition
+                ? {
+                    center: selectedPosition,
+                    radius: 50_000,
+                  }
+                : undefined,
+              sessionToken: sessionTokenRef.current ?? undefined,
+            }
+          );
 
         const nextPredictions = suggestions
           .map((suggestion) => suggestion.placePrediction)
-          .filter((prediction): prediction is google.maps.places.PlacePrediction =>
-            Boolean(prediction)
+          .filter(
+            (prediction): prediction is google.maps.places.PlacePrediction =>
+              Boolean(prediction)
           )
           .slice(0, 6)
           .map((prediction, index) => {
@@ -1047,9 +1060,7 @@ function GoogleMapPickerVisglContent({
 
   const handleSearch = (searchOverride?: string) => {
     const value = (searchOverride ?? searchValue).trim();
-    const coordinateMatch = value.match(
-      /^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/
-    );
+    const coordinateMatch = value.match(COORDINATE_PAIR_RE);
 
     if (coordinateMatch) {
       reverseGeocodePosition({
@@ -1123,7 +1134,9 @@ function GoogleMapPickerVisglContent({
   };
 
   const handleToggleMapType = () => {
-    setMapTypeId((current) => (current === "roadmap" ? "satellite" : "roadmap"));
+    setMapTypeId((current) =>
+      current === "roadmap" ? "satellite" : "roadmap"
+    );
   };
 
   const handleMapClick = (event: MapMouseEvent) => {
@@ -1160,7 +1173,7 @@ function GoogleMapPickerVisglContent({
       setShowPredictions={setShowPredictions}
       showPredictions={showPredictions}
     >
-      <Map
+      <VisglMap
         center={camera.center}
         className={MAP_VIEW_CLASS_NAME}
         clickableIcons={false}
@@ -1184,7 +1197,7 @@ function GoogleMapPickerVisglContent({
         >
           <IconMapPin className="size-5 fill-current" />
         </AdvancedMarker>
-      </Map>
+      </VisglMap>
       <VisglMapControls
         cameraCenter={camera.center}
         mapTypeId={mapTypeId}
@@ -1200,7 +1213,7 @@ function GoogleMapPickerVisglContent({
   );
 }
 
-type VisglMapControlsProps = {
+interface VisglMapControlsProps {
   cameraCenter: GoogleMapsLatLngLiteral;
   mapTypeId: VisglMapTypeId;
   onRecenterSelected: () => void;
@@ -1210,7 +1223,7 @@ type VisglMapControlsProps = {
   onZoomOut: () => void;
   selectedPosition: GoogleMapsLatLngLiteral | null;
   zoom: number;
-};
+}
 
 function VisglMapControls({
   cameraCenter,
@@ -1314,7 +1327,8 @@ function VisglMapControls({
         <div className="flex min-h-8 items-center gap-2 border bg-background/95 px-2 text-muted-foreground text-xs shadow-sm backdrop-blur">
           <IconFocusCentered className="size-3.5" />
           <span>
-            {formatCoordinate(cameraCenter.lat)}, {formatCoordinate(cameraCenter.lng)}
+            {formatCoordinate(cameraCenter.lat)},{" "}
+            {formatCoordinate(cameraCenter.lng)}
           </span>
           <span className="text-border">|</span>
           <span>{Math.round(zoom)}x</span>

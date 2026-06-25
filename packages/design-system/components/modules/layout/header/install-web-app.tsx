@@ -35,7 +35,11 @@ export function InstallWebApp({
       variant={buttonVariant}
     >
       <IconDownload className="size-4 shrink-0" />
-      {showLabel ? <span>{label}</span> : <span className="sr-only">{label}</span>}
+      {showLabel ? (
+        <span>{label}</span>
+      ) : (
+        <span className="sr-only">{label}</span>
+      )}
     </Button>
   );
 }

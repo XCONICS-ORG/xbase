@@ -55,7 +55,9 @@ export const Variants: Story = {
         </ItemMedia>
         <ItemContent>
           <ItemTitle>Default item</ItemTitle>
-          <ItemDescription>Transparent surface for plain lists.</ItemDescription>
+          <ItemDescription>
+            Transparent surface for plain lists.
+          </ItemDescription>
         </ItemContent>
       </Item>
       <Item variant="outline">
@@ -64,7 +66,9 @@ export const Variants: Story = {
         </ItemMedia>
         <ItemContent>
           <ItemTitle>Outline item</ItemTitle>
-          <ItemDescription>Use when the item needs stronger grouping.</ItemDescription>
+          <ItemDescription>
+            Use when the item needs stronger grouping.
+          </ItemDescription>
         </ItemContent>
       </Item>
       <Item variant="muted">
@@ -73,7 +77,9 @@ export const Variants: Story = {
         </ItemMedia>
         <ItemContent>
           <ItemTitle>Muted item</ItemTitle>
-          <ItemDescription>Use for selected or highlighted rows.</ItemDescription>
+          <ItemDescription>
+            Use for selected or highlighted rows.
+          </ItemDescription>
         </ItemContent>
       </Item>
     </ItemGroup>

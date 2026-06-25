@@ -12,6 +12,8 @@ export interface PwaThemeColors {
 }
 
 const ROOT_BLOCK_RE = /:root\s*\{(?<body>[\s\S]*?)\}/;
+const OKLCH_COLOR_RE =
+  /^oklch\(\s*(?<lightness>[\d.]+%?)\s+(?<chroma>[\d.]+)\s+(?<hue>[\d.]+)(?:deg)?(?:\s*\/\s*[\d.]+%?)?\s*\)$/i;
 
 const clamp = (value: number, min = 0, max = 1) =>
   Math.min(max, Math.max(min, value));
@@ -29,14 +31,13 @@ const toSrgbChannel = (value: number) => {
 const toHexChannel = (value: number) => value.toString(16).padStart(2, "0");
 
 const oklchToHex = (value: string) => {
-  const match = value
-    .trim()
-    .match(
-      /^oklch\(\s*(?<lightness>[\d.]+%?)\s+(?<chroma>[\d.]+)\s+(?<hue>[\d.]+)(?:deg)?(?:\s*\/\s*[\d.]+%?)?\s*\)$/i
-    );
+  const match = value.trim().match(OKLCH_COLOR_RE);
 
-  const { chroma: rawChroma, hue: rawHue, lightness: rawLightness } =
-    match?.groups ?? {};
+  const {
+    chroma: rawChroma,
+    hue: rawHue,
+    lightness: rawLightness,
+  } = match?.groups ?? {};
 
   if (!(rawChroma && rawHue && rawLightness)) {
     return value;

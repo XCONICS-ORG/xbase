@@ -1,11 +1,11 @@
-export type GoogleMapsLatLngLiteral = {
+export interface GoogleMapsLatLngLiteral {
   lat: number;
   lng: number;
-};
+}
 
 export type GoogleMapsProviderVariant = "basic" | "visgl";
 
-export type GoogleMapsPublicConfig = {
+export interface GoogleMapsPublicConfig {
   apiKey: string;
   callbackName: string;
   defaultCenter: GoogleMapsLatLngLiteral;
@@ -15,7 +15,7 @@ export type GoogleMapsPublicConfig = {
   regionCode: string;
   scriptId: string;
   version: string;
-};
+}
 
 declare const process: {
   env: {

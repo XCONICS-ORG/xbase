@@ -15,19 +15,15 @@ export default meta;
 
 type Story = StoryObj;
 
+function SingleCalendarStory() {
+  const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 24));
+
+  return <Calendar mode="single" onSelect={setDate} selected={date} />;
+}
+
 export const Default: Story = {
   args: {},
-  render: function CalendarStory() {
-    const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 24));
-
-    return (
-      <Calendar
-        mode="single"
-        onSelect={setDate}
-        selected={date}
-      />
-    );
-  },
+  render: () => <SingleCalendarStory />,
 };
 
 export const Range: Story = {

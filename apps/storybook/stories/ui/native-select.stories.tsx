@@ -21,7 +21,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <NativeSelect defaultValue="design-system">
-      <NativeSelectOption value="design-system">Design system</NativeSelectOption>
+      <NativeSelectOption value="design-system">
+        Design system
+      </NativeSelectOption>
       <NativeSelectOption value="env">Env</NativeSelectOption>
       <NativeSelectOption value="bucket">Bucket</NativeSelectOption>
     </NativeSelect>
@@ -37,7 +39,9 @@ export const SizesAndGroups: Story = {
           <NativeSelectOption value="storybook">Storybook</NativeSelectOption>
         </NativeSelectOptGroup>
         <NativeSelectOptGroup label="Packages">
-          <NativeSelectOption value="design-system">Design system</NativeSelectOption>
+          <NativeSelectOption value="design-system">
+            Design system
+          </NativeSelectOption>
           <NativeSelectOption value="env">Env</NativeSelectOption>
         </NativeSelectOptGroup>
       </NativeSelect>

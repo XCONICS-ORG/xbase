@@ -11,7 +11,7 @@ const contentTypes: Record<string, string> = {
   ".png": "image/png",
 };
 
-type RouteContext = {
+export interface PwaIconRouteContext {
   params:
     | {
         app?: string;
@@ -21,7 +21,7 @@ type RouteContext = {
         app?: string;
         file?: string;
       }>;
-};
+}
 
 const notFound = () => new Response("Not found", { status: 404 });
 
@@ -30,12 +30,12 @@ export function createPwaIconRoute({
   assetsRoot,
   cacheControl = "public, max-age=31536000, immutable",
 }: PwaIconRouteConfig = {}) {
-  return async function GET(_request: Request, context: RouteContext) {
+  return async function GET(_request: Request, context: PwaIconRouteContext) {
     const params = await context.params;
     const app = params.app ?? "";
     const file = params.file ?? "";
 
-    if (!APP_SEGMENT_RE.test(app) || !PWA_ICON_FILE_RE.test(file)) {
+    if (!(APP_SEGMENT_RE.test(app) && PWA_ICON_FILE_RE.test(file))) {
       return notFound();
     }
 
@@ -44,7 +44,8 @@ export function createPwaIconRoute({
         ? join(assetsRoot, app, file)
         : nodeRequire.resolve(`${assetPackageName}/icons/${app}/${file}`);
       const body = await readFile(assetPath);
-      const contentType = contentTypes[extname(file)] ?? "application/octet-stream";
+      const contentType =
+        contentTypes[extname(file)] ?? "application/octet-stream";
 
       return new Response(body, {
         headers: {

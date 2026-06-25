@@ -1,30 +1,19 @@
 "use client";
 
-import { ModeToggle } from "@xbase/design-system/components/mode-toggle";
 import type { ModeToggleProps } from "@xbase/design-system/components/mode-toggle";
+import { ModeToggle } from "@xbase/design-system/components/mode-toggle";
 import { Logo } from "@xbase/design-system/components/shared/logo";
 import { cn } from "@xbase/design-system/lib/utils";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import type { HeaderAvatarProps } from "./avatar";
 import { FullscreenToggle, type FullscreenToggleProps } from "./fullscreen";
 import { InstallWebApp, type InstallWebAppProps } from "./install-web-app";
-import {
-  OrgSwitcher,
-  type HeaderOrganization,
-  type OrgSwitcherProps,
-} from "./org-switcher";
+import { OrgSwitcher, type OrgSwitcherProps } from "./org-switcher";
 import { PingIndicator, type PingIndicatorProps } from "./ping";
 import {
   QuickActionDropdown,
-  type HeaderQuickAction,
   type QuickActionDropdownProps,
 } from "./quick-action-dropdown";
-import {
-  UserNavDropdown,
-  type HeaderUser,
-  type HeaderUserMenuItem,
-  type UserNavDropdownProps,
-} from "./user-nav";
+import { UserNavDropdown, type UserNavDropdownProps } from "./user-nav";
 
 export interface AppHeaderProps
   extends Omit<ComponentPropsWithoutRef<"header">, "children"> {
@@ -83,11 +72,12 @@ export function AppHeader({
     >
       <div className="flex h-full w-full min-w-0 items-center justify-between pl-4">
         <div className="flex min-w-0 items-center gap-2">
-          {brand ?? (
-            <Logo className="w-28" href="/" priority variant="text" />
-          )}
+          {brand ?? <Logo className="w-28" href="/" priority variant="text" />}
         </div>
-        <nav className="flex h-full min-w-0 items-center justify-end" aria-label="Header actions">
+        <nav
+          aria-label="Header actions"
+          className="flex h-full min-w-0 items-center justify-end"
+        >
           {actionsStart}
           {installWebAppProps ? (
             <HeaderActionSlot>
@@ -131,23 +121,25 @@ export function AppHeader({
   );
 }
 
-export { FullscreenToggle } from "./fullscreen";
+export type { HeaderAvatarProps } from "./avatar";
+// biome-ignore lint/performance/noBarrelFile: Public header module facade.
 export { HeaderAvatar } from "./avatar";
+export type { FullscreenToggleProps } from "./fullscreen";
+export { FullscreenToggle } from "./fullscreen";
+export type { InstallWebAppProps } from "./install-web-app";
 export { InstallWebApp } from "./install-web-app";
+export type { HeaderOrganization, OrgSwitcherProps } from "./org-switcher";
 export { OrgSwitcher } from "./org-switcher";
+export type { PingIndicatorProps } from "./ping";
 export { PingIndicator } from "./ping";
-export { QuickActionDropdown } from "./quick-action-dropdown";
-export { UserNavDropdown } from "./user-nav";
 export type {
-  FullscreenToggleProps,
-  HeaderAvatarProps,
-  HeaderOrganization,
   HeaderQuickAction,
+  QuickActionDropdownProps,
+} from "./quick-action-dropdown";
+export { QuickActionDropdown } from "./quick-action-dropdown";
+export type {
   HeaderUser,
   HeaderUserMenuItem,
-  InstallWebAppProps,
-  OrgSwitcherProps,
-  PingIndicatorProps,
-  QuickActionDropdownProps,
   UserNavDropdownProps,
-};
+} from "./user-nav";
+export { UserNavDropdown } from "./user-nav";

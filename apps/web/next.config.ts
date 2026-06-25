@@ -1,6 +1,6 @@
-import { loadGlobalEnv } from "@xbase/env/load";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadGlobalEnv } from "@xbase/env/load";
 import type { NextConfig } from "next";
 
 loadGlobalEnv();

@@ -1,5 +1,5 @@
-import { DesignSystemProvider } from "@xbase/design-system";
 import { WebMetadata } from "@xbase/constants/metadata/web";
+import { DesignSystemProvider } from "@xbase/design-system";
 import { createMetadata } from "@xbase/seo/metadata";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";

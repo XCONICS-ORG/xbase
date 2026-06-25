@@ -15,6 +15,13 @@ const root = resolve(import.meta.dirname, "../..");
 const appsDirectory = resolve(root, "apps");
 const assetsIconsDirectory = resolve(root, "packages/assets/public/icons");
 const args = process.argv.slice(2);
+const TITLE_WORD_SEPARATOR_RE = /[-_\s]+/;
+const NON_APP_ID_CHARACTER_RE = /[^a-z0-9-]+/g;
+const EDGE_DASH_RE = /^-+|-+$/g;
+const TRANSPILE_PACKAGES_RE = /transpilePackages\s*:\s*\[([\s\S]*?)\]/;
+const NEXT_CONFIG_OBJECT_RE = /const nextConfig:\s*NextConfig\s*=\s*\{/;
+const IMPORT_LINE_RE = /^import .*$/gm;
+const WHITESPACE_RE = /\s+/g;
 
 const getArgValue = (name) => {
   for (let index = 0; index < args.length; index += 1) {
@@ -79,7 +86,7 @@ const writeJson = async (path, value) => {
 
 const toTitleCase = (value) =>
   value
-    .split(/[-_\s]+/)
+    .split(TITLE_WORD_SEPARATOR_RE)
     .filter(Boolean)
     .map((part) => `${part[0]?.toUpperCase() ?? ""}${part.slice(1)}`)
     .join(" ");
@@ -87,8 +94,8 @@ const toTitleCase = (value) =>
 const toAppId = (directoryName) =>
   directoryName
     .toLowerCase()
-    .replace(/[^a-z0-9-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(NON_APP_ID_CHARACTER_RE, "-")
+    .replace(EDGE_DASH_RE, "");
 
 async function pathExists(path) {
   try {
@@ -142,7 +149,8 @@ async function getNextApps() {
 function resolvePassedApp(apps) {
   const app = apps.find(
     (candidate) =>
-      candidate.directoryName === passedApp || candidate.packageName === passedApp
+      candidate.directoryName === passedApp ||
+      candidate.packageName === passedApp
   );
 
   if (!app) {
@@ -261,7 +269,7 @@ async function updateNextConfig(app) {
     return "unchanged";
   }
 
-  const transpileMatch = content.match(/transpilePackages\s*:\s*\[([\s\S]*?)\]/);
+  const transpileMatch = content.match(TRANSPILE_PACKAGES_RE);
 
   if (transpileMatch) {
     const replacement = `transpilePackages: [${transpileMatch[1]}${missingPackages
@@ -277,7 +285,7 @@ async function updateNextConfig(app) {
   await writeFile(
     nextConfigPath,
     content.replace(
-      /const nextConfig:\s*NextConfig\s*=\s*\{/,
+      NEXT_CONFIG_OBJECT_RE,
       `const nextConfig: NextConfig = {\n  transpilePackages: [${missingPackages
         .map((packageName) => `"${packageName}"`)
         .join(", ")}],`
@@ -292,7 +300,7 @@ async function updateLayout(app) {
   const originalContent = content;
 
   if (!content.includes("@xbase/libs/pwa/provider")) {
-    const importLines = [...content.matchAll(/^import .*$/gm)];
+    const importLines = [...content.matchAll(IMPORT_LINE_RE)];
     const lastImport = importLines.at(-1);
 
     if (!lastImport) {
@@ -304,7 +312,10 @@ async function updateLayout(app) {
   }
 
   if (!content.includes("<PwaProvider>")) {
-    content = content.replace("{children}", "<PwaProvider>{children}</PwaProvider>");
+    content = content.replace(
+      "{children}",
+      "<PwaProvider>{children}</PwaProvider>"
+    );
   }
 
   if (content === originalContent) {
@@ -316,9 +327,15 @@ async function updateLayout(app) {
 }
 
 const createMetadataExportName = (directoryName) =>
-  `${toTitleCase(directoryName).replace(/\s+/g, "")}Metadata`;
+  `${toTitleCase(directoryName).replace(WHITESPACE_RE, "")}Metadata`;
 
-const createMetadataSource = ({ appId, description, exportName, name, shortName }) => `export const ${exportName} = {
+const createMetadataSource = ({
+  appId,
+  description,
+  exportName,
+  name,
+  shortName,
+}) => `export const ${exportName} = {
   appId: "${appId}",
   title: "${name}",
   shortName: "${shortName}",
@@ -330,7 +347,10 @@ const createMetadataSource = ({ appId, description, exportName, name, shortName 
 } as const;
 `;
 
-const createManifestSource = ({ appId, exportName }) => `import { resolve } from "node:path";
+const createManifestSource = ({
+  appId,
+  exportName,
+}) => `import { resolve } from "node:path";
 import { ${exportName} } from "@xbase/constants/metadata/${appId}";
 import { createPwaManifest } from "@xbase/libs/pwa/manifest";
 import { getPwaThemeColors } from "@xbase/libs/pwa/theme";
@@ -358,7 +378,10 @@ export default async function manifest() {
 }
 `;
 
-const createServiceWorkerRouteSource = ({ appId, exportName }) => `import { ${exportName} } from "@xbase/constants/metadata/${appId}";
+const createServiceWorkerRouteSource = ({
+  appId,
+  exportName,
+}) => `import { ${exportName} } from "@xbase/constants/metadata/${appId}";
 import { createPwaServiceWorkerRoute } from "@xbase/libs/pwa/service-worker";
 
 export const dynamic = "force-static";
@@ -371,7 +394,8 @@ export const GET = createPwaServiceWorkerRoute({
 });
 `;
 
-const createAssetRouteSource = () => `import { createPublicAssetRoute } from "@xbase/libs/assets/route";
+const createAssetRouteSource =
+  () => `import { createPublicAssetRoute } from "@xbase/libs/assets/route";
 import { resolve } from "node:path";
 
 export const dynamic = "force-static";

@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { UserNavDropdown } from "@xbase/design-system/components/modules/layout/header";
-import { IconHelpCircle, IconSettings, IconUserCircle } from "@xbase/icons/tabler";
+import {
+  IconHelpCircle,
+  IconSettings,
+  IconUserCircle,
+} from "@xbase/icons/tabler";
 
 const meta: Meta<typeof UserNavDropdown> = {
   title: "Actions/Layout/Header/UserNavDropdown",

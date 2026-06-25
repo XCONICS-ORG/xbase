@@ -25,7 +25,7 @@ export const States: Story = {
   render: () => (
     <div className="grid w-[320px] gap-3">
       <Input defaultValue="xbase" />
-      <Input placeholder="Disabled" disabled />
+      <Input disabled placeholder="Disabled" />
       <Input aria-invalid defaultValue="@xbase/docs" />
       <Input type="file" />
     </div>

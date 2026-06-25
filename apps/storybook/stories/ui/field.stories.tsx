@@ -13,7 +13,10 @@ import {
   FieldTitle,
 } from "@xbase/design-system/components/ui/field";
 import { Input } from "@xbase/design-system/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@xbase/design-system/components/ui/radio-group";
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@xbase/design-system/components/ui/radio-group";
 
 const meta: Meta<typeof Field> = {
   title: "UI/Field",
@@ -63,7 +66,9 @@ export const FieldSetExample: Story = {
   render: () => (
     <FieldSet className="w-[420px]">
       <FieldLegend>Notifications</FieldLegend>
-      <FieldDescription>Choose which workspace updates to receive.</FieldDescription>
+      <FieldDescription>
+        Choose which workspace updates to receive.
+      </FieldDescription>
       <RadioGroup defaultValue="mentions">
         <Field orientation="horizontal">
           <RadioGroupItem id="all" value="all" />
@@ -76,10 +81,12 @@ export const FieldSetExample: Story = {
       </RadioGroup>
       <FieldSeparator>Advanced</FieldSeparator>
       <Field orientation="horizontal">
-        <Checkbox id="digest" defaultChecked />
+        <Checkbox defaultChecked id="digest" />
         <FieldContent>
           <FieldTitle>Weekly digest</FieldTitle>
-          <FieldDescription>Send one summary at the end of the week.</FieldDescription>
+          <FieldDescription>
+            Send one summary at the end of the week.
+          </FieldDescription>
         </FieldContent>
       </Field>
     </FieldSet>
@@ -91,7 +98,9 @@ export const WithError: Story = {
     <Field className="w-[360px]" data-invalid="true">
       <FieldLabel htmlFor="package-name">Package name</FieldLabel>
       <Input aria-invalid defaultValue="@xbase/docs" id="package-name" />
-      <FieldError>Docs package has been removed from this workspace.</FieldError>
+      <FieldError>
+        Docs package has been removed from this workspace.
+      </FieldError>
     </Field>
   ),
 };

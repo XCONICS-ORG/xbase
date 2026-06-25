@@ -6,7 +6,7 @@ export interface PublicAssetRouteConfig {
   cacheControl?: string;
 }
 
-type RouteContext = {
+export interface PublicAssetRouteContext {
   params:
     | {
         path?: string[];
@@ -14,7 +14,7 @@ type RouteContext = {
     | Promise<{
         path?: string[];
       }>;
-};
+}
 
 const contentTypes: Record<string, string> = {
   ".avif": "image/avif",
@@ -51,7 +51,10 @@ export function createPublicAssetRoute({
   const root = resolve(assetsRoot);
   const rootPrefix = root.endsWith(sep) ? root : `${root}${sep}`;
 
-  return async function GET(_request: Request, context: RouteContext) {
+  return async function GET(
+    _request: Request,
+    context: PublicAssetRouteContext
+  ) {
     const params = await context.params;
     const path = params.path ?? [];
 

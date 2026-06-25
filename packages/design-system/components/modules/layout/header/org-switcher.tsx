@@ -14,7 +14,10 @@ import {
 } from "@xbase/design-system/components/ui/dropdown-menu";
 import { cn } from "@xbase/design-system/lib/utils";
 import { IconCheck, IconChevronDown, IconPlus } from "@xbase/icons/tabler";
-import type { AvatarOptions, AvatarStyleName } from "@xbase/utility/generators/avatar";
+import type {
+  AvatarOptions,
+  AvatarStyleName,
+} from "@xbase/utility/generators/avatar";
 import { HeaderAvatar } from "./avatar";
 
 export interface HeaderOrganization {
@@ -43,7 +46,12 @@ export interface OrgSwitcherProps {
 const nameSplitPattern = /\s+/;
 
 function getShortName(name: string) {
-  return name.trim().split(nameSplitPattern).filter(Boolean).slice(0, 2).join(" ");
+  return name
+    .trim()
+    .split(nameSplitPattern)
+    .filter(Boolean)
+    .slice(0, 2)
+    .join(" ");
 }
 
 export function OrgSwitcher({
@@ -61,8 +69,9 @@ export function OrgSwitcher({
   organizations,
 }: OrgSwitcherProps) {
   const activeOrganization =
-    organizations.find((organization) => organization.id === activeOrganizationId) ??
-    organizations[0];
+    organizations.find(
+      (organization) => organization.id === activeOrganizationId
+    ) ?? organizations[0];
 
   if (!activeOrganization) {
     return null;
@@ -116,7 +125,9 @@ export function OrgSwitcher({
                 rounded="md"
                 size={24}
               />
-              <span className="flex-1 truncate text-sm">{organization.name}</span>
+              <span className="flex-1 truncate text-sm">
+                {organization.name}
+              </span>
               {isActive ? (
                 <IconCheck className="ml-auto size-3.5 shrink-0 text-primary" />
               ) : null}
