@@ -87,6 +87,8 @@
     "./components/modules/layout/header/quick-action-dropdown": "./components/modules/layout/header/quick-action-dropdown.tsx",
     "./components/modules/layout/header/user-nav": "./components/modules/layout/header/user-nav.tsx",
     "./components/modules/layout/mode-toggle": "./components/modules/layout/mode-toggle.tsx",
+    "./components/modules/sonner": "./components/modules/sonner/index.ts",
+    "./components/modules/sonner/connect": "./components/modules/sonner/connect.tsx",
     "./components/modules/skeleton": "./components/modules/skeleton/index.ts",
     "./components/modules/skeleton/wrapper": "./components/modules/skeleton/wrapper.tsx",
     "./components/modules/system": "./components/modules/system/index.ts",

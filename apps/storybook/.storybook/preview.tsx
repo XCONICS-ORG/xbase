@@ -1,6 +1,9 @@
 import { withThemeByClassName } from "@storybook/addon-themes";
 import type { Preview } from "@storybook/react";
-import { Toaster } from "@xbase/design-system/components/ui/sonner";
+import {
+  Toaster,
+  type ToasterProps,
+} from "@xbase/design-system/components/ui/sonner";
 import { TooltipProvider } from "@xbase/design-system/components/ui/tooltip";
 import { ThemeProvider } from "@xbase/design-system/providers/theme";
 
@@ -35,16 +38,23 @@ const preview: Preview = {
       },
       defaultTheme: "light",
     }),
-    (Story) => (
-      <ThemeProvider defaultTheme="light">
-        <TooltipProvider>
-          <div className="min-h-screen bg-background p-6 text-foreground">
-            <Story />
-          </div>
-        </TooltipProvider>
-        <Toaster />
-      </ThemeProvider>
-    ),
+    (Story, context) => {
+      const toasterProps =
+        context.title === "UI/Sonner"
+          ? (context.args as ToasterProps)
+          : undefined;
+
+      return (
+        <ThemeProvider defaultTheme="light">
+          <TooltipProvider>
+            <div className="min-h-screen bg-background p-6 text-foreground">
+              <Story />
+            </div>
+          </TooltipProvider>
+          <Toaster {...toasterProps} />
+        </ThemeProvider>
+      );
+    },
   ],
 };
 

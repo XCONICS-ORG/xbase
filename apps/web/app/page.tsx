@@ -11,6 +11,7 @@ import { generateQrCodeDataUrl } from "@xbase/utility/generators/qrcode";
 import Image from "next/image";
 import { CodeScanner } from "./code-scanner";
 import { HomeControls } from "./home-controls";
+import { SonnerControls } from "./sonner-controls";
 
 export const metadata = createMetadata({
   title: WebMetadata.root.title,
@@ -111,6 +112,8 @@ export default async function Page() {
           </div>
 
           <CodeScanner />
+
+          <SonnerControls />
         </section>
 
         <div className="font-mono text-muted-foreground text-xs">
