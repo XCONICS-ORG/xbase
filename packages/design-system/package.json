@@ -93,6 +93,7 @@
     "./components/modules/skeleton/wrapper": "./components/modules/skeleton/wrapper.tsx",
     "./components/modules/system": "./components/modules/system/index.ts",
     "./components/modules/system/blocks": "./components/modules/system/blocks.tsx",
+    "./components/modules/system/loader": "./components/modules/system/loader.tsx",
     "./components/modules/system/pages": "./components/modules/system/pages.tsx",
     "./components/modules/table": "./components/modules/table/index.ts",
     "./components/modules/table/action-switcher": "./components/modules/table/action-switcher.tsx",
