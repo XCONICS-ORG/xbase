@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Badge } from "@xbase/design-system/components/ui/badge";
 import type { Color } from "@xbase/design-system/components/ui/badge";
+import { Badge } from "@xbase/design-system/components/ui/badge";
 import { IconCheck, IconSparkles, IconX } from "@xbase/icons/tabler";
 
 const meta: Meta<typeof Badge> = {

@@ -1,27 +1,35 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import type { JSX } from "react";
-import { cn } from "@xbase/design-system/lib/utils";
-import { useIsMobile } from "@xbase/design-system/hooks/use-mobile";
 import { Button } from "@xbase/design-system/components/ui/button";
 import { Separator } from "@xbase/design-system/components/ui/separator";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger
+  TooltipTrigger,
 } from "@xbase/design-system/components/ui/tooltip";
+import { useIsMobile } from "@xbase/design-system/hooks/use-mobile";
+import { cn } from "@xbase/design-system/lib/utils";
 import { Check, ChevronRight, Copy } from "@xbase/icons/lucide";
+import type { JSX } from "react";
+import React, { useMemo, useState } from "react";
+
+type JsonValue =
+  | boolean
+  | null
+  | number
+  | string
+  | JsonValue[]
+  | { [key: string]: JsonValue };
 
 interface JsonViewerProps {
-  data: Record<string, any>;
   className?: string;
-  truncation?: Partial<TruncationSettings>;
-  showLineNumbers?: boolean;
-  showColorIndent?: boolean;
   collapseOn?: "click" | "doubleClick";
+  data: Record<string, JsonValue>;
   defaultExpanded?: boolean | number;
+  showColorIndent?: boolean;
+  showLineNumbers?: boolean;
   title?: string;
+  truncation?: Partial<TruncationSettings>;
 }
 
 interface TruncationSettings {
@@ -38,9 +46,22 @@ type DataType =
   | "array"
   | "unknown";
 
-const getDataType = (value: any): DataType => {
-  if (value === null) return "null";
-  if (Array.isArray(value)) return "array";
+const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}/;
+const HEX_COLOR_PATTERN = /^#([0-9A-F]{3}){1,2}$/i;
+const RGB_COLOR_PATTERN = /^rgba?\(/;
+const HSL_COLOR_PATTERN = /^hsla?\(/;
+const URL_PATTERN = /^https?:\/\//;
+
+const isJsonRecord = (value: unknown): value is Record<string, JsonValue> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const getDataType = (value: unknown): DataType => {
+  if (value === null) {
+    return "null";
+  }
+  if (Array.isArray(value)) {
+    return "array";
+  }
   const type = typeof value;
   if (
     type === "string" ||
@@ -72,41 +93,43 @@ const formatRelativeTime = (date: Date): string => {
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-  if (Math.abs(diffInSeconds) < 60) return "just now";
+  if (Math.abs(diffInSeconds) < 60) {
+    return "just now";
+  }
 
   const intervals = {
-    year: 31536000,
-    month: 2592000,
-    week: 604800,
-    day: 86400,
+    year: 31_536_000,
+    month: 2_592_000,
+    week: 604_800,
+    day: 86_400,
     hour: 3600,
-    minute: 60
+    minute: 60,
   };
 
   for (const [unit, seconds] of Object.entries(intervals)) {
     const interval = Math.floor(Math.abs(diffInSeconds) / seconds);
     if (interval >= 1) {
       const suffix = diffInSeconds > 0 ? "ago" : "from now";
-      return `${interval} ${unit}${interval !== 1 ? "s" : ""} ${suffix}`;
+      return `${interval} ${unit}${interval === 1 ? "" : "s"} ${suffix}`;
     }
   }
 
   return "just now";
 };
 
-const detectDate = (value: any): Date | null => {
+const detectDate = (value: unknown): Date | null => {
   if (typeof value === "string") {
-    if (/^\d{4}-\d{2}-\d{2}/.test(value)) {
+    if (ISO_DATE_PATTERN.test(value)) {
       const date = new Date(value);
-      if (!isNaN(date.getTime())) {
+      if (!Number.isNaN(date.getTime())) {
         return date;
       }
     }
   } else if (typeof value === "number") {
-    if (value >= 946684800 && value <= 4102444800) {
+    if (value >= 946_684_800 && value <= 4_102_444_800) {
       return new Date(value * 1000);
     }
-    if (value >= 946684800000 && value <= 4102444800000) {
+    if (value >= 946_684_800_000 && value <= 4_102_444_800_000) {
       return new Date(value);
     }
   }
@@ -115,7 +138,7 @@ const detectDate = (value: any): Date | null => {
 
 const CopyJsonButton: React.FC<{ value: string; className?: string }> = ({
   value,
-  className
+  className,
 }) => {
   const [hasCopied, setHasCopied] = useState(false);
 
@@ -133,6 +156,10 @@ const CopyJsonButton: React.FC<{ value: string; className?: string }> = ({
     setHasCopied(true);
   };
 
+  const copyJson = () => {
+    handleCopy();
+  };
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -142,13 +169,17 @@ const CopyJsonButton: React.FC<{ value: string; className?: string }> = ({
             "static size-7 rounded-none bg-transparent text-foreground hover:bg-muted hover:opacity-100 focus-visible:opacity-100",
             className
           )}
-          onClick={() => void handleCopy()}
+          onClick={copyJson}
           size="icon"
           title={hasCopied ? "Copied" : "Copy JSON"}
           type="button"
           variant="ghost"
         >
-          {hasCopied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+          {hasCopied ? (
+            <Check className="size-3.5" />
+          ) : (
+            <Copy className="size-3.5" />
+          )}
         </Button>
       </TooltipTrigger>
       <TooltipContent>{hasCopied ? "Copied" : "Copy JSON"}</TooltipContent>
@@ -156,206 +187,216 @@ const CopyJsonButton: React.FC<{ value: string; className?: string }> = ({
   );
 };
 
-const SmartValue = React.forwardRef<
-  any,
-  { value: any; type: DataType } & React.HTMLAttributes<HTMLElement>
->(({ value, type, ...props }, ref) => {
+const isColorValue = (value: string) =>
+  HEX_COLOR_PATTERN.test(value) ||
+  RGB_COLOR_PATTERN.test(value) ||
+  HSL_COLOR_PATTERN.test(value);
+
+interface SmartValueProps extends React.HTMLAttributes<HTMLElement> {
+  type: DataType;
+  value: JsonValue;
+}
+
+const ExpandButton: React.FC<{
+  isExpanded: boolean;
+  setIsExpanded: (isExpanded: boolean) => void;
+}> = ({ isExpanded, setIsExpanded }) => (
+  <Button
+    className="h-auto select-none p-0 text-muted-foreground text-xs underline hover:text-foreground"
+    onClick={(event) => {
+      event.stopPropagation();
+      setIsExpanded(!isExpanded);
+    }}
+    size="sm"
+    variant="link"
+  >
+    {isExpanded ? "Show less" : "Show more"}
+  </Button>
+);
+
+const ColorStringValue: React.FC<
+  { value: string } & React.HTMLAttributes<HTMLElement>
+> = ({ value, className, ...props }) => (
+  <span
+    {...props}
+    className={cn(
+      "inline-flex items-center gap-1.5 whitespace-nowrap",
+      className
+    )}
+  >
+    <span
+      className="h-3 w-3 shrink-0 rounded-[2px] border border-white/20"
+      style={{ backgroundColor: value }}
+    />
+    <span className="text-green-600 dark:text-green-400">{`'${value}'`}</span>
+  </span>
+);
+
+const UrlStringValue: React.FC<
+  {
+    isExpanded: boolean;
+    setIsExpanded: (isExpanded: boolean) => void;
+    value: string;
+  } & React.AnchorHTMLAttributes<HTMLAnchorElement>
+> = ({ isExpanded, setIsExpanded, value, className, onClick, ...props }) => {
+  const isLongUrl = value.length > 50;
+  const isVeryLongUrl = value.length > 180;
+
+  const anchor = (
+    <a
+      {...props}
+      className={cn(
+        "text-green-600 transition-colors hover:text-blue-600 hover:underline dark:text-green-400 dark:hover:text-blue-400",
+        isLongUrl ? "whitespace-pre-wrap break-all" : "whitespace-nowrap",
+        isVeryLongUrl && !isExpanded && "line-clamp-3",
+        className
+      )}
+      href={value}
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick?.(event);
+      }}
+      rel="noopener noreferrer"
+      style={
+        isVeryLongUrl && !isExpanded
+          ? {
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 3,
+              overflow: "hidden",
+            }
+          : props.style
+      }
+      target="_blank"
+    >
+      {`'${value}'`}
+    </a>
+  );
+
+  if (!isVeryLongUrl) {
+    return anchor;
+  }
+
+  return (
+    <span className="inline-flex flex-col items-start gap-1">
+      {anchor}
+      <ExpandButton isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+    </span>
+  );
+};
+
+const RegularStringValue: React.FC<
+  {
+    isExpanded: boolean;
+    setIsExpanded: (isExpanded: boolean) => void;
+    value: string;
+  } & React.HTMLAttributes<HTMLElement>
+> = ({ isExpanded, setIsExpanded, value, className, ...props }) => {
+  const isLongString = value.length > 50;
+  const isVeryLongString = value.length > 180;
+  const stringElement = (
+    <span
+      {...props}
+      className={cn(
+        getTypeStyle("string"),
+        isLongString
+          ? "wrap-break-words whitespace-pre-wrap"
+          : "whitespace-nowrap",
+        isVeryLongString && !isExpanded && "line-clamp-3",
+        className
+      )}
+      style={
+        isVeryLongString && !isExpanded
+          ? {
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 3,
+              overflow: "hidden",
+            }
+          : props.style
+      }
+    >
+      {`'${value}'`}
+    </span>
+  );
+
+  if (!isVeryLongString) {
+    return stringElement;
+  }
+
+  return (
+    <span className="inline-flex flex-col items-start gap-1">
+      {stringElement}
+      <ExpandButton isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+    </span>
+  );
+};
+
+const SmartValue: React.FC<SmartValueProps> = ({ value, type, ...props }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  if (type === "string") {
-    if (
-      /^#([0-9A-F]{3}){1,2}$/i.test(value) ||
-      /^rgba?\(/.test(value) ||
-      /^hsla?\(/.test(value)
-    ) {
+  if (typeof value === "string") {
+    if (isColorValue(value)) {
+      return <ColorStringValue value={value} {...props} />;
+    }
+    if (URL_PATTERN.test(value)) {
       return (
-        <span
-          ref={ref}
+        <UrlStringValue
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
+          value={value}
           {...props}
-          className={cn(
-            "inline-flex items-center gap-1.5 whitespace-nowrap",
-            props.className
-          )}
-        >
-          <span
-            className="w-3 h-3 rounded-[2px] border border-white/20 shrink-0"
-            style={{ backgroundColor: value }}
-          />
-          <span className="text-green-600 dark:text-green-400">{`'${value}'`}</span>
-        </span>
+        />
       );
     }
-
-    if (/^https?:\/\//.test(value)) {
-      const isLongUrl = String(value).length > 50;
-      const isVeryLongUrl = String(value).length > 180;
-
-      if (isVeryLongUrl) {
-        return (
-          <span className="inline-flex flex-col items-start gap-1">
-            <a
-              ref={ref}
-              href={value}
-              target="_blank"
-              rel="noopener noreferrer"
-              {...(props as any)}
-              className={cn(
-                "text-green-600 dark:text-green-400 hover:underline hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-pre-wrap break-all",
-                !isExpanded && "line-clamp-3",
-                props.className
-              )}
-              style={
-                !isExpanded
-                  ? {
-                      display: "-webkit-box",
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden"
-                    }
-                  : undefined
-              }
-              onClick={(e) => {
-                e.stopPropagation();
-                props.onClick?.(e);
-              }}
-            >
-              {`'${value}'`}
-            </a>
-            <Button
-              variant="link"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsExpanded(!isExpanded);
-              }}
-              className="h-auto p-0 text-xs text-muted-foreground hover:text-foreground underline select-none"
-            >
-              {isExpanded ? "Show less" : "Show more"}
-            </Button>
-          </span>
-        );
-      }
-
-      return (
-        <a
-          ref={ref}
-          href={value}
-          target="_blank"
-          rel="noopener noreferrer"
-          {...(props as any)}
-          className={cn(
-            "text-green-600 dark:text-green-400 hover:underline hover:text-blue-600 dark:hover:text-blue-400 transition-colors",
-            isLongUrl ? "whitespace-pre-wrap break-all" : "whitespace-nowrap",
-            props.className
-          )}
-          onClick={(e) => {
-            e.stopPropagation();
-            props.onClick?.(e);
-          }}
-        >
-          {`'${value}'`}
-        </a>
-      );
-    }
+    return (
+      <RegularStringValue
+        isExpanded={isExpanded}
+        setIsExpanded={setIsExpanded}
+        value={value}
+        {...props}
+      />
+    );
   }
 
   const typeStyle = getTypeStyle(type);
-  if (type === "string") {
-    const isLongString = String(value).length > 50;
-    const isVeryLongString = String(value).length > 180;
-
-    if (isVeryLongString) {
-      return (
-        <span className="inline-flex flex-col items-start gap-1">
-          <span
-            ref={ref}
-            {...props}
-            className={cn(
-              typeStyle,
-              "whitespace-pre-wrap wrap-break-words",
-              !isExpanded && "line-clamp-3",
-              props.className
-            )}
-            style={
-              !isExpanded
-                ? {
-                    display: "-webkit-box",
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden"
-                  }
-                : undefined
-            }
-          >
-            {`'${value}'`}
-          </span>
-          <Button
-            variant="link"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsExpanded(!isExpanded);
-            }}
-            className="h-auto p-0 text-xs text-muted-foreground hover:text-foreground underline select-none"
-          >
-            {isExpanded ? "Show less" : "Show more"}
-          </Button>
-        </span>
-      );
-    }
-
+  if (type === "null") {
     return (
       <span
-        ref={ref}
-        {...props}
-        className={cn(
-          typeStyle,
-          isLongString
-            ? "whitespace-pre-wrap wrap-break-words"
-            : "whitespace-nowrap",
-          props.className
-        )}
-      >
-        {`'${value}'`}
-      </span>
-    );
-  }
-  if (type === "null")
-    return (
-      <span
-        ref={ref}
         {...props}
         className={cn(typeStyle, "whitespace-nowrap", props.className)}
       >
         null
       </span>
     );
+  }
   return (
     <span
-      ref={ref}
       {...props}
       className={cn(typeStyle, "whitespace-nowrap", props.className)}
     >
       {String(value)}
     </span>
   );
-});
+};
 SmartValue.displayName = "SmartValue";
 
 const calculateLineCount = (
-  data: any,
+  data: JsonValue,
   expandedPaths: Set<string>,
+  truncation: TruncationSettings,
   path = "root",
-  level = 0,
-  truncation: TruncationSettings
+  level = 0
 ): number => {
-  const dataType = getDataType(data);
-
-  if (dataType === "object") {
+  if (isJsonRecord(data)) {
     const isOpen = expandedPaths.has(path);
-    if (!isOpen) return 1;
+    if (!isOpen) {
+      return 1;
+    }
     const entries = Object.entries(data);
-    if (entries.length === 0) return 2;
+    if (entries.length === 0) {
+      return 2;
+    }
     return (
       2 +
       entries.reduce(
@@ -364,33 +405,37 @@ const calculateLineCount = (
           calculateLineCount(
             value,
             expandedPaths,
+            truncation,
             `${path}.${key}`,
-            level + 1,
-            truncation
+            level + 1
           ),
         0
       )
     );
   }
 
-  if (dataType === "array") {
+  if (Array.isArray(data)) {
     const isOpen = expandedPaths.has(path);
-    if (!isOpen) return 1;
-    if (data.length === 0) return 2;
+    if (!isOpen) {
+      return 1;
+    }
+    if (data.length === 0) {
+      return 2;
+    }
 
     if (truncation.enabled && data.length > truncation.itemsPerArray) {
       const visibleItems = data.slice(0, truncation.itemsPerArray);
       return (
         3 +
         visibleItems.reduce(
-          (acc: number, item: any, index: number) =>
+          (acc: number, item: JsonValue, index: number) =>
             acc +
             calculateLineCount(
               item,
               expandedPaths,
+              truncation,
               `${path}[${index}]`,
-              level + 1,
-              truncation
+              level + 1
             ),
           0
         )
@@ -400,14 +445,14 @@ const calculateLineCount = (
     return (
       2 +
       data.reduce(
-        (acc: number, item: any, index: number) =>
+        (acc: number, item: JsonValue, index: number) =>
           acc +
           calculateLineCount(
             item,
             expandedPaths,
+            truncation,
             `${path}[${index}]`,
-            level + 1,
-            truncation
+            level + 1
           ),
         0
       )
@@ -417,39 +462,77 @@ const calculateLineCount = (
   return 1;
 };
 
+const addChildPaths = (paths: Set<string>, childPaths: Set<string>) => {
+  for (const path of childPaths) {
+    paths.add(path);
+  }
+};
+
+const addArrayPaths = (
+  paths: Set<string>,
+  data: JsonValue[],
+  maxLevel: number,
+  currentLevel: number,
+  currentPath: string
+) => {
+  for (const [index, item] of data.entries()) {
+    addChildPaths(
+      paths,
+      generateAllPaths(
+        item,
+        maxLevel,
+        currentLevel + 1,
+        `${currentPath}[${index}]`
+      )
+    );
+  }
+};
+
+const addObjectPaths = (
+  paths: Set<string>,
+  data: Record<string, JsonValue>,
+  maxLevel: number,
+  currentLevel: number,
+  currentPath: string
+) => {
+  for (const [key, value] of Object.entries(data)) {
+    addChildPaths(
+      paths,
+      generateAllPaths(
+        value,
+        maxLevel,
+        currentLevel + 1,
+        `${currentPath}.${key}`
+      )
+    );
+  }
+};
+
 const generateAllPaths = (
-  data: any,
-  maxLevel: number = Infinity,
-  currentLevel: number = 0,
-  currentPath: string = "root"
+  data: JsonValue,
+  maxLevel: number = Number.POSITIVE_INFINITY,
+  currentLevel = 0,
+  currentPath = "root"
 ): Set<string> => {
   const paths = new Set<string>();
-  if (currentLevel > maxLevel) return paths;
-
-  if (typeof data === "object" && data !== null) {
-    paths.add(currentPath);
-    if (Array.isArray(data)) {
-      data.forEach((item, index) => {
-        const childPaths = generateAllPaths(
-          item,
-          maxLevel,
-          currentLevel + 1,
-          `${currentPath}[${index}]`
-        );
-        childPaths.forEach((path) => paths.add(path));
-      });
-    } else {
-      Object.entries(data).forEach(([key, value]) => {
-        const childPaths = generateAllPaths(
-          value,
-          maxLevel,
-          currentLevel + 1,
-          `${currentPath}.${key}`
-        );
-        childPaths.forEach((path) => paths.add(path));
-      });
-    }
+  if (currentLevel > maxLevel) {
+    return paths;
   }
+
+  if (!(typeof data === "object" && data !== null)) {
+    return paths;
+  }
+
+  paths.add(currentPath);
+  if (Array.isArray(data)) {
+    addArrayPaths(paths, data, maxLevel, currentLevel, currentPath);
+    return paths;
+  }
+
+  if (isJsonRecord(data)) {
+    addObjectPaths(paths, data, maxLevel, currentLevel, currentPath);
+  }
+
   return paths;
 };
 
@@ -461,7 +544,7 @@ const JsonViewer: React.FC<JsonViewerProps> = ({
   showColorIndent = false,
   collapseOn = "click",
   defaultExpanded = false,
-  title
+  title,
 }) => {
   const isMobile = useIsMobile();
 
@@ -490,7 +573,7 @@ const JsonViewer: React.FC<JsonViewerProps> = ({
   const truncation: TruncationSettings = React.useMemo(
     () => ({
       enabled: isMobile ? false : (truncationProp?.enabled ?? true),
-      itemsPerArray: truncationProp?.itemsPerArray ?? 5
+      itemsPerArray: truncationProp?.itemsPerArray ?? 5,
     }),
     [truncationProp, isMobile]
   );
@@ -508,48 +591,46 @@ const JsonViewer: React.FC<JsonViewerProps> = ({
   };
 
   const lineCount = useMemo(
-    () => calculateLineCount(data, expandedPaths, "root", 0, truncation),
+    () => calculateLineCount(data, expandedPaths, truncation),
     [data, expandedPaths, truncation]
   );
 
   return (
     <div
       className={cn(
-        "relative font-mono text-[13px] leading-6 w-full text-foreground bg-secondary/10 dark:bg-muted/50 rounded-md border border-border flex flex-col",
+        "relative flex w-full flex-col rounded-md border border-border bg-secondary/10 font-mono text-[13px] text-foreground leading-6 dark:bg-muted/50",
         className
       )}
     >
-      <div className="flex justify-between items-center p-2 z-10 gap-2">
-        <div className="text-xs font-medium text-muted-foreground px-2">
+      <div className="z-10 flex items-center justify-between gap-2 p-2">
+        <div className="px-2 font-medium text-muted-foreground text-xs">
           {title}
         </div>
-        <div className="flex items-center rounded-md border bg-muted/50 overflow-hidden">
+        <div className="flex items-center overflow-hidden rounded-md border bg-muted/50">
           <Button
-            variant="ghost"
-            size="sm"
+            className="h-7 rounded-none px-2 text-xs hover:bg-muted"
             onClick={expandAll}
-            className="h-7 px-2 text-xs hover:bg-muted rounded-none"
+            size="sm"
             title="Expand All"
+            variant="ghost"
           >
             Expand All
           </Button>
-          <Separator orientation="vertical" className="h-4" />
+          <Separator className="h-4" orientation="vertical" />
           <Button
-            variant="ghost"
-            size="sm"
+            className="h-7 rounded-none px-2 text-xs hover:bg-muted"
             onClick={collapseAll}
-            className="h-7 px-2 text-xs hover:bg-muted rounded-none"
+            size="sm"
             title="Collapse All"
+            variant="ghost"
           >
             Collapse All
           </Button>
-          <Separator orientation="vertical" className="h-4" />
-          <CopyJsonButton
-            value={JSON.stringify(data, null, 2)}
-          />
+          <Separator className="h-4" orientation="vertical" />
+          <CopyJsonButton value={JSON.stringify(data, null, 2)} />
         </div>
       </div>
-      <div className="w-full overflow-auto flex-1 p-4 pt-0">
+      <div className="w-full flex-1 overflow-auto p-4 pt-0">
         <pre className="flex">
           {showLineNumbers && (
             <div className="hidden sm:block">
@@ -558,13 +639,13 @@ const JsonViewer: React.FC<JsonViewerProps> = ({
           )}
           <code>
             <JsonNode
+              collapseOn={collapseOn}
               data={data}
-              path="root"
               expandedPaths={expandedPaths}
+              path="root"
+              showColorIndent={showColorIndent}
               toggleNode={toggleNode}
               truncation={truncation}
-              showColorIndent={showColorIndent}
-              collapseOn={collapseOn}
             />
           </code>
         </pre>
@@ -573,29 +654,30 @@ const JsonViewer: React.FC<JsonViewerProps> = ({
   );
 };
 
-const LineNumbers: React.FC<{ lineCount: number }> = ({ lineCount }) => {
-  return (
-    <div className="flex flex-col text-right pr-4 text-muted-foreground select-none border-r border-border mr-4">
-      {Array.from({ length: lineCount }, (_, i) => (
-        <div key={i} className="h-6 leading-6 text-xs tabular-nums opacity-50">
-          {i + 1}
-        </div>
-      ))}
-    </div>
-  );
-};
+const LineNumbers: React.FC<{ lineCount: number }> = ({ lineCount }) => (
+  <div className="mr-4 flex select-none flex-col border-border border-r pr-4 text-right text-muted-foreground">
+    {Array.from({ length: lineCount }, (_, index) => index + 1).map((line) => (
+      <div
+        className="h-6 text-xs tabular-nums leading-6 opacity-50"
+        key={`line-${line}`}
+      >
+        {line}
+      </div>
+    ))}
+  </div>
+);
 
 interface JsonNodeProps {
-  data: any;
-  level?: number;
-  path: string;
-  expandedPaths: Set<string>;
-  toggleNode: (path: string) => void;
-  showComma?: boolean;
-  objectKey?: string;
-  truncation: TruncationSettings;
-  showColorIndent?: boolean;
   collapseOn?: "click" | "doubleClick";
+  data: JsonValue;
+  expandedPaths: Set<string>;
+  level?: number;
+  objectKey?: string;
+  path: string;
+  showColorIndent?: boolean;
+  showComma?: boolean;
+  toggleNode: (path: string) => void;
+  truncation: TruncationSettings;
 }
 
 const JsonNode: React.FC<JsonNodeProps> = ({
@@ -608,7 +690,7 @@ const JsonNode: React.FC<JsonNodeProps> = ({
   objectKey,
   truncation,
   showColorIndent,
-  collapseOn
+  collapseOn,
 }) => {
   const dataType = getDataType(data);
 
@@ -616,39 +698,43 @@ const JsonNode: React.FC<JsonNodeProps> = ({
     let element: JSX.Element | null = null;
     switch (dataType) {
       case "array":
-        element = (
-          <JsonArray
-            data={data}
-            level={level}
-            path={path}
-            expandedPaths={expandedPaths}
-            toggleNode={toggleNode}
-            showComma={showComma}
-            objectKey={objectKey}
-            truncation={truncation}
-            showColorIndent={showColorIndent}
-            collapseOn={collapseOn}
-          />
-        );
+        if (Array.isArray(data)) {
+          element = (
+            <JsonArray
+              collapseOn={collapseOn}
+              data={data}
+              expandedPaths={expandedPaths}
+              level={level}
+              objectKey={objectKey}
+              path={path}
+              showColorIndent={showColorIndent}
+              showComma={showComma}
+              toggleNode={toggleNode}
+              truncation={truncation}
+            />
+          );
+        }
         break;
       case "object":
-        element = (
-          <JsonObject
-            data={data}
-            level={level}
-            path={path}
-            expandedPaths={expandedPaths}
-            toggleNode={toggleNode}
-            showComma={showComma}
-            objectKey={objectKey}
-            truncation={truncation}
-            showColorIndent={showColorIndent}
-            collapseOn={collapseOn}
-          />
-        );
+        if (isJsonRecord(data)) {
+          element = (
+            <JsonObject
+              collapseOn={collapseOn}
+              data={data}
+              expandedPaths={expandedPaths}
+              level={level}
+              objectKey={objectKey}
+              path={path}
+              showColorIndent={showColorIndent}
+              showComma={showComma}
+              toggleNode={toggleNode}
+              truncation={truncation}
+            />
+          );
+        }
         break;
       default:
-        element = <SmartValue value={data} type={dataType} />;
+        element = <SmartValue type={dataType} value={data} />;
         break;
     }
 
@@ -662,7 +748,7 @@ const JsonNode: React.FC<JsonNodeProps> = ({
       return (
         <span className="inline-flex items-center gap-2">
           {element}
-          <span className="text-xs text-muted-foreground/60 select-none italic">
+          <span className="select-none text-muted-foreground/60 text-xs italic">
             {`// ${timeStr}`}
           </span>
         </span>
@@ -687,12 +773,22 @@ const indentColors = [
   "border-yellow-300/60 dark:border-yellow-700/60",
   "border-green-300/60 dark:border-green-700/60",
   "border-blue-300/60 dark:border-blue-700/60",
-  "border-purple-300/60 dark:border-purple-700/60"
+  "border-purple-300/60 dark:border-purple-700/60",
 ];
+
+const toggleOnKeyboard = (
+  event: React.KeyboardEvent<HTMLElement>,
+  toggle: () => void
+) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    toggle();
+  }
+};
 
 const JsonObject: React.FC<{
   objectKey?: string;
-  data: Record<string, any>;
+  data: Record<string, JsonValue>;
   level: number;
   path: string;
   expandedPaths: Set<string>;
@@ -711,50 +807,49 @@ const JsonObject: React.FC<{
   objectKey,
   truncation,
   showColorIndent,
-  collapseOn
+  collapseOn,
 }) => {
   const entries = Object.entries(data);
   const isOpen = expandedPaths.has(path);
 
   const trigger = (
-    <div
+    <button
+      aria-expanded={isOpen}
       className={cn(
-        "inline-flex items-center text-left h-6 leading-6 group rounded-sm px-1 -ml-1 w-full cursor-pointer select-none",
+        "group -ml-1 inline-flex h-6 w-full cursor-pointer select-none items-center rounded-sm px-1 text-left leading-6",
         isOpen && "hover:bg-muted-foreground/20"
       )}
-      onDoubleClick={
-        collapseOn === "doubleClick" ? () => toggleNode(path) : undefined
-      }
       onClick={
         collapseOn === "doubleClick"
           ? undefined
-          : (e) => {
+          : () => {
               toggleNode(path);
             }
       }
+      onDoubleClick={
+        collapseOn === "doubleClick" ? () => toggleNode(path) : undefined
+      }
+      onKeyDown={
+        collapseOn === "doubleClick"
+          ? (event) => toggleOnKeyboard(event, () => toggleNode(path))
+          : undefined
+      }
+      type="button"
     >
       {objectKey && (
-        <span className="text-purple-600 dark:text-purple-400 inline-flex items-center group font-medium">
+        <span className="group inline-flex items-center font-medium text-purple-600 dark:text-purple-400">
           {`'${objectKey}'`}
-          <span className="text-muted-foreground mx-1">: </span>
+          <span className="mx-1 text-muted-foreground">: </span>
         </span>
       )}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleNode(path);
-        }}
-        className="h-4 w-4 p-0 text-muted-foreground hover:text-foreground hover:bg-transparent"
-      >
+      <span className="inline-flex h-4 w-4 items-center justify-center text-muted-foreground group-hover:text-foreground">
         <ChevronRight
           className={cn(
-            "h-4 w-4 transition-transform shrink-0",
+            "h-4 w-4 shrink-0 transition-transform",
             isOpen && "rotate-90"
           )}
         />
-      </Button>
+      </span>
       <span className="text-muted-foreground">{"{"}</span>
       {!isOpen && (
         <>
@@ -765,7 +860,7 @@ const JsonObject: React.FC<{
           {showComma && <span className="text-muted-foreground">,</span>}
         </>
       )}
-    </div>
+    </button>
   );
 
   return (
@@ -775,7 +870,7 @@ const JsonObject: React.FC<{
         <div className="transition-all duration-200">
           <div
             className={cn(
-              "pl-5 border-l",
+              "border-l pl-5",
               showColorIndent
                 ? indentColors[level % indentColors.length]
                 : "border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.1)]"
@@ -791,42 +886,42 @@ const JsonObject: React.FC<{
 
               return (
                 <div
-                  key={key}
                   className={cn(
                     "group rounded-md",
-                    !isChildCollapsible && "flex items-start min-h-6",
+                    !isChildCollapsible && "flex min-h-6 items-start",
                     isChildOpen ? "" : "hover:bg-muted-foreground/20"
                   )}
+                  key={`object-${path}.${key}`}
                 >
                   {isChildCollapsible ? (
                     <JsonNode
-                      data={value}
-                      level={level + 1}
-                      path={childPath}
-                      expandedPaths={expandedPaths}
-                      toggleNode={toggleNode}
-                      showComma={index < entries.length - 1}
-                      objectKey={key}
-                      truncation={truncation}
-                      showColorIndent={showColorIndent}
                       collapseOn={collapseOn}
+                      data={value}
+                      expandedPaths={expandedPaths}
+                      level={level + 1}
+                      objectKey={key}
+                      path={childPath}
+                      showColorIndent={showColorIndent}
+                      showComma={index < entries.length - 1}
+                      toggleNode={toggleNode}
+                      truncation={truncation}
                     />
                   ) : (
                     <>
-                      <span className="text-purple-600 dark:text-purple-400 inline-flex items-center">
+                      <span className="inline-flex items-center text-purple-600 dark:text-purple-400">
                         {`'${key}'`}
                       </span>
                       <span className="text-muted-foreground">: </span>
                       <JsonNode
+                        collapseOn={collapseOn}
                         data={value}
+                        expandedPaths={expandedPaths}
                         level={level + 1}
                         path={childPath}
-                        expandedPaths={expandedPaths}
-                        toggleNode={toggleNode}
-                        showComma={index < entries.length - 1}
-                        truncation={truncation}
                         showColorIndent={showColorIndent}
-                        collapseOn={collapseOn}
+                        showComma={index < entries.length - 1}
+                        toggleNode={toggleNode}
+                        truncation={truncation}
                       />
                     </>
                   )}
@@ -846,7 +941,7 @@ const JsonObject: React.FC<{
 
 const JsonArray: React.FC<{
   objectKey?: string;
-  data: any[];
+  data: JsonValue[];
   level: number;
   path: string;
   expandedPaths: Set<string>;
@@ -865,7 +960,7 @@ const JsonArray: React.FC<{
   objectKey,
   truncation,
   showColorIndent,
-  collapseOn
+  collapseOn,
 }) => {
   const isOpen = expandedPaths.has(path);
   const [showAll, setShowAll] = useState(false);
@@ -880,44 +975,43 @@ const JsonArray: React.FC<{
   };
 
   const trigger = (
-    <div
+    <button
+      aria-expanded={isOpen}
       className={cn(
-        "inline-flex items-center text-left h-6 leading-6 group rounded-sm px-1 -ml-1 w-full cursor-pointer select-none",
+        "group -ml-1 inline-flex h-6 w-full cursor-pointer select-none items-center rounded-sm px-1 text-left leading-6",
         isOpen && "hover:bg-muted-foreground/20"
       )}
-      onDoubleClick={
-        collapseOn === "doubleClick" ? () => toggleNode(path) : undefined
-      }
       onClick={
         collapseOn === "doubleClick"
           ? undefined
-          : (e) => {
+          : () => {
               toggleNode(path);
             }
       }
+      onDoubleClick={
+        collapseOn === "doubleClick" ? () => toggleNode(path) : undefined
+      }
+      onKeyDown={
+        collapseOn === "doubleClick"
+          ? (event) => toggleOnKeyboard(event, () => toggleNode(path))
+          : undefined
+      }
+      type="button"
     >
       {objectKey && (
-        <span className="text-purple-600 dark:text-purple-400 inline-flex items-center group">
+        <span className="group inline-flex items-center text-purple-600 dark:text-purple-400">
           {`'${objectKey}'`}
-          <span className="text-muted-foreground mx-1">: </span>
+          <span className="mx-1 text-muted-foreground">: </span>
         </span>
       )}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleNode(path);
-        }}
-        className="h-4 w-4 p-0 text-muted-foreground hover:text-foreground hover:bg-transparent"
-      >
+      <span className="inline-flex h-4 w-4 items-center justify-center text-muted-foreground group-hover:text-foreground">
         <ChevronRight
           className={cn(
-            "h-4 w-4 transition-transform shrink-0",
+            "h-4 w-4 shrink-0 transition-transform",
             isOpen && "rotate-90"
           )}
         />
-      </Button>
+      </span>
       <span className="text-muted-foreground">{"["}</span>
       {!isOpen && (
         <>
@@ -928,7 +1022,7 @@ const JsonArray: React.FC<{
           {showComma && <span className="text-muted-foreground">,</span>}
         </>
       )}
-    </div>
+    </button>
   );
 
   return (
@@ -938,7 +1032,7 @@ const JsonArray: React.FC<{
         <div className="transition-all duration-200">
           <div
             className={cn(
-              "pl-5 border-l",
+              "border-l pl-5",
               showColorIndent
                 ? indentColors[level % indentColors.length]
                 : "border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.1)]"
@@ -954,47 +1048,47 @@ const JsonArray: React.FC<{
 
               return (
                 <div
-                  key={index}
                   className={cn(
                     "group rounded-md",
                     !isChildCollapsible &&
-                      "flex sm:items-center items-start sm:h-6 h-auto",
+                      "flex h-auto items-start sm:h-6 sm:items-center",
                     isChildOpen ? "" : "hover:bg-muted-foreground/20"
                   )}
+                  key={`array-${childPath}`}
                 >
                   <JsonNode
+                    collapseOn={collapseOn}
                     data={item}
+                    expandedPaths={expandedPaths}
                     level={level + 1}
                     path={childPath}
-                    expandedPaths={expandedPaths}
-                    toggleNode={toggleNode}
-                    showComma={index < data.length - 1}
-                    truncation={truncation}
                     showColorIndent={showColorIndent}
-                    collapseOn={collapseOn}
+                    showComma={index < data.length - 1}
+                    toggleNode={toggleNode}
+                    truncation={truncation}
                   />
                 </div>
               );
             })}
             {truncation.enabled && data.length > truncation.itemsPerArray && (
               <div className="pl-5">
-                {!showAll ? (
+                {showAll ? (
                   <Button
-                    variant="secondary"
+                    className="mt-1 h-auto bg-secondary/30 px-2 py-0.5 text-muted-foreground text-xs hover:bg-secondary/50 hover:text-foreground"
+                    onClick={() => setShowAll(false)}
                     size="sm"
-                    onClick={handleShowMore}
-                    className="h-auto px-2 py-0.5 text-xs bg-secondary/30 hover:bg-secondary/50 text-muted-foreground hover:text-foreground mt-1"
+                    variant="secondary"
                   >
-                    Show {data.length - truncation.itemsPerArray} more items...
+                    Show Less
                   </Button>
                 ) : (
                   <Button
-                    variant="secondary"
+                    className="mt-1 h-auto bg-secondary/30 px-2 py-0.5 text-muted-foreground text-xs hover:bg-secondary/50 hover:text-foreground"
+                    onClick={handleShowMore}
                     size="sm"
-                    onClick={() => setShowAll(false)}
-                    className="h-auto px-2 py-0.5 text-xs bg-secondary/30 hover:bg-secondary/50 text-muted-foreground hover:text-foreground mt-1"
+                    variant="secondary"
                   >
-                    Show Less
+                    Show {data.length - truncation.itemsPerArray} more items...
                   </Button>
                 )}
               </div>

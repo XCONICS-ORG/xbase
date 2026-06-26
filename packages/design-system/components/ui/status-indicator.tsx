@@ -1,13 +1,13 @@
-import React from "react";
 import { cn } from "@xbase/design-system/lib/utils";
+import type React from "react";
 
 interface StatusIndicatorProps {
-  state: "active" | "down" | "fixing" | "idle";
+  className?: string;
   color?: string;
   label?: string;
-  className?: string;
-  size?: "sm" | "md" | "lg";
   labelClassName?: string;
+  size?: "sm" | "md" | "lg";
+  state: "active" | "down" | "fixing" | "idle";
 }
 
 const getStateColors = (state: StatusIndicatorProps["state"]) => {
@@ -18,7 +18,6 @@ const getStateColors = (state: StatusIndicatorProps["state"]) => {
       return { dot: "bg-red-500", ping: "bg-red-300" };
     case "fixing":
       return { dot: "bg-yellow-500", ping: "bg-yellow-300" };
-    case "idle":
     default:
       return { dot: "bg-slate-700", ping: "bg-slate-400" };
   }
@@ -30,7 +29,6 @@ const getSizeClasses = (size: StatusIndicatorProps["size"]) => {
       return { dot: "h-2 w-2", ping: "h-2 w-2" };
     case "lg":
       return { dot: "h-4 w-4", ping: "h-4 w-4" };
-    case "md":
     default:
       return { dot: "h-3 w-3", ping: "h-3 w-3" };
   }
@@ -42,7 +40,7 @@ const StatusIndicator: React.FC<StatusIndicatorProps> = ({
   label,
   className,
   size = "md",
-  labelClassName
+  labelClassName,
 }) => {
   const shouldAnimate =
     state === "active" || state === "fixing" || state === "down";
@@ -56,7 +54,7 @@ const StatusIndicator: React.FC<StatusIndicatorProps> = ({
         {shouldAnimate && (
           <span
             className={cn(
-              "absolute inline-flex rounded-full opacity-75 animate-ping",
+              "absolute inline-flex animate-ping rounded-full opacity-75",
               sizeClasses.ping,
               !color && colors.ping
             )}
@@ -75,7 +73,7 @@ const StatusIndicator: React.FC<StatusIndicatorProps> = ({
       {label && (
         <p
           className={cn(
-            "text-sm text-slate-700 dark:text-slate-300",
+            "text-slate-700 text-sm dark:text-slate-300",
             labelClassName
           )}
         >

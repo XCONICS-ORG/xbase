@@ -67,7 +67,7 @@ export const Link: Story = {
 
 export const Loading: Story = {
   render: (args) => (
-    <Button {...args}  loadingState={true}>
+    <Button {...args} loadingState={true}>
       Loading
     </Button>
   ),

@@ -1,8 +1,7 @@
-import * as React from "react";
+import { cn } from "@xbase/design-system/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
-
-import { cn } from "@xbase/design-system/lib/utils";
+import type * as React from "react";
 
 type Color =
   | "emerald"
@@ -59,20 +58,21 @@ const colorVariantsOutline = {
 };
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-lg border px-1.5 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-0.5 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-all duration-300 overflow-hidden",
+  "inline-flex w-fit shrink-0 items-center justify-center gap-0.5 overflow-hidden whitespace-nowrap rounded-lg border px-1.5 py-0.5 font-medium text-xs transition-all duration-300 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3",
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+        default:
+          "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
         regular: "border-none",
         secondary:
           "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
         destructive:
-          "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "border-transparent bg-destructive text-white focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 [a&]:hover:bg-destructive/90",
         outline:
-          "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground hover:bg-border/50",
+          "text-foreground hover:bg-border/50 [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         fancy:
-          "bg-white dark:border-card dark:bg-background bg-radial-[at_40%_30%] shadow-md inset-shadow-sm shadow-shade inset-shadow-white/70 dark:inset-shadow-white/50 dark:inset-shadow-xs dark:to-transparent ",
+          "inset-shadow-sm inset-shadow-white/70 bg-radial-[at_40%_30%] bg-white shadow-md shadow-shade dark:inset-shadow-white/50 dark:inset-shadow-xs dark:border-card dark:bg-background dark:to-transparent",
       },
     },
     defaultVariants: {
@@ -87,7 +87,7 @@ const colorVariantSets: Record<string, Record<Color, string>> = {
   outline: colorVariantsOutline,
 };
 
-const dotVariants = cva("h-2 w-2 rounded-full mr-0.5", {
+const dotVariants = cva("mr-0.5 h-2 w-2 rounded-full", {
   variants: {
     color: {
       emerald: "bg-emerald-400",
@@ -119,12 +119,12 @@ function Badge({
 
   return (
     <Comp
-      data-slot="badge"
       className={cn(
         badgeVariants({ variant }),
         colorVariantSets[variant || "default"]?.[color],
         className
       )}
+      data-slot="badge"
       {...props}
     >
       {showDot && <span className={dotVariants({ color })} />}
@@ -133,5 +133,5 @@ function Badge({
   );
 }
 
-export { Badge, badgeVariants };
 export type { Color };
+export { Badge, badgeVariants };
