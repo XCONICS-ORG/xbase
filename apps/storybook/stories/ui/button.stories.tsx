@@ -51,6 +51,12 @@ export const Destructive: Story = {
   },
 };
 
+export const DestructiveSoft: Story = {
+  args: {
+    variant: "destructive-soft",
+  },
+};
+
 export const Link: Story = {
   args: {
     variant: "link",
@@ -61,8 +67,7 @@ export const Link: Story = {
 
 export const Loading: Story = {
   render: (args) => (
-    <Button {...args}>
-      <Loader2 className="animate-spin" />
+    <Button {...args}  loadingState={true}>
       Loading
     </Button>
   ),
@@ -135,6 +140,7 @@ export const VariantMatrix: Story = {
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="destructive">Destructive</Button>
+      <Button variant="destructive-soft">Destructive Soft</Button>
       <Button href="#" variant="link">
         Link
       </Button>
@@ -177,6 +183,9 @@ export const LoadingStates: Story = {
       </Button>
       <Button loading rightIcon={<Mail />} variant="destructive">
         Delete
+      </Button>
+      <Button loading rightIcon={<Mail />} variant="destructive-soft">
+        Archive
       </Button>
     </div>
   ),
