@@ -7,11 +7,11 @@
     "url": "git+https://github.com/XCONICS-ORG/xbase.git"
   },
   "devDependencies": {
-    "@clack/prompts": "^1.6.0",
     "@biomejs/biome": "2.5.1",
+    "@clack/prompts": "^1.6.0",
     "@xbase/typescript-config": "workspace:*",
     "picocolors": "^1.1.1",
-    "turbo": "^2.9.18",
+    "turbo": "^2.10.0",
     "typescript": "^6",
     "ultracite": "7.8.3"
   },
