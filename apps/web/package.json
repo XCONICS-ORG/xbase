@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@xbase/assets": "workspace:*",
+    "@xbase/bucket": "workspace:*",
     "@xbase/constants": "workspace:*",
     "@xbase/design-system": "workspace:*",
     "@xbase/env": "workspace:*",
@@ -19,12 +20,12 @@
     "@xbase/icons": "workspace:*",
     "@xbase/libs": "workspace:*",
     "@xbase/seo": "workspace:*",
-    "@xbase/bucket": "workspace:*",
     "@xbase/utility": "workspace:*",
     "next": "16.2.9",
     "next-themes": "^0.4.6",
     "react": "19.2.7",
-    "react-dom": "19.2.7"
+    "react-dom": "19.2.7",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

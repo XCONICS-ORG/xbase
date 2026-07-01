@@ -43,11 +43,15 @@ const preview: Preview = {
         context.title === "UI/Sonner"
           ? (context.args as ToasterProps)
           : undefined;
+      const previewClassName =
+        context.parameters.layout === "fullscreen"
+          ? "min-h-screen bg-background text-foreground"
+          : "min-h-screen bg-background p-6 text-foreground";
 
       return (
         <ThemeProvider defaultTheme="light">
           <TooltipProvider>
-            <div className="min-h-screen bg-background p-6 text-foreground">
+            <div className={previewClassName}>
               <Story />
             </div>
           </TooltipProvider>

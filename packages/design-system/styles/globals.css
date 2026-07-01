@@ -43,6 +43,7 @@
   --destructive-soft-foreground: var(--destructive);
   --border: oklch(0.9219 0 0);
   --input: oklch(0.9219 0 0);
+  --input-height: 2rem;
   --ring: oklch(0.4878 0.2432 264.4045);
   --chart-1: oklch(0.8088 0.0991 251.7533);
   --chart-2: oklch(0.6207 0.1894 259.9358);

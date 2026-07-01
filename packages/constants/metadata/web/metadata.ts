@@ -8,4 +8,8 @@ export const WebMetadata = {
     title: "Home",
     description: "Xbase web application.",
   },
+  auth:{
+    title: "Authentication",
+    description: "Xbase authentication page.",
+  }
 } as const;

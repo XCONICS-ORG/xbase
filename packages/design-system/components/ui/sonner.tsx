@@ -1,9 +1,9 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import type { CSSProperties } from "react";
-import type { ToasterProps as SonnerToasterProps } from "sonner";
-import { Toaster as Sonner } from "sonner";
+import type { CSSProperties, ReactNode } from "react";
+import type { ExternalToast, ToasterProps as SonnerToasterProps } from "sonner";
+import { Toaster as Sonner, toast as sonnerToast } from "sonner";
 
 type SonnerToastOptions = NonNullable<SonnerToasterProps["toastOptions"]>;
 
@@ -40,6 +40,10 @@ const Toaster = ({
     />
   );
 };
+
+export function showWarningToast(title: ReactNode, options?: ExternalToast) {
+  return sonnerToast.warning(title, options);
+}
 
 export type { ToasterProps } from "sonner";
 export { Toaster };

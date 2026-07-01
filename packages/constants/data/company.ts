@@ -19,8 +19,22 @@ export const COMPANY_CONFIG = {
     ADMIN_EMAIL: "admin@proptryx.com",
   },
   QUICK_MESSAGES: {
-    AUTH_PAGE_ISSUE:
-      "Hello%20Team%2C%20I%20need%20assistance%20with%20Authentication%20on%20my%20account.",
+    AUTH: {
+      CREATE_ACCOUNT:
+        "Hello Team, I need help creating and verifying my PropTryx account.",
+      FORGOT_PASSWORD:
+        "Hello Team, I need help recovering access to my PropTryx account.",
+      RESET_PASSWORD:
+        "Hello Team, I verified my reset code but need help setting a new password.",
+      SIGN_IN:
+        "Hello Team, I need help signing in to my PropTryx account with my password.",
+      SIGN_IN_WITH_OTP:
+        "Hello Team, I need help receiving or using a one-time sign-in code.",
+      TWO_FACTOR:
+        "Hello Team, I need help completing two-factor verification for my PropTryx account.",
+      VERIFY_OTP:
+        "Hello Team, I need help verifying the one-time code for my PropTryx account.",
+    },
     RATELIMIT_ISSUE:
       "Hello%20Team%2C%20I%20am%20facing%20rate-limiting%20issues%20on%20my%20account.%20Please%20help.",
     ACCOUNT_BANNED:
@@ -31,3 +45,7 @@ export const COMPANY_CONFIG = {
       "Hello%20HisaabSathi%20Support%2C%20I%20need%20assistance%20with%20my%20account.",
   },
 } as const;
+
+export function createCompanySupportHref(message: string): string {
+  return `${COMPANY_CONFIG.CONTACT.CONTACT_SUPPORT}?text=${encodeURIComponent(message)}`;
+}

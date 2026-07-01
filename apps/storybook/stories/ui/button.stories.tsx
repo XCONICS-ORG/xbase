@@ -33,6 +33,12 @@ export const Outline: Story = {
   },
 };
 
+export const Gradient: Story = {
+  args: {
+    variant: "gradient",
+  },
+};
+
 export const Secondary: Story = {
   args: {
     variant: "secondary",
@@ -136,6 +142,7 @@ export const VariantMatrix: Story = {
   render: () => (
     <div className="grid grid-cols-3 gap-2">
       <Button>Default</Button>
+      <Button variant="gradient">Gradient</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>

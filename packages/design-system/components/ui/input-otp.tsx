@@ -6,6 +6,9 @@ import { OTPInput, OTPInputContext } from "input-otp";
 import type { ComponentProps } from "react";
 import { useContext } from "react";
 
+const inputOtpGroupVariants = ["joined", "distributed"] as const;
+type InputOtpGroupVariant = (typeof inputOtpGroupVariants)[number];
+
 function InputOTP({
   className,
   containerClassName,
@@ -27,14 +30,23 @@ function InputOTP({
   );
 }
 
-function InputOTPGroup({ className, ...props }: ComponentProps<"div">) {
+function InputOTPGroup({
+  className,
+  variant = "joined",
+  ...props
+}: ComponentProps<"div"> & {
+  variant?: InputOtpGroupVariant;
+}) {
   return (
     <div
       className={cn(
         "flex items-center rounded-md has-aria-invalid:border-destructive has-aria-invalid:ring-2 has-aria-invalid:ring-destructive/20 dark:has-aria-invalid:ring-destructive/40",
+        variant === "distributed" &&
+          "grid w-full grid-cols-6 gap-2 [&>[data-slot=input-otp-slot]]:w-full [&>[data-slot=input-otp-slot]]:min-w-0 [&>[data-slot=input-otp-slot]]:rounded-md [&>[data-slot=input-otp-slot]]:border-l",
         className
       )}
       data-slot="input-otp-group"
+      data-variant={variant}
       {...props}
     />
   );
@@ -53,7 +65,7 @@ function InputOTPSlot({
   return (
     <div
       className={cn(
-        "relative flex size-7 items-center justify-center border-input border-y border-r bg-input/20 text-xs/relaxed outline-none transition-all first:rounded-l-md first:border-l last:rounded-r-md aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-2 data-[active=true]:ring-ring/30 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40",
+        "relative flex h-(--input-height) min-w-(--input-height) items-center justify-center border-input border-y border-r bg-input/20 px-1 text-xs/relaxed outline-none transition-all first:rounded-l-md first:border-l last:rounded-r-md aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-2 data-[active=true]:ring-ring/30 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40",
         className
       )}
       data-active={isActive}
@@ -83,4 +95,11 @@ function InputOTPSeparator({ ...props }: ComponentProps<"div">) {
   );
 }
 
-export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot };
+export {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+  type InputOtpGroupVariant,
+  inputOtpGroupVariants,
+};

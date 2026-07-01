@@ -9,6 +9,7 @@ import { formatString } from "@xbase/utility/formatters/string";
 import { generateBarcode } from "@xbase/utility/generators/barcode";
 import { generateQrCodeDataUrl } from "@xbase/utility/generators/qrcode";
 import Image from "next/image";
+import { AuthRouteButton } from "./auth-route-button";
 import { CodeScanner } from "./code-scanner";
 import { HomeControls } from "./home-controls";
 import { SonnerControls } from "./sonner-controls";
@@ -61,7 +62,10 @@ export default async function Page() {
               helpers are rendered below for a quick visual check.
             </p>
           </div>
-          <HomeControls />
+          <div className="flex flex-wrap items-center gap-2">
+            <AuthRouteButton />
+            <HomeControls />
+          </div>
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
