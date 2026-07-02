@@ -274,7 +274,7 @@ function getOtpEntryScreen(purpose: AuthOtpPurpose): AuthScreen {
     return "forgot-password";
   }
   if (purpose === "sign-in") {
-    return "sign-in-with-otp";
+    return "sign-in";
   }
   return "create-account";
 }
